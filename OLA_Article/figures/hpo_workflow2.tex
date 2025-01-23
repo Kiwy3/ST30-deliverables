@@ -1,0 +1,57 @@
+\begin{tikzpicture}
+    \tikzstyle{data}=[rectangle split, rectangle split parts = 2,draw,text centered, fill=yellow!20]
+    \tikzstyle{model} = [rectangle, draw, text centered, fill = blue!20]
+    \tikzstyle{function} = [rectangle, draw, text centered, fill = red!20, font = \bfseries]
+    \tikzstyle{metrics} = [rectangle, text centered, draw, fill=teal!20]
+    
+\tikzstyle{dot_arrow} = [thick,dotted,->,>=stealth]
+
+\node (train_data) [data]
+    {
+        \textbf{Training Data $\Dtrain$}
+        \nodepart{second} Alpaca};  
+
+\node (PT_model)[model, below of = train_data]{Pre Trained Model $\model$};
+
+\node (training) [function, right of = PT_model, anchor = west, xshift = 1.7cm]{Training};
+
+\node (hp) [metrics, above of = training]{hyperparameters $\eta$};
+
+\node (FT_model) [model, right of = training, anchor = west, xshift = 0.7cm]{Fine Tuned model};
+
+\node (val_data) [data, above of = FT_model, xshift = 0.5cm]
+    {
+        \textbf{Validation Data $\Dval$}
+        \nodepart{second} Hellaswag}; 
+        
+\node (evaluate) [function, right of = FT_model, anchor = west, xshift = 1cm]{Evaluate};
+
+\node (metrics) [metrics, right of = evaluate, anchor = west, xshift = 0.3cm]{metrics};
+
+
+\begin{scope}[on background layer]
+    \node(bbfunction)[draw, thick,fill=black!10,draw=black!20, dashed, rounded corners, fit=(train_data) (PT_model) (training) (FT_model)(val_data)(evaluate)(metrics), inner sep=0.3cm, label=below:{Black-Box function $\mathcal F (\eta, \model, \Dtrain,\Dval)$ }] {};
+\end{scope}
+
+\draw [dot_arrow] (train_data) -- (training);
+\draw [dot_arrow] (PT_model) -- (training);
+\draw [dot_arrow] (hp) -- (training);
+\draw [dot_arrow] ([xshift = -1.6cm]bbfunction.north) -- (hp.north);
+\draw [dot_arrow] (training) -- (FT_model);
+\draw [dot_arrow] (val_data) -- (evaluate);
+\draw [dot_arrow] (FT_model) -- (evaluate);
+\draw [dot_arrow] (evaluate) -- (metrics);
+\draw [dot_arrow] (metrics) -- ([xshift = 6.25cm]bbfunction.north);
+
+\node (hpo) [circle, above of = bbfunction, yshift = 1cm,xshift=2.2cm, draw, fill = teal!40]{HPO};
+\node [left of = hpo, yshift = 0.25cm, anchor = east]{solution};
+\node [right of = hpo, yshift = 0.25cm,anchor = west]{validation accuracy};
+
+%\draw [thick,->,>=stealth]    ([xshift = 6.25cm]bbfunction.north) to[out=90,in=-5] (hpo.east);
+\draw [thick,<-,>=stealth]     (hpo.east)to[out=0,in=120] ([xshift = 6.25cm]bbfunction.north);
+\draw [thick,->,>=stealth]     (hpo.west) to[out=180,in=60] ([xshift = -1.6cm]bbfunction.north);
+
+
+
+
+\end{tikzpicture}

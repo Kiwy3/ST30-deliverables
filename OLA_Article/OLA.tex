@@ -1,0 +1,64 @@
+\documentclass[runningheads]{ola}
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning, fit,backgrounds}
+
+\usepackage{subcaption}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[acronym, toc, xindy, ucmark]{glossaries}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+\usepackage{placeins}
+\usepackage{blindtext}
+\makeglossaries
+\input{latex_files/glossary}
+\begin{document}
+
+\pagestyle{headings}
+
+\mainmatter
+
+\title{Bayesian and Partition-Based Optimization for Hyperparameter Optimization of LLM Fine-Tuning}
+% Title
+\titlerunning{\acrshort{bo} and \acrshort{pbo} for \acrshort{hpo} of LLM Fine-Tuning}
+
+
+\author{N. Davouse and E-G. Talbi}
+
+% Authors for the top of the even pages
+\authorrunning{N. Davouse and E-G. Talbi}
+
+\institute{Univ. Lille, CNRS, Inria, Centrale Lille, UMR 9189 CRIStAL, F-59000 Lille, France \\
+\email{nathan.davouse@inria.fr and el-ghazali.talbi@univ-lille.fr}\\
+}
+
+\maketitle
+
+\begin{abstract}
+\acrfull{llm}s have revolutionized natural language processing (NLP) by achieving state-of-the-art performance across diverse tasks. However, fine-tuning these models for domain-specific applications is significantly constrained by the computational costs associated with their training. In this paper, we propose two complementary approaches to address the \acrfull{hpo} challenge in LLM fine-tuning: \acrfull{bogp} and \acrfull{pbo}. On one hand, \acrshort{bo} efficiently exploits historical knowledge to achieve optimal results within a limited number of evaluations, but its inherently sequential nature poses scalability challenges. On the other hand, \acrshort{pbo} enables massive parallelization, making it more scalable but requiring significantly more evaluations to converge. To leverage their complementary strengths for optimizing expensive objective functions, we investigate these methods and propose a hybrid \acrshort{bo}-\acrshort{pbo} algorithm. This work represents a foundational step toward harnessing the potential of parallel \acrlong{bo}-based algorithms for solving expensive optimization problems in exascale computing environments.
+\end{abstract}
+
+
+\input{latex_files/Introduction}
+\input{latex_files/Pbm_formulation}
+\input{latex_files/Methodo}
+\input{latex_files/Comp_exp}
+\input{latex_files/Conclus_persp}  
+
+
+
+
+%End of the paper (acknowledgment, biblio, biography...) 
+%\clearpage
+
+\input{latex_files/Acknowledgment}
+
+\bibliographystyle{splncs}
+\bibliography{latex_files/HPO}
+
+
+\end{document}

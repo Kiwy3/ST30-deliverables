@@ -1,0 +1,51 @@
+\begin{algorithm}
+\caption{BamSOO}
+\label{algo:bamsoo}
+\begin{algorithmic}[1]
+\Require\\
+$\Omega$: Continuous search space \\
+$f$: Objective function  \Comment{train and validate the model}\\
+$K$ : number of section of the space\\
+$n_{max}$ : budget of evaluation \\
+$K_D$ : Kernel function\\
+
+\State $x_{0,0} \gets center(\Omega)$ 
+\State  $g_{0,0} \gets    f(x_{0,0})$
+\State $\mathcal T_1 = \{x_{0,0},g_{0,0},\Omega\}$\Comment{Initiate the tree}
+\State  $f^+ \gets g_{0,0}$
+\State $n \gets 1$ \Comment{nodes index}
+\State $t \gets 1$ \Comment{evaluation index}
+\State $\mathcal D_1 = \{x_{0,0},g_{0,0}\}$ \Comment{list of evaluated points}
+\\
+
+\While{$t < n_{max}$}
+    \State $\nu_{max} \gets - \infty$
+    \For{$h=0 \textbf{ to } depth(\mathcal T_n)$}
+        \State $j \gets \arg \max_{j \in \{j | (h,j) \in L_n\}} g_{h,j}$
+        \If{$g_{h,j} > \nu_{max}$}
+            \State $\Omega_{h+1,j+1},\dots,\Omega_{h+1,j+K} \gets section(\Omega_{h,j},K)$
+            \For{$i=1$ \textbf{to }$K$}
+                \State $\mu,\sigma \gets GP(\mathcal D_t,K_D)$
+                \State $N \gets N+1$
+                \State $x_{h+1,j+i} \gets center(\Omega_{n})$
+
+                \If{$\mathcal{UCB}(x_{h+1,j+i},\mu,\sigma) \geq f^+$}
+                    \State $g_{h+1,j+i} \gets f(x_{h+1,j+i}) $
+                    \State $t \gets t+1$
+                \Else
+                    \State $g_{h+1,j+i} \gets \mathcal{LCB}(x_{h+1,j+i},\mu,\sigma) $
+                \EndIf
+
+                \If{$g_{h+1,j+i} > f^+$}
+                    \State $f^+ \gets g_{h+1,j+i} $
+                \EndIf         
+                \State $n \gets n+1$               
+                \State $\mathcal T_n \gets \{(x_{h+1,j+i},f_{h+1,j+i},\Omega_{h+1,j+i})\}$  
+            \EndFor  
+            \State $\nu_{max} \gets g_{h,j}$
+        \EndIf
+    \EndFor
+\EndWhile\\
+\Return best of $x_{h,j},g(x_{h,j})$
+\end{algorithmic}
+\end{algorithm}

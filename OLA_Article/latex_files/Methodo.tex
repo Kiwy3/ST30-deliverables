@@ -1,0 +1,154 @@
+\section{Design and Implementation}
+\label{sec:methodo}
+In this work, two approaches are considered to performs \acrfull{hpo} : \acrfull{bogp} and \acrfull{pbo} algorithms like \acrfull{soo}\cite{munos_optimistic_2011}. To extract the best of these two approaches, an hybrid approach will also be presented.
+
+Figure \ref{fig:workflow} describe the global workflow of \acrfull{hpo}, to link with following sections aiming to describe sections of the workflow. 
+
+\begin{figure}
+    \centering
+    \input{figures/hpo_workflow2}
+    \caption{ \acrshort{hpo} workflow}
+    \label{fig:workflow}
+\end{figure}\vspace*{-\baselineskip}
+
+The workflow is budget-based, meaning all algorithms will be compared with the same number of evaluations, i.e., the budget. This approach is effective because it ensures a fair comparison by focusing on the evaluation cost, which is the primary bottleneck in optimization scenarios, rather than computational overhead, which is negligible in this context. The computing time of the algorithm is negligible in front of evaluation time, making the number of evaluation a relevant budget metric. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LLM %%%%%%%%%%%%%%%%%
+\subsection{Fine-tune and evaluate LLM}
+\label{sec:llm}
+\acrshort{hpo} is a problem defined by a specific black-box function, and must adequate with the characteristic of this objective function. As said in section \ref{sec:pbm}, in this work, the function can be defined as an expensive, mixed-variables, noisy black-box function. This part aims to present this function, allowing to reproduce it. 
+
+The backbone model is LlaMa 3.2-1B \cite{grattafiori_llama_2024}, a model of the Llama 3 family of model. Llama 3 models were released by Meta AI in the second part of 2024 (from July to December), as open-source (topology and weights) decoder-only models achieving state-of-the-art performance. Among Llama 3 models, Llama 3.2 release propose lightweight models (from 1B to 3B weights, excluding vision models), enabling reproduction of the experiments. 
+
+The fine-tuning is performed using AdamW \cite{loshchilov_decoupled_2019} optimizer, along \acrshort{lora} methods to keep efficient fine-tuning. To achieve performance comparable with full fine-tuning, \acrshort{lora} is used on keys, queries, values and attention head output weight matrices, enabling the training of whole \acrfull{mha} layers. 
+
+Then, the training data $\Dtrain$ is the \textit{Alpaca} dataset, published after the \textit{Standford Alpaca Project}. It's composed of 52k lines of IA generated and cleaned inputs, aiming to improve the behavior of a LLM. This dataset is widely used \cite{dettmers_qlora_2023,chung_scaling_2024,zhou_lima_2023} for fine-tuning, guiding our choice for a standard configuration. 
+
+For evaluation, Hellaswag \cite{zellers_hellaswag_2019} dataset was used as $\Dval$, with accuracy as the metrics to optimize with \acrshort{hpo}. It's a 40k lines datasets released in 2019 as a challenge datasets, with a random performance of 25 \% . All models are also evaluated on MMLU \cite{hendryckstest2021} as a testing dataset, to observe \acrshort{hpo} over-fitting. 
+
+In terms of framework, all this part is done using LitGPT \cite{the_lightning_ai_team_litgpt_2023}, a framework develop by Lightning AI team, based on Pytorch  \cite{ansel_pytorch_2024} environment. This framework is thought for a command line interface utilization, and will be kept as it is in this work. Behind this framework, it's PyTorch for training the model, Huggingface for loadings model and datasets, and lm\_eval library for managing evaluation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BO GP %%%%%%%%%%%%%%
+\subsection{\acrfull{bo} : \acrfull{gp} based optimization}
+\label{sec:bo}
+
+Bayesian Optimization is often defined as a "sequential model-based approach to solving problem" \cite{shahriari_taking_2016}. A surrogate model is used to build a posterior considering a prior knowledge formed on known points. On this posterior, an acquisition function is computed to act as the surrogate function for the function to optimize. Many surrogate models can be used like regression tree \cite{ammari_linear_2023} or \acrfull{gp} \cite{rajaram_empirical_2021}. For further details about \acrshort{bo}, one can read review \cite{shahriari_taking_2016}.
+
+On this work, a focus is done on \acrshort{gp} for the \acrshort{bo} surrogate. \acrshort{gp} use the kernel trick to build a bayesian nonparametric regression model. It use a mean vector $m_i$ and a covariance matrix $K_{i,j}$ to define the prior function as equation \ref{eq:prior_gp}. 
+
+\begin{equation}
+    \text{f} | X \sim  \mathcal N (m,K)
+    \label{eq:prior_gp}
+\end{equation}
+
+\begin{algorithm}[h]
+\caption{\acrshort{bogp}}
+\label{algo:bo}
+\begin{algorithmic}[1]
+\Require 
+    $\Omega$,$f$,$K_D$,$\mathcal{O}$,$f_{\text{acq}}$,$n_{init} $,$n_{opt}$
+        
+\For{$i = 1$ \textbf{to} $n_{init}$} \Comment{Initiate with Latin Hypercube Sampling}
+    \State $\lambda' \gets LHS(\Omega,\mathcal{D},n_{init})$ \Comment{Sample one point}
+    \State $\mathcal{D} \gets \mathcal{D} \cup \{(\lambda', f(\lambda'))\}$ \Comment{Add solution and evaluation to set of data}
+\EndFor 
+\For{$i = 1$ \textbf{to} $n_{opt}$} \Comment{Optimization loop}
+    \State $K_D,\mu_D \gets \text{Fit}(\text{GP}(K_D,\mu_D), \mathcal{D})$ 
+    \State $\lambda' \gets \text{Optimize}(f_{\text{acq}}(K_D), \mathcal{O})$ \Comment{Generate new point}
+    \State $\mathcal{D} \gets \mathcal{D} \cup \{(\lambda', f(\lambda'))\}$ \Comment{Evaluate new point}
+\EndFor
+\State \Return best of $\{(\lambda^*, f(\lambda^*)) \in \mathcal{D}\}$
+\end{algorithmic}
+\end{algorithm}
+
+Algorithm \ref{algo:bo} offer an overview of the BO process. To ease the first build of the surrogate, it's crucial, as proven in article \cite{wilson_efficiently_2020}, to sample efficiently the search space. This sampling provides information for the Gaussian Process to estimate the function. Like article \cite{borisut_adaptive_2023}, \acrfull{lhs} is used as a sampling method, for a defined budget called $n\_init$. 
+
+After this preliminary phase, a second phase is done with loop containing the update of the Gaussian Process, the optimization of the acquisition function to obtain a new points to evaluate and the evaluation. After the evaluation of the point, the point is added to the history $\mathcal D$ and so on. The loop end based on a budget $n_{opt}$, with the budget $n_{max}=n_{init}+n_{opt}$ 
+
+For this algorithm, the first requirements is the search space, and the objective function already described in \ref{sec:search_space} and \ref{sec:obj_fun} respectively. On the \acrshort{gp} part, we need to define a Kernel function $K_\mathcal D$, an acquisition function $f_{acq}$ and an Inner Optimizer $\mathcal O$. The acquisition function is logEI, more reliable than EI, based on article \cite{ament_unexpected_2024}. The kernel and the inner optimizer are the standard implementation of Botorch, introduced in the next paragraph, with a radial basis function kernel and multi-start optimization method. 
+
+BoTorch \cite{balandat_botorch_2020} is a Bayesian Optimization library built on PyTorch, designed for efficient and scalable optimization of expensive black-box functions. Leveraging PyTorch's GPU acceleration and integration with GPyTorch \cite{gardner_gpytorch_2021} for Gaussian Processes, BoTorch enables advanced surrogate modeling and optimization. Botorch is used on this work for all tasks using \acrshort{gp}, including this part and section \ref{sec:bamsoo}
+
+
+%%%%%%%%%%%%%%%%%%%% SOO %%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\acrlong{pbo} : \acrfull{soo}}
+\label{sec:soo}
+In global optimization, a lot of methods are based on the partition of the search space \cite{nakib_deterministic_2017,jones_lipschitzian_1993,munos_optimistic_2011}. Theses approaches are mostly deterministic, and enhance intrinsic parallelization ability. For theses methods, the dimensionality of the problem is a key to choose the specific algorithm. With a dimensionality around 5, based on benchmarks at the end of article \cite{firmin_fractal-based_2022}, the \acrfull{soo} \cite{munos_optimistic_2011} algorithm seems a good way to start. 
+
+\begin{algorithm}
+\caption{SOO}
+\label{algo:soo}
+\begin{algorithmic}[1]
+\Require $\Omega$,$f$,$K$,$n_{max}$ 
+
+\State $x_{0,0} \gets center(\Omega)$,$f_{0,0} \gets    f(x_{0,0})$,$\mathcal T_1 = \{x_{0,0},f_{0,0},\Omega\}$ \Comment{Initiate the tree with the center of $\Omega$}
+
+\State $n \gets 1$
+
+\While{$n < n_{max}$}
+    \State $\nu_{max} \gets - \infty$
+    \For{$h=0 \textbf{ to } depth(\mathcal T_n)$}
+        \State $j \gets \arg \max_{j \in \{j | (h,j) \in L_n\}} f(x_{h,j})$ \Comment{Select best open leaf for depth $h$}
+        \If{$f_{h,j} > \nu_{max}$}
+            \State $\Omega_{h+1,kj+1},\dots,\Omega_{h+1,kj+K} \gets section(\Omega_{h,j},K)$ \Comment{perform K-section of $\Omega_{h,j}$}
+            \For{$i=1$ \textbf{to}$K$}
+                \State $n \gets n+1$
+                \State $x_{h+1,kj+i} \gets center(\Omega_{n})$
+                \State  { \color{blue} $f_{h+1,kj+i} \gets    f(x_{h+1,kj+i})$ \Comment{evaluate the point, the scoring}}
+                \State $\mathcal T_n \gets \{(x_{h+1,kj+i},f_{h+1,kj+i},\Omega_{n+1})\}$ \Comment{Add $\text{leaf}_{h+1,j+i}$ to tree $\mathcal T_n$}
+            \EndFor  
+            \State $\nu_{max} \gets f_{h,j}$
+        \EndIf
+    \EndFor
+\EndWhile\\
+\Return best of $x_{h,j},f(x_{h,j})$
+\end{algorithmic}
+\end{algorithm}
+
+\acrshort{soo} is a tree-based space partitioning method for black-box optimization, inspired by \acrfull{mcts} methods. \acrshort{soo} is called optimistic since it assume the existence of $ l$ such that $f(x^*)-f(x) \leq l(x,x^*)$ where $x^*$ is the maximizer of $x$.The algorithm partition the space $\Omega$ by building a tree with smaller and smaller sub-space $\Omega_{h,j}$. The node $(h,j)$, node number $j$ of depth $h$, is scored at the center of his space. 
+
+An expanded node have $K$ children, making the tree a $K$-nary tree, $K=3$ here. $L_n$ is the \textit{open list} of the tree, to avoid expanding the same nodes over and over. At each round, \acrshort{soo} expand a maximum of one node by depth, meaning that each round score a maximum of $depth*(K)$ solution, enhancing the parallel evaluation of the solution. Summary of \acrshort{soo} is present in algorithm \ref{algo:soo}
+
+The original algorithm manage the end of the loop with the $h_{max}(n)$ function, limiting the depth of the tree search. To compare different algorithm, the stopping criterion here is $n_{max}$, the evaluation budget. 
+
+
+%%%%%%%%%%%%%%%%%%%% BAMSOO %%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Hybrid approach : \acrfull{bamsoo}}
+\label{sec:bamsoo}
+\acrfull{smbo} algorithms harness the exploitation of the information to define a cost-reduced function to optimize. This approach ensure exploitation but have several limitations, including the intrinsic sequential nature. On the other hand, Partition-based approach are massively parallel, but are computation costly in front of very expensive objective function. To overcome both limitations, hybrid methods, using surrogates and space partition, were developed.
+
+In this work, we focus on \acrshort{bamsoo}, a \acrshort{soo} based algorithm. Like \acrshort{soo}, \acrshort{bamsoo} performs a $K$-inary partitioning of the space, using the center of the partition to evaluate. 
+
+\begin{equation}
+    \begin{split}
+    \mathcal{UCB}(x| \mathcal D_t) = \mu(x|\mathcal D_t) +  B_N * \sigma(x|\mathcal D_t) 
+    \\ \text{with } B_N = \sqrt{2 \log (\pi^2 N^2/6 \eta)} , \eta \in (0,1)      
+    \end{split}  
+    \label{eq:ucb}
+\end{equation}
+
+The difference lies primarily in the scoring $g(.)$ of the leaf, with algorithm \ref{algo:bamsoo} replacing the scoring of \acrshort{soo} (line 14 of algorithm \ref{algo:soo}, in blue). In the face of an expensive objective function, \acrshort{bamsoo} leverages a \acrshort{gp} surrogate to estimate the potential of a point, using the \acrfull{ucb} as a measure of expected performance. 
+
+Given a partition with center $x$ and historic evaluations $\mathcal{D}_t$, the \acrshort{ucb} of $x$, defined in Equation \ref{eq:ucb}, is compared against the best evaluation so far, $f^+$. In this equation, $\eta$ is a \gls{hp} to define manually, and $N$ the number of evaluations. If the \acrshort{ucb} is higher than $f^+$, the algorithm evaluates $x$ directly using the objective function $f(.)$. Otherwise, the partition is scored using the \acrfull{lcb} of $x$, reflecting the lower bound of potential improvement.
+
+\begin{algorithm}
+\caption{BaMSOO Scoring}
+\label{algo:bamsoo}
+\begin{algorithmic}[1]
+                \If{$\mathcal{UCB}(x_{h+1,kj+i},\mathcal D_N) \geq f^+$} \Comment{if $x$ may be best than previous score}
+                    \State $g_{h+1,kj+i} \gets f(x_{h+1,kj+i}) $ \Comment{Evaluate $x$}
+                    \State $N \gets N+1$ \Comment{index of the number of \textit{real} evaluation}
+                \Else
+                    \State $g_{h+1,j+i} \gets \mathcal{LCB}(x_{h+1,kj+i},\mathcal D_N) $ \Comment{Penalize with \acrshort{lcb}}
+                \EndIf
+
+                \If{$g_{h+1,j+i} > f^+$}
+                    \State $f^+ \gets g_{h+1,j+i} $ \Comment{$f^+$ is the highest score of the tree}
+                \EndIf         
+\end{algorithmic}
+\end{algorithm}
+
+To sum up, this algorithm prevent unpromising evaluations in order to allocate more budget for exploring more promising areas than \acrshort{soo}. This hybrid approach harness a part of \acrshort{bogp} exploitation of knowledge without losing the intrinsic parallel abilities.
+
+For the implementation of the GP components, including the calculation of \acrshort{lcb} and \acrshort{ucb} scores, the BoTorch library was employed. This choice ensures computational efficiency and robustness, as BoTorch provides a modular framework for Bayesian optimization and GP modeling, seamlessly integrating with the partition-based structure of BamSOO. By adhering to the implementation outlined in section \ref{sec:bo}, the framework ensures consistency in surrogate modeling and acquisition function computation.
+
