@@ -3,7 +3,8 @@
 
 \epigraph{Research is formalized curiosity. It is poking and prying with a purpose.}{Zora Neale Hurston}
 
-In a research internship, or indeed in any research activity, it's crucial to properly define the subject of the research, and to extract a precise problematic. That's why, during my first few weeks as an intern, and in this chapter of the report, I've endeavored to define this framework. To do so, I begin by recalling the subject as defined in my agreement: 
+In a research internship, or indeed in any research activity, it's crucial to properly define the subject of the research, and to extract a precise problematic. That's why, during my first few weeks as an intern, and in this chapter of the report, I've endeavorded to define this framework. To do so, I begin by recalling the subject as defined in my agreement:
+%#TODO - Add appendix reference 
 
 \noindent\hbox to \textwidth{\hrulefill}
 
@@ -23,7 +24,7 @@ From there, to understand fully the problems, it's important to define what are 
 %%--------------------SECTION : LLM---------------------%%
 \section{Large Langage Models (LLM)}
 \label{sec:llm}
-\acrshort{llm} can be defined as \acrfull{dnn} using the \Gls{transformer} bloc for \acrfull{nlp} problems. For the next parts, it's important to understand the architecture of the \acrshort{llm}, after a brief reminder about \acrshort{dnn}. Due to computation limitation, a lot of research contribution are about the \Gls{fine_tuning}, defined in \ref{sec:fine_tune}. To pursue to the next section, I will finish with a light review and taxonomy of \acrshort{llm}. 
+\acrshort{llm} can be defined as \acrfull{dnn} using the \Gls{transformer} bloc for \acrfull{nlp} problems. For the next parts, it's important to understand the architecture of the \acrshort{llm}, after a short reminder about \acrshort{dnn}. Due to computation limitation, a lot of research contribution are about the \Gls{fine_tuning}, defined in \ref{sec:fine_tune}. To pursue to the next section, I will finish with a light review and taxonomy of \acrshort{llm}. 
 
 %%--------------------SUBSECTION : DNN---------------------%%
 \subsection{\acrfull{dnn}}
@@ -66,7 +67,7 @@ From simple \acrfull{mlp} to more complexe architecture (\acrfull{cnn}, \Glspl{t
 \label{sec:self_att}
 
 
-To understand how \acrshort{llm} works, it's crucial to understand the self attention mechanism. The key feature of \acrshort{llm} is the understanding of the context of a words to perform a prediction, or even a translation. Using \acrfull{mha}, the \textit{transformers} cells will define the importance of each words for the prediction of the next one. On the example of figure \ref{fig:self_att}, to predict the word "garden", the important words are "children" and "playing". The multiplicity of the attention head allow to understand different context with each one, like the color on the example. 
+To understand how \acrshort{llm} works, it's crucial to understand the self attention mechanism. The key feature of \acrshort{llm} is the understanding of the context of a words to perform a prediction, or even a translation. Using \acrfull{mha}, the \textit{transformers} cells will define the importance of each word for the prediction of the next one. On the example of figure \ref{fig:self_att}, to predict the word "garden", the important words are "children" and "playing". The multiplicity of the attention head allow to understand different context with each one, like the color on the example. 
 
 \begin{figure}[h]
     \centering
@@ -95,14 +96,14 @@ with \ head_i = Attention (Q W_i^Q,K W_i^K,V W_i^V)
 \label{eq : MHA}  
 \end{equation}
 
-The softmax function is often used to extract probabilities, since it give values between 0 and 1, and that is take into account every values in order that the sum of softmax value is one. It can be written as : $\displaystyle
+The softmax function is often used to extract probabilities, since it gives values between 0 and 1, and that is take into account every values in order that the sum of softmax value is one. It can be written as : $\displaystyle
 softmax(x_i) = \frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}}$.
 
 %%--------------------SUBSECTION : LLM architecture---------------------%%
 
 \subsection{LLM Architecture}
 \label{sec:llm_arch}
-For many years, \acrshort{nlp} problems were approached by statistical and rules models, but they weren't able to capture the context of a whole sentence to generate a word. In 2016, Google published \textit{Google's Neural Machine Translation System} \cite{wu_googles_2016}, a \acrfull{lstm} neural network, trained on a big corpus of text datas, making it like the first \acrlong{llm}. This was an important break-through, and a proof-of-concept that neural networks can be the key of \acrshort{nlp} Problems.
+For many years, \acrshort{nlp} problems were approached by statistical and rules models, but they were not able to capture the context of a whole sentence to generate a word. In 2016, Google published \textit{Google's Neural Machine Translation System} \cite{wu_googles_2016}, a \acrfull{lstm} neural network, trained on a big corpus of text datas, making it like the first \acrlong{llm}. This was an important break-through, and a proof-of-concept that neural networks can be the key of \acrshort{nlp} Problems.
 
 To perform further, what \acrshort{nlp} needed was the ability to understand a context, to predict or understand a sentence. To do that, the \Gls{transformer} architecture was published in 2017 \cite{vaswani_attention_2017}, and was using the self attention mechanism presented in section \ref{sec:self_att}. 
 
@@ -118,6 +119,8 @@ To perform further, what \acrshort{nlp} needed was the ability to understand a c
 The encoder is a stack of \acrshort{mha} with feed-forward layers, with the addition of a residual connection and a normalization layer between the two. The output of the encoder is used as the input of second \acrshort{mha} of the decoder. Like the encoder, the decoder is a stack of \acrshort{mha} with feed-forward layers, but is composed of two \acrshort{mha}. The first one is masked, to learn only the part before the word to predict, and the second one is not masked to learn the whole sentence.
 
 This topology is the base of \acrshort{llm}, with diversification on the number of layer, the number of head and the size of the embedding vector. It will be further discussed in section \ref{sec:llm_review}, but some model are using only part of the \gls{transformer} architecture, with the rise of \textit{encoder-only} and \textit{decoder-only} models.
+
+%%--------------------SUBSECTION : Fine Tuning---------------------%%
 
 \subsection{Fine-Tuning}
 \label{sec:fine_tune}
@@ -185,7 +188,7 @@ The \textit{reparameterization} approach provide a proxy for model weights, to t
     \label{eq : lora}
 \end{equation}
 
-Figure \ref{fig:lora} show the illustration of the \gls{lora} layer, with $A$ and $B$ being the factorization of the weight matrix. The pros of this is the inference that aren't penalized since the model is composed of the same number of weights after the merging. Other pro it that multiple \gls{fine_tuning} can be effected and they can then be merged when it's needed from a same base, saving only the low-rank version of the weights. One con is that it add hyperparameters, but it will be tackled in nexts sections.
+Figure \ref{fig:lora} show the illustration of the \gls{lora} layer, with $A$ and $B$ being the factorization of the weight matrix. The benefits of this is the inference that aren't penalized since the model is composed of the same number of weights after the merging. Other plus it that multiple \gls{fine_tuning} could be done and they can then be merged when needed from a same base, saving only the low-rank version of the weights. One con is that it add hyperparameters, but it will be tackled in nexts sections.
 
 \begin{figure}[h]
     \centering
@@ -392,7 +395,7 @@ As said in chapter \ref{chap:inria}, my internship is funded on NumPEx project. 
 %%-------------------- SECTION : LLM to manufacturing ---------------------%%
 \section{LLMs application to manufacturing context}
 \label{sec:llm_manufacturing}
-To link this internship to my engineering curriculum, I will explore the application for \acrshort{llm} to manufacturing. The application can be split in three : \acrfull{qc}, \acrfull{scm} and predictive maintenance. Among these application, the two key-point of LLMs are the extensive reasoning, that can be used for prediction or analysis, and the performance in NLP problems, proving itself to be able to simply interact with any operators.
+To link this internship to my engineering curriculum, I will explore the application for \acrshort{llm} to manufacturing. The application can be split in three topics : \acrfull{qc}, \acrfull{scm} and predictive maintenance. Among these application, the two key-point of LLMs are the extensive reasoning, that can be used for prediction or analysis, and the performance in NLP problems, proving itself to be able to simply interact with any operators.
 
 %%-------------------- SUBSECTION : LLM Quality Control ---------------------%%
 \subsection{LLMs-based quality control}
@@ -407,7 +410,7 @@ Quality control can be defined as \say{procedure or set of procedures intended t
 %%-------------------- SUBSECTION : LLM Supply ---------------------%%
 \subsection{LLMs-based supply chain management}
 \label{sec:llm_scm}
-Since decades, \textbf{demand forecast} is a hot field of \acrfull{scm}, with many methods considering means and data collection of the company. \acrshort{llm}, and in specific time-LLM \cite{jin_time-llm_2024}, achieve a new step in automated reasoning, and to the corpus of data taken into account. From the first method using only historical sales, it's now possible to use a wider historical data, like climate, economical situation ... \acrshort{llm} can also be used for \textbf{supplier evaluation}. When considering a relationship with a supplier, many information can be used to characterise it : prices, delay, defaults, reactivity ... And \acrshort{llm} can summarize all of this to provide insight for the choice of a supplier on a specific project.   
+Since decades, \textbf{demand forecast} is a key issue of \acrfull{scm}, with many methods considering means and data collection of the company. \acrshort{llm}, and in specific time-LLM \cite{jin_time-llm_2024}, achieve a new step in automated reasoning, and to the corpus of data taken into account. From the first method using only historical sales, it's now possible to use a wider historical data, like climate, economical situation ... \acrshort{llm} can also be used for \textbf{supplier evaluation}. When considering a relationship with a supplier, many information can be used to characterise it : prices, delay, defaults, reactivity ... And \acrshort{llm} can summarize all of this to provide insight for the choice of a supplier on a specific project.   
 
 
 %%-------------------- SUBSECTION : LLM Predictive Maintenace-----------------%%
@@ -417,18 +420,18 @@ By combining keys aspect of automated inspection and demand forecast, \acrshort{
 
 %%-------------------- SECTION : Search Problematic ---------------------%%
 \section{Search problematic}
-My first two weeks were focus on understanding the context of the internship, mainly by reading articles, and working on extracting only one search problematic. To do this, my main concerns were : 
+My first two weeks were focused on understanding the context of the internship, mainly by reading articles, and working on extracting only one search problematic. To do this, my main concerns were : 
 \begin{itemize}
-    \item Feasibility : 24 weeks can be short for a too long research plan, all the more with long experiments. I need to be able to understand and assess the problem, try and implement methods.
-    \item Costs : can't buy or build supercomputer just for this, and the cost of long computing of the resource can't be ignored 
+    \item Feasibility : 24 weeks could be short for a too long research plan, all the more with time-expensive experiments. I need to be able to understand and assess the problem, try and implement methods.
+    \item Costs : we can't buy or build supercomputer just for this, and the cost of long computing of the resource can't be ignored.
     \item Research team expertise : the team is firstly optimization oriented, so problematic only oriented to \acrshort{llm} won't be the priority
 \end{itemize}
 
-After a first week, the possible fields was narrowed to two tracks. The first one is based on article \cite{klein_structural_2023}, and involve the pruning of a large pre-trained model, in order to reduce latency without losing to much accuracy. The other one \cite{tribes_hyperparameter_2024} is \acrlong{hpo} applied to Instruction tuning.  
+After a first week, the possible fields were narrowed to two tracks. The first one is based on article \cite{klein_structural_2023}, and involve the pruning of a large pre-trained model, in order to reduce latency without losing to much accuracy. The other one \cite{tribes_hyperparameter_2024} is \acrlong{hpo} applied to Instruction tuning.  
 
 Eventually, after reflection and discussion with my tutor, we choose to address the \acrshort{hpo} of \acrshort{llm} \gls{fine_tuning}. This choice was made to reduce the uncertainty on an already very exploratory fields, since \acrshort{hpo} was already tackled on different type of \acrshort{nn}. 
 
-The objective of my internship is then to work on \acrshort{hpo} methods like apply to \acrshort{llm} \gls{fine_tuning}. This work includes : 
+The objective of my internship is then to work on \acrshort{hpo} methods applied to \acrshort{llm} \gls{fine_tuning}. This work includes : 
 \begin{itemize}
     \item \textbf{Reproduce the objective function :} on a given library, implement the black box function of training and evaluate a \acrshort{llm}.
     \item \textbf{Definition of the search space : }balancing between curse of dimensionnality and research ambition, find pertinent \glspl{hyperparameter} to work with, and define theirs properties.
