@@ -276,14 +276,13 @@ Along these part, all experiments are also stored as a subpackage of the whole, 
 After this rework, I finished my work with documenting my code. There is various form of documenting my code. At first, I use \textit{type hinting}, to show for every fonction what are the type of input and outputs, like what's mandatory in c++ for instance. After this, I write a small description for each function, and I use \textit{docstring} to explain what each function does. On top of this, I concluded with adding small comment in specific part when needed. All of this aims to be able to reuse my code after the end of this internship.
 
 %%-------------------- SECTION : Experimental Setup ---------------------%%
-\section{experiments setup}
+\section{Experiments setup}
 \label{sec:exp_setup}
-%//TODO - finalize after article redaction
 
-The experiments are done with Grid5000 \cite{balouek_adding_2012}, " a large-scale and flexible testbed for experiment-driven research in all areas of computer science, with a focus on parallel and distributed computing including Cloud, HPC and Big Data and AI." In specific, the \textit{chuc} cluster, in the Lille center, composed of node of 4 GPU A100 with 40G of VRAM was used. 
+The experiments are done with Grid5000 \cite{balouek_adding_2012}, " a large-scale and flexible testbed for experiment-driven research in all areas of computer science, with a focus on parallel and distributed computing including Cloud, HPC and Big Data and AI." In specific, the \textit{chuc} cluster, in the Lille center, composed of nodes of 4 GPU A100 with 40G of VRAM was used. 
 
-Apart from aforementioned hyperparameters (learning rate, \acrshort{lora} rank ... ) and configuration (weights to apply \acrshort{lora}) , along with the number of epochs, all arguments of litgpt CLI is used with default value. The number of epochs will be fixed with a first experiment to determine the sufficient number to be representative of a full training. 
+Apart from aforementioned hyperparameters (learning rate, \acrshort{lora} rank ... ) and configuration (weight matrix to apply \acrshort{lora}), all arguments of LitGPT CLI is used with default value. The only exception is the number of epochs, fixed to 1 to reduce computation costs. For next sections, a difference will be made between variables (value inside optimization range), and hyperparameters (value used by the training function) to clarify the reading of the value. 
 
-Using this configuration, one epoch of fine-tuning is taking XX hours/minutes. For the evaluation, it's taking between X and XX minutes, depending on the dataset. Based on previous articles, and evaluations durations, the total evaluation budget for experiments is 50 evaluations by each algorithms, including a sampling budget of 10 for \acrlong{bo}. 
+Using this configuration, one epoch of fine-tuning is taking around 31 minutes. For the evaluation on both datasets, it's taking around 12 minutes. Based on previous articles, and evaluations durations, the total evaluation budget for experiments is 50 evaluations by each algorithms, including a sampling budget of 10 for \acrlong{bo}.
 
-The implementation of the previous algorithm, the objective function and next experiments are all stored in github, following this link : \href{https://github.com/Kiwy3/Scalable_HPO_LLM}{https://github.com/Kiwy3/Scalable\_HPO\_LLM}.
+The implementation of the previous algorithm, the objective function and next experiments are all stored in github, following this link : \url{https://github.com/Kiwy3/BO_PBO_HPO_LLM}.
