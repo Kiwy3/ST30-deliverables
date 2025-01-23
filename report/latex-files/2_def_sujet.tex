@@ -381,9 +381,11 @@ Figure \ref{fig:gp_eg} shows an example of \acrfull{gp} on a simple function. Ba
 %%-------------------- SUBSECTION : Parallel and HPC ---------------------%%
 \subsection{Parallel Optimization and High Performance Computing}
 
-The advent of largest \acrshort{dnn} was possible with the development of \acrfull{gpu} and corresponding software. Parrellel computation and \acrshort{hpc} are what makes the uses of complex parallel architectures possible, from multicore processors to distributed clusters and grids. 
+The advent of largest \acrshort{dnn} was possible with the development of \acrfull{gpu} and corresponding software. Parrellel computation and \acrshort{hpc} are what makes the uses of complex parallel architectures possible, from multicore processors passing by distributed clusters and grids to Exascale supercomputers.
 
-Software parallelism for optimization algorithm can be achieved in mutliples ways, from algorithmic-eval parallelism, to solution-level parallelism, explained more in details in \cite{kacprzyk_parallel_2015}. In this internship, I will focus on solution-level parallelism in intra-nodes \acrshort{gpu} clusters.
+To briefly explore parallel optimization, we need to classify, based on article \cite{kacprzyk_parallel_2015}, the ways of parallelize an algorithm. The simpler to implement is \textbf{solution-level} parallelism, when multiples processes are used just to evaluate one solution. It's often the case when evaluating the training of an \acrshort{ann}, with the different strategy of distributed training (\acrfull{dp}, \acrfull{ddp}, \acrfull{fsdp}). This approach is the one used in this work, even if the aim is to access higher levels of parallelism.
+
+Just higher than solution-level parallelism, \textbf{iterative-level} parallelism consist to evaluate multiple solutions with multiples processes in parallel. For instance, when \acrshort{pbo} algorithm is used, we can evaluate in parallel all the sub-regions of the same partition. The higher level is \textbf{algorithmic-level} parallelism, where all the evaluation is done in parallel. It's possible for sampling based algorithms, like \acrshort{gs} or \acrshort{lhs} for instance.
 
 As said in chapter \ref{chap:inria}, my internship is funded on NumPEx project. NumPEx, through its Exa-MA (Methods and Algorithms for Exascale) subprogram, addresses computational challenges of exascale systems by developing scalable algorithms and architectures. This work aims to align with Exa-MA's goals by presenting \acrlong{poc} of a scalable optimization algorithm for \acrshort{llm}.
 
