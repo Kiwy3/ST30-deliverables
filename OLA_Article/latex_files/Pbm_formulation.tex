@@ -1,0 +1,96 @@
+\newcommand{\Dtrain}{\mathcal{D}_{train}}
+\newcommand{\Dval}{\mathcal{D}_{val}}
+\newcommand{\model}{\mathcal{M}}
+
+\section{Problem definition}
+\label{sec:pbm}
+
+\acrfull{hpo} of \acrshort{llm} Fine-Tuning is a very recent problem in literature, with a first review on article \cite{LiuEmpirical2021}, but \acrshort{hpo} for \acrfull{dnn} is a known field with the \acrshort{automl} community. For further reading, a taxonomy of \acrshort{autodnn} can be found with article \cite{talbi_automated_2021}. 
+
+This problem can be classified as a black-box objective function optimization, i.e. the objective function cannot be formulated analytically and can't be derived. This characteristic constrain the sets of methods to be used directly. Following article \cite{talbi_metaheuristics_2024} notation, this problem is also a \acrfull{mvop}, w.r.t. the set of values possible for each \gls{hp}. The last key aspect of this optimization problem is the cost of evaluating a solution, it can take dozens of minutes to hours, restraining the number of possible evaluations.
+
+Given a model $\mathcal M$, a training dataset $\Dtrain$, a validation dataset $\Dval$ and a set of hyperparameters $\eta$, the black-box function can be expressed as $  \mathcal F(\eta, m,\mathcal{D}_{train},\mathcal{D}_{val})$. This function includes the training of the model, and also the evaluation using $\Dval$, and allow to link hyperparameters to training and to evaluation. In this work, the optimization is solely single objective, so the result of the function $\mathcal F$ is in $\mathbb{R}$.
+
+Given this function, the optimization problem can be expressed as equation \ref{eq:opt_def}, where $\mathcal{H}$ is the search space of hyperparameters. The aim of this problem is to find one value being the maximum of the function $\mathcal F(.\space,\space.\space, \space .\space, \space .)$. 
+
+
+\begin{equation}
+    \eta^* \in \arg\max_{\eta \in \mathcal{H}} \mathcal{F}(\eta,\model,\mathcal{D}_{train},\mathcal{D}_{val})
+\label{eq:opt_def}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Space %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Search Space}
+\label{sec:search_space}
+
+The search space is defined with the choice of hyperparameters, theirs bounds, theirs types and even theirs scales.  Well-defined search space is crucial for a correct application of \acrshort{hpo} : if the space is too high-dimensional, the \acrshort{hpo} algorithm will need too many shots to converge to a good solution, if it's too small, we are missing it's relevance. 
+
+\begin{equation}
+    \begin{split}
+    W = W_0 + \Delta W = W_0 + \frac{\alpha}{r}(B.A) \\
+    s.t. \quad W,W_0,\Delta W \in \mathbb{R}^{n*p},
+    A \in \mathbb{R}^{r*p} \text{ and } B \in \mathbb{R}^{n*r}
+    \end{split}
+    \label{eq : lora}
+\end{equation}
+
+The search space is composed of 5 hyperparameters, from classical training hyperparameters to \acrshort{lora} specific ones. Equation \ref{eq : lora} summarize \acrshort{lora} application, w.r.t. it's \gls{hp}, with $W_0$ the weights of the pre-trained model and $W=\Delta W$ the additional gradients to add to obtain $W$ the weights of the fine-tuned model. A detailed presentation of hyperparameters is just below, but one can look at table \ref{tab:hyperparam_table} for a summary.
+\begin{itemize}
+    \item LoRA rank : the common rank of matrices $A$ and $B$, scaling the reduction in terms of number of parameters. It's an integer, and it's value range from 1 to 64 to deal with hardware constraints.
+    \item LoRA scale ($\alpha$) : $\alpha$ is used to scale the values of $B*A$ when added to $W_0$. On this work, due to LitGPT framework, it's an integer, from 1 to 64.
+    \item Learning rate : the learning rate is a classical \gls{hp} used in \acrshort{hpo}, weighting the gradient of each weight when doing back-propagation. It is often tuned in a logarithmic scale, to manage effectively the exploration. \Gls{hp} value is between $10^{-10}$ and $10^{-1}$.
+    \item Dropout probability : based on article \cite{srivastava_dropout_2014}, dropout is a method used to prevent over-fitting, by randomly fixing cells/layers to zeroes during one iteration. Being a probability, it's bounds by 0 and 1.
+    \item Weight decay : weight decay is used to improve generalization capacity, as proved in article \cite{krogh_simple_1991}, by reducing the weights at each iterations by a small value, to force the model to use new inputs. Typically, the parameter for weight decay is set on a logarithmic scale between $10^{-3}$ and $10^{-1}$.
+\end{itemize}
+
+\vspace*{-\baselineskip}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\textbf{ \Gls{hp} }} & \multicolumn{2}{|c|}{\textbf{Optimization range}} &\multirow{2}{*}{\textbf{ Type }}& \multirow{2}{*}{\textbf{ Conversion }} \\
+        \cline{2-3}
+         & \textbf{ Lower Bound } & \textbf{ Upper Bound } &  \\
+        \hline
+        \textbf{Learning Rate} & $-10$ & $-1$ & log. & $f(x) = 10^{x}$ \\
+        \hline
+        \textbf{LoRA Rank} & 2 & 32 &int. &$f(x) = \text{round}(x)$ \\
+        \hline
+        \textbf{LoRA scale ($\alpha$)} & 16 & 64 & int. &$f(x) = \text{round}(x)$ \\
+        \hline
+        \textbf{LoRA Dropout} & 0 & 0.5 & cont.& $f(x) = x$ \\
+        \hline
+        \textbf{Weight Decay} & $-3$ & $-1$ &log.& $f(x) = 10^{x}$  \\
+        \hline
+    \end{tabular}
+    \caption{Summary of Hyperparameter Search Space}
+    \label{tab:hyperparam_table}
+\end{table}\vspace*{-\baselineskip}
+
+For the 2 integers variables (LoRA rank and LoRA scale), to adapt to continuous optimization algorithms, the relax and round methods will be applied. It mean that the integers constraints is relaxed when generating a solution, and is rounded when evaluating a solution. Others methods like computing with lower and upper discrete value can be used, but this one was kept for simplicity and computation costs.
+For the 2 variables with logarithmic scale (learning rate and weight decay), to explore with consistency the search space, the optimization algorithm will be bound between the exponential values of the bounds, and a logarithm will be applied when evaluating a solution.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Objective Function %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Objective Function}
+\label{sec:obj_fun}
+Classically with DNN, the function to optimize might be the loss , sometimes normalized like Cross-entropy Loss or the accuracy. To avoid data leakage, the function is computed over a validation dataset, and even a testing dataset, different from the training one. For LLM, the datasets are a lot more diverse than for images classification, and the loss is biased to value the performance of a LLM, since it take all probabilities inside the function. 
+
+A second option to evaluate LLM fine-tuning is to use the accuracy over standard benchmarks, using multiple-questions choices to process an efficient evaluation of the performance of the LLM. Article like \cite{wei_finetuned_2022} explain that fine-tuned model have better generalization performance, so it's relevant to evaluate on a different dataset than the training, even if the layout of the inputs change. State-of-the-art example for fine-tune model are HELLASWAG\cite{zellers_hellaswag_2019} or MMLU\cite{hendryckstest2021,hendrycks2021ethics}. In this papers, the function to maximize with the HPO is the accuracy on the Hellaswag datasets.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Related Works %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Related work}
+\label{sec:related}
+To locate this work on a global fields, this section aims to review relevant problematic and contributions close to this paper. 
+
+\begin{itemize}
+    \item AutoDNN : the global autoDNN fields has been thoroughly explored last years. Article \cite{talbi_automated_2021} make a review and a taxonomy of this global fields. HPO applied to LLM fine-tuning differs from this especially by the cost of evaluation and the evaluation of the model. Methods or specific problem of \acrshort{autodnn} are now infeasible with LLM due to the costs. Specific methods are then needed.
+    \item LLM applied to EA : when looking at interaction between LLM and EA, a lot of articles \cite{liu_large_2024,cai_exploring_2024,brahmachary_large_2024} are using LLM to enhance or popularize EA and optimization algorithms. This approach isn't relevant to our contribution, since our contribution focus on our optimization expertise. 
+    \item Prompt optimization : when linking optimization and LLM, some papers \cite{diao_black-box_2023,xu_gps_2022} aims to optimize the prompt, and work with the entire LLM as a generating blackbox, without thinking about the architecture or the weights. This approach have limited effects on LLM, since the performance are still bound by model training, and they replace the end users for chat-bot deployment. 
+    \item HPO applied to generation \gls{hp} : some \glspl{hp} like the \textit{temperature} are only used when \acrshort{llm} are generating tokens. Some are working of theses hyperparameters, to avoid training costs of working directly with the fine-tuning hyperparameters.  
+\end{itemize}
+
+
+

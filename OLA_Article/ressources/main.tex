@@ -1,0 +1,61 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+%Personnal package
+\usepackage[switch]{lineno} 
+\usepackage[strings]{underscore}
+
+
+\begin{document}
+\linenumbers
+\title{Bayesian Fractals HPO of LLM Fine Tuning }
+\author{Nathan Davouse, El-Ghazali Talbi
+ % <-this % stops a space
+\thanks{\textbf{INSERT INRIA}}% <-this % stops a space
+\thanks{CRIStAL UMR CNRS 9189, University of Lille, Inria Lille Nord Europe, F-59000 Lille, France (e-mail: el-ghazali.talbi@univ-lille.fr)}% <-this % stops a space
+\thanks{Manuscript received XXX}}
+
+\maketitle
+
+\begin{abstract}
+Large Language Models (LLMs) have demonstrated state-of-the-art performance across a variety of natural language processing (NLP) tasks. However, fine-tuning these models for domain-specific applications remains computationally expensive due to the vast hyperparameter space involved. In this paper, we propose two complementary approaches to address the hyperparameter optimization (HPO) problem for LLM fine-tuning: Bayesian Optimization (BO) and a Partition-based Optimization method. BO offers an efficient exploration of the hyperparameter space by balancing exploration and exploitation, minimizing the number of costly function evaluations. In parallel, the Partition-based method divides the search space into regions, enabling concurrent optimization across partitions. 
+
+We compare these approaches and explore their potential integration into a hybrid strategy, drawing on concepts from Bayesian Multiscale Optimistic Optimization (BamSOO). To further enhance the optimization process, we incorporate advanced techniques such as FlashAttention and Multi-fidelity Optimization. Empirical evaluations across multiple benchmarks demonstrate that our methods achieve competitive performance while significantly reducing computational costs, offering scalable solutions for fine-tuning LLMs in specialized tasks.
+\end{abstract}
+
+\begin{IEEEkeywords}
+LLM, HPO, BO, Fine Tuning, Partition Based method
+\end{IEEEkeywords}
+
+%Body of the paper
+
+\input{latex_files/Introduction}
+\input{latex_files/Pbm_formulation}
+\input{latex_files/Optimization}
+\input{latex_files/Comp_exp}
+\input{latex_files/Conclus_persp}
+
+
+
+%End of the paper (acknowledgment, biblio, biography...) 
+\clearpage
+\input{latex_files/Acknowledgment}
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{latex_files/HPO}
+
+
+
+
+% -------------------------- END --------------------------
+\end{document}
