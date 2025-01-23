@@ -221,8 +221,7 @@
 
 \usepackage{rotating} % pour tourner les figures
 \usepackage{tikz}			%Pour les figures et graphes
-\usetikzlibrary{calc}		%Pour les figures et graphes
-\usetikzlibrary{shapes, arrows, positioning, fit}
+\usetikzlibrary{calc,shapes, arrows, positioning, fit, backgrounds}
 \usepackage{subcaption} % pour les sous figures
 
 % Text pos to position texts in absolute coords for the first page.
