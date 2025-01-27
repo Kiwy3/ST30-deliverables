@@ -15,3 +15,24 @@
 \label{ap:internship}
 \includepdf[pages=-]{latex-files/annexes/Internship.pdf}
 
+\SubAppendix{\acrfull{lhs} algorithm}
+\label{ap:lhs_algo}
+
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \KwIn{Number of samples $N$, Number of dimensions $D$}
+    \KwOut{$N \times D$ matrix of sampled points}
+    
+    Initialize an empty matrix $M$ of size $N \times D$\;
+    
+    \For{each dimension $i \in \{1, 2, \dots, D\}$}{
+        Divide the range $[0, 1]$ into $N$ equally spaced intervals\;
+        Shuffle the interval indices randomly\;
+        \For{each sample $j \in \{1, 2, \dots, N\}$}{
+            Pick a random value $x$ within the $j$-th interval\;
+            Assign $x$ to $M[j][i]$\;
+        }
+    }
+    \Return{$M$}
+    \caption{Latin Hypercube Sampling Algorithm}
+\end{algorithm}
