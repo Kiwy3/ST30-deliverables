@@ -6,8 +6,6 @@
 
 The methodology is a cornerstone of any research or project, providing a structured framework to achieve objectives systematically and effectively. It ensures clarity, reproducibility, and reliability by defining the steps, tools, and techniques used to address specific problems. A well-defined methodology not only aligns the research process with its goals but also facilitates critical evaluation by external audiences, allowing them to assess the validity and generalization of the results. In the context of this work, the chosen methodology was pivotal in navigating complex challenges, optimizing processes, and ensuring that outcomes are both credible and relevant.
 
-% //TODO - rename article repo if needed
-
 To ensure my sincere approach, and contribute to open-source domain, all the code of my internship is readable on \href{https://github.com/Kiwy3}{my github account}\footnote{link :\url{https://github.com/Kiwy3/}}. It's split in two parts : \textit{Scalable\_HPO\_LLM} for everything linked to the article (code, data, experiments...) and \textit{ST30-deliverable} for every deliverable of this internship (presentation, report, defence and so on).
 
 In this chapter, I will talk about the contextualization in academic literature, then tackle the elaboration of the blackbox function. The definition of the search space being one of the most crucial step in global optimization, the section \ref{sec:search_space} will focus on this. After this preliminary work, we will enter the core of this report : optimization algorithms. Previous sections will be linked in section \ref{sec:concrete_impl}, for the description of the concrete implementation. A section about experimental setup, to explore the resource used during this internship, is concluding this chapter.
@@ -137,9 +135,7 @@ We saw in \ref{sec : opt_algo} that \acrshort{bo} use a surrogate model to perfo
 
 From the prior function and the data points $\mathcal D$, the \acrshort{gp} build a posterior. The prior was representing the assumption made for the regression, the posterior represent the regression itself. On this posterior is build an acquisition function used as a surrogate for the objective function.
 
-Algorithm \ref{algo:bo} offer an overview of the BO process. To ease the first build of the surrogate, it's crucial, as proven in article \cite{wilson_efficiently_2020}, to sample efficiently the search space. This sampling provides information for the Gaussian Process to estimation the function. Like article \cite{borisut_adaptive_2023}, \acrfull{lhs}\cite{mckay_comparison_1979} is used as a sampling method, for a defined budget called $n\_init$. 
-
-%#TODO - Add LHS algo in appendix
+Algorithm \ref{algo:bo} offer an overview of the BO process. To ease the first build of the surrogate, it's crucial, as proven in article \cite{wilson_efficiently_2020}, to sample efficiently the search space. This sampling provides information for the Gaussian Process to estimation the function. Like article \cite{borisut_adaptive_2023}, \acrfull{lhs}\cite{mckay_comparison_1979} is used as a sampling method, for a defined budget called $n\_init$. More detail about \acrshort{lhs} are presented in section \ref{sec:sampling} and appendix \ref{ap:lhs_algo}.
 
 \begin{algorithm}[H]
     \caption{BO}
