@@ -1,6 +1,7 @@
 %\makeglossaries
 %general
 \newacronym{bonus}{BONUS}{Big Optimization aNd Ultra-Scale computing}
+\newacronym{inria}{INRIA}{National Research Institute for Computer Science and Automation,}
 \newacronym{utt}{UTT}{University of Technology of Troyes}
 \newacronym{sota}{SOTA}{State-of-the-art}
 \newacronym{flops}{FLOPS}{Floating-Point Operations per Second}
@@ -23,7 +24,7 @@
 \newacronym{mse}{MSE}{Mean-Squared Error}
 \newacronym{mlp}{MLP}{Multi-Layer Perceptron}
 \newacronym{cnn}{CNN}{Convolutional Neural Networks}
-\newacronym{vae}{VAE}{Variable Auto-Encoder}
+\newacronym{vae}{VAE}{Variational Auto-Encoder}
 
 
 %chap 2.2
@@ -83,8 +84,13 @@
     name=fine-tuning,
     description={2nd step of \acrshort{llm} training}
 }
-\newglossaryentry{pre-training}
-{
+\newglossaryentry{ft}
+{%#TODO - Rephrase description
+    name=fine-tuning,
+    description={2nd step of \acrshort{llm} training}
+}
+\newglossaryentry{pt}
+{%#TODO - Rephrase description
     name=pre-training,
     description={1st step of training \acrshort{llm}}
 }
@@ -101,18 +107,25 @@
     description={Parameters not learned by the model}
 }
 \newglossaryentry{search_space}
-{
+{%#TODO - Rephrase description
     name=search space,
     plural=search spaces,
     description={need to define it}
 }
 
 \newglossaryentry{search_strat}
-{
+{%#TODO - Rephrase description
     name=search strategy ,
     plural=search strategies,
     description={need to define it}
 }
+
+\newglossaryentry{himmelblau}
+{%#TODO - Rephrase description
+    name=himmelblau ,
+    description={well-known non-convex function, equation \ref{eq : himmelblau} }
+}
+
 \newglossaryentry{perf_est}
 {
     name=performances estimation strategy ,
@@ -139,4 +152,34 @@
 \newglossaryentry{hs}{
     name = HellaSwag,
     description = {Validation Dataset for LLM Fine Tuning}
+}
+
+\newglossaryentry{rank}{
+    name = \acrshort{lora} rank, 
+    description = {value used for scaling the reduction of \acrfull{lora}}
+}
+
+\newglossaryentry{bb}{
+    %#TODO - Rephrase description
+    name = black-box objective function, 
+    description = {DEFINE}
+}
+
+\newglossaryentry{mf}{
+    %#TODO - Rephrase description
+    name = multi-fidelity, 
+    description = {DEFINE}
+}
+
+\newglossaryentry{acq_fun}{
+    %#TODO - Rephrase description
+    name = acquisition function, 
+    description = {DEFINE}
+}
+
+
+\newglossaryentry{exascale}{
+    %#TODO - Rephrase description
+    name = exascale, 
+    description = {DEFINE}
 }
