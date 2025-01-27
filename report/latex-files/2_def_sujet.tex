@@ -4,7 +4,6 @@
 \epigraph{Research is formalized curiosity. It is poking and prying with a purpose.}{Zora Neale Hurston}
 
 In a research internship, or indeed in any research activity, it's crucial to properly define the subject of the research, and to extract a precise problematic. That's why, during my first few weeks as an intern, and in this chapter of the report, I've endeavorded to define this framework. To do so, I begin by recalling the subject as defined in my agreement (Appendix \ref{ap:internship}):
-%#TODO - Add appendix reference 
 
 \noindent\hbox to \textwidth{\hrulefill}
 
@@ -249,7 +248,7 @@ Following the first optimization problem, a second is expressed as the \acrshort
 
 To sum up equation \ref{eq : autodnn_form}, we want to optimize $a$, so that $f(a)$ is the best when $a$ is used to train the model (optimize the weights). The \acrshort{autodnn} problem in characterized, is the worst case, by theses properties : 
 \begin{itemize}
-    \item \textbf{\acrfull{mvop}} : Variables can be continuous (e.g. learning rate), discrete ordinal (e.g number of layers or neurons) or discrete categorical (e.g. type of activation function). The search space of the problem contains conditionnality, i.e. the size of a variables may depend on other variable (e.g. the number of neurons depend on the number of layers). These properties requires specific optimization methods, or conversion of variables. %#TODO - cite talbi
+    \item \textbf{\acrfull{mvop}} : Variables can be continuous (e.g. learning rate), discrete ordinal (e.g number of layers or neurons) or discrete categorical (e.g. type of activation function). The search space of the problem contains conditionnality, i.e. the size of a variables may depend on other variable (e.g. the number of neurons depend on the number of layers). These properties requires specific optimization methods, or conversion of variables, as presented in article \cite{talbi_metaheuristics_2024}.
     \item \textbf{\Gls{bb} :} this problem is a black-box function, i.e. the function cannot be analytically formulated, and so is derivative-free.
     \item \textbf{Expensive evaluation :} The evaluation of a solution can take minutes to days, and even days, constraining the number of evaluations. These properties constrains optimization algorithms. 
     \item \textbf{ Noisy results : } when the same solution is evaluated, the objective function does not output the exactly same result. This property induce the need to take care not to take decisions like discarding values on only one evaluation. 
@@ -379,13 +378,24 @@ Even if theses methods are effective, they can be computationally expensive when
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.6\linewidth]{assets/img/chap_2/plots/fda.png}
-    \caption{Example of a Partition Based Optimization on 2D himmelblau}
+    \begin{subfigure}{.45\linewidth}
+      \centering
+      \input{assets/img/chap_2/plots/soo_partition.tex}
+      \caption{SOO partition}
+      \label{fig:pbo_partition}
+    \end{subfigure}%
+    \begin{subfigure}{.45\linewidth}
+      \centering
+      \input{assets/img/chap_2/plots/soo_tree.tex}
+      \caption{SOO tree}
+      \label{fig:pbo_tree}
+    \end{subfigure}
+    \caption{Example of a Partition Based Optimization}
     \label{fig:pbo}
 \end{figure}
-%#TODO - rework the figure 
+%#TODO - rework the figure, and add explaination
 
-Figure \ref{fig:pbo} shows an example of \acrshort{pbo} algorithm, FDA using Hypersphere, on the \textit{himmelblau} function. Article \cite{firmin_comparative_2023} provides an exhaustive review and taxonomy of \acrshort{pbo} methods.
+On figure \ref{fig:pbo}, we can observe an example of \acrlong{pbo} such as \acrshort{soo}, with all it's element. At right, on figure \ref{fig:pbo_partition}, we saw the 3-section of the space, and $x_i$ the center of the sub-space $i$, the point to evaluate to score the partition. This partition give us the figure on the left, the corresponding tree, a depth of 3 in our case. This figure summarize the key point of \acrshort{pbo} algorithm : the geometry (here a rectangle), the partition, the scoring and the tree to selec the next sub-space to partition. 
 
 %%-------------------- SUBSECTION : SMBO ---------------------%%
 \subsection{\acrfull{smbo}} 
