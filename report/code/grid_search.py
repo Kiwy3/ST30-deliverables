@@ -14,7 +14,7 @@ def himmel_plot():
     map = ax.contourf(X,Y,Z,cmap="Blues",levels=50,alpha=0.8,vmin=-50,vmax=400)
     fig.colorbar(map)
 
-    plt.title("Grid Search on Himmelblau function")
+    #plt.title("Grid Search on Himmelblau function")
 
 himmel_plot()
 
@@ -25,6 +25,7 @@ x2 = np.linspace(-4.5,4.5,n_sq)
 
 X1, X2 = np.meshgrid(x1,x2)
 plt.scatter(X1,X2,s=10, c="red",marker='o')
+plt.tight_layout()
 plt.savefig("assets/img/chap_2/plots/grid_search.png")
 
 

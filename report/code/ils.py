@@ -93,7 +93,7 @@ def himmel_plot():
     map = ax.contourf(X,Y,Z,cmap="Blues",levels=50,alpha=0.8,vmin=-50,vmax=400)
     fig.colorbar(map)
 
-    plt.title("Iterated Local Search on Himmelblau function")
+    #plt.title("Iterated Local Search on Himmelblau function")
 # seed the pseudorandom number generator
 seed(73754615)
 # define range for input
@@ -129,5 +129,5 @@ for i in range(len(unpromising)):
       k2.append(unpromising[i][1][j])
 plt.scatter(k1,k2,s=6, c="black", label = "Unpromising")
 plt.legend()
-
+plt.tight_layout()
 plt.savefig("assets/img/chap_2/plots/ils.png")
