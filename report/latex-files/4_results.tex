@@ -5,21 +5,14 @@
 
 This internship has yielded valuable insights into optimizing expensive function, and especially the optimization of hyperparameters applied to \acrshort{llm} \gls{fine_tuning}. This chapter start with the presentation and the analysis of the results obtained following the methodology of chapter \ref{chap:methodo}.
 
-Following this presentation, a section will discuss the valorisation of this work in the academic community, i.e. the publication of an article. The scientific contribution along with the redaction of the article will be detailed, as it's crucial in an academic environment to think about the impact of one's work.Looking ahead, this chapter will discuss the challenges faced during experimentation and propose potential areas for future exploration. 
+Following this presentation, a section will discuss the valorisation of this work in the academic community, i.e. the publication of an article. The scientific contribution along with the redaction of the article will be detailed, as it's crucial in an academic environment to think about the impact of one's work. Looking ahead, this chapter will discuss the challenges faced during experimentation and propose potential areas for future exploration. 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Experiments Results %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiment Results}
 \label{sec:exp_results}
-From what's discussed in chapter \ref{chap:methodo}, three main experiments have been carried out, one by each algorithms (\acrshort{bo}, \acrshort{soo} and \acrshort{bamsoo}). 
-
-To consider and compare experiments results, it's always relevant to define bounds for each metrics, such as unconstrained problem to define lower bound for maximizing combinatorial problem. For this work, I found two bounds : 
-\begin{itemize}
-    \item Lower bound : experiment with a sampling algorithm (i.e. \acrshort{rs} or \acrshort{lhs}). If complex algorithm does not perform better than sampling ones, it's not worth the complexity. It's especially true in face of expensive objective function, since sampling algorithm are massively parallel.
-    \item Upper bound : from Llama-3.2-3B model card\footnote{\href{https://huggingface.co/meta-llama/Llama-3.2-3B}{https://huggingface.co/meta-llama/Llama-3.2-3B}}, \gls{fine_tuning} performance using complex methods (Supervised Fine-Tuning (SFT), Rejection Sampling (RS), and Direct Preference Optimization (DPO)) is available, and can be used as a reference.
-\end{itemize}
-This approach implied a forth experiment, in section \ref{sec:sampling}, perform a sampling approach with the same budget as other algorithms. As a callback, the evaluation budget of each algorithms is set to 50, including 10 for the sampling part of \acrshort{bo}. The upper and lower bounds values are summarized in table \ref{tab:bounds}, for clarity. This table includes validation and testing dataset, (i.e. Hellaswag and MMLU).
+From what's discussed in chapter \ref{chap:methodo}, three main experiments have been carried out, one by each algorithms (\acrshort{bo}, \acrshort{soo} and \acrshort{bamsoo}). On top of these experiment, a sampling experiment will also be conducted. Details and motivation are inside section \ref{sec:sampling}. Theses 4 next sections bring section \ref{sec:exp_analysis}, with a thorough analysis on all experiments.
 
 
 
@@ -27,8 +20,7 @@ This approach implied a forth experiment, in section \ref{sec:sampling}, perform
 \subsection{Sampling experiment}
 \label{sec:sampling}
 
-This experiment is done using \acrfull{lhs} algorithm. Figure \ref{fig:lhs} illustrate \acrshort{lhs}. In simple, it's a random sampling of the search space, with the warranty that each interval on each dimension is sampled. It can also be called \textit{non-attacking rook}, where picks are like rooks on a chessboard, where the maximum must be put without attacking other rooks.
-
+This experiment is done using \acrfull{lhs} algorithm. Figure \ref{fig:lhs} illustrate \acrshort{lhs}. In simple, it's a random sampling of the search space, with the warranty that each interval on each dimension is sampled. 
 \begin{figure}[h]
     \centering
     \input{assets/img/chap_4/experiments/lhs.tex}
@@ -36,12 +28,15 @@ This experiment is done using \acrfull{lhs} algorithm. Figure \ref{fig:lhs} illu
     \label{fig:lhs}
 \end{figure}
 
+\acrshort{lhs} can also be called \textit{non-attacking rook}, where picks are like rooks on a chessboard, where the maximum of rooks must be put without attacking other rooks. For instance, if the first sampled point is the one at $(0.17, 0.68)$, another point can't be sampled in the light-red squares.
+
+
 For the sampling experiment, \acrshort{lhs} was used with the same budget as other, i.e. 50 evaluations. Whole experiments took 36 hours. The aims of this experiments is dual: first, make a lower bound reference for others experiments, and second, explore the search space and the score behavior. To use as a lower bound, \acrshort{lhs} achieve scores of 37.6\% for MMLU, and 47.9\% for Hellaswag. Theses score are inside table \ref{tab:bounds}.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.6\linewidth]{assets/img/chap_4/experiments/plots/sampling/lhs.png}
-    \caption{results of \acrlong{lhs} experiment}
+    \includegraphics[width=0.8\linewidth]{assets/img/chap_4/experiments/plots/sampling/lhs.png}
+    \caption{Results of \acrlong{lhs} experiment}
     \label{fig:lhs_exp}
 \end{figure}
 
@@ -58,17 +53,17 @@ On the distribution of the score values, it's interesting to note that Hellaswag
 Figure \ref{fig:bo_res} depicts the performance of \acrfull{bogp} over 50 iterations, measured in terms of the \Gls{hs} accuracy. This visualization highlights the evolution of the optimization process as it transitions from sampling to the exploitation, and ultimately converges towards high-performing solutions.
 
 
-\begin{figure}[h!]
+\begin{figure}[h]
     \centering
-    \begin{subfigure}[b]{.50\textwidth}
+    \begin{subfigure}[b]{.55\textwidth}
       \centering
       \includegraphics[width = \textwidth]{assets/img/chap_4/experiments/plots/bo/score_evolution.png}
       \caption{Score over time}
       \label{fig:bo_score_time}
     \end{subfigure}%
-    \begin{subfigure}[b]{.40\textwidth}
+    \begin{subfigure}[b]{.35\textwidth}
       \centering
-      \includegraphics[width = 0.6\textwidth]{assets/img/chap_4/experiments/plots/bo/variables_evolution.png}
+      \includegraphics[width = 0.7\textwidth]{assets/img/chap_4/experiments/plots/bo/variables_evolution.png}
       \caption{Variable over time}
       \label{fig:bo_var_time}
     \end{subfigure}
@@ -78,9 +73,7 @@ Figure \ref{fig:bo_res} depicts the performance of \acrfull{bogp} over 50 iterat
 
 During the sampling phase, as shown by figure \ref{fig:bo_score_time}, evaluated solutions have the same diversity of solutions than the full sampling experiment, allowing to efficiently extract knowledge from the search space. The algorithm achieve a stable convergence to mostly high-performing solution.
 
-If we briefly look at figure \ref{fig:bo_var_time}, it's interesting to look at the diversity of configuration to obtain high-performance, and the trend of the algorithms for each variables. For example, for LoRA alpha, or learning rate, we can observe a clear trend toward the lower bound of the optimization range. 
-
-To summarize, this experiment demonstrate the effectiveness of Bayesian Optimization in efficiently exploiting the knowledge of the search space obtained in the sampling phase. The optimization process still explore area with high uncertainty, giving few low-performing solution.
+If we briefly look at figure \ref{fig:bo_var_time}, it's interesting to look at the diversity of configuration to obtain high-performance, and the trend of the algorithms for each variables. For example, for LoRA alpha, or learning rate, we can observe a clear trend toward the lower bound of the optimization range. To summarize, this experiment demonstrate the effectiveness of Bayesian Optimization in efficiently exploiting the knowledge of the search space obtained in the sampling phase. The optimization process still explore area with high uncertainty, giving few low-performing solution.
 
 
 %%%%%%%%%%%%%%%%%%%% SOO Experiment %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -88,17 +81,17 @@ To summarize, this experiment demonstrate the effectiveness of Bayesian Optimiza
 \label{sec:soo_exp}
 On this experiment, we observe in Figure \ref{fig:soo_res} the behavior of \acrshort{soo} as it optimizes the given objective function. The figure illustrates how the algorithm navigates the search space, iteratively improving the solution by adjusting the hyperparameters. By examining the trends in performance metrics and variables evolution, we aim to analyze the convergence behavior, stability, and overall effectiveness of \acrshort{soo} in this setting.
 
-\begin{figure}[h!]
+\begin{figure}[h]
     \centering
-    \begin{subfigure}[b]{.5\textwidth}
+    \begin{subfigure}[b]{.55\textwidth}
       \centering
       \includegraphics[width = \textwidth]{assets/img/chap_4/experiments/plots/soo/score_evolution.png}
       \caption{Score over time}
       \label{fig:soo_score_time}
     \end{subfigure}%
-    \begin{subfigure}[b]{.4\textwidth}
+    \begin{subfigure}[b]{.35\textwidth}
       \centering
-      \includegraphics[width = 0.5\textwidth]{assets/img/chap_4/experiments/plots/soo/variables_evolution.png}
+      \includegraphics[width = 0.7\textwidth]{assets/img/chap_4/experiments/plots/soo/variables_evolution.png}
       \caption{Variable values over time}
       \label{fig:soo_var_time}
     \end{subfigure}
@@ -124,13 +117,13 @@ The last experiment of this work is using \acrshort{bamsoo}, with $\eta = 1$ in 
     \centering
     \begin{subfigure}[b]{.5\textwidth}
       \centering
-      \includegraphics[width = 0.9\textwidth]{assets/img/chap_4/experiments/plots/bamsoo/score_evolution.png} 
+      \includegraphics[width = \textwidth]{assets/img/chap_4/experiments/plots/bamsoo/score_evolution.png} 
       \caption{Score over time}
       \label{fig:bamsoo_score_time}
     \end{subfigure}%
     \begin{subfigure}[b]{.4\textwidth}
       \centering
-      \includegraphics[width = 0.7\textwidth]{assets/img/chap_4/experiments/plots/bamsoo/depth_compar.png} 
+      \includegraphics[width = 0.8\textwidth]{assets/img/chap_4/experiments/plots/bamsoo/depth_compar.png} 
       \caption{Depth exploration }
       \label{fig:bamsoo_soo_depth}
     \end{subfigure}
@@ -166,7 +159,7 @@ For the higher bound, I will look at the higher value in the model card\footnote
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{assets/img/chap_4/experiments/plots/global/comparison.png}
+    \includegraphics[width=\textwidth]{assets/img/chap_4/experiments/plots/global/comparison.png}
     \caption{Comparison between 3 algorithms on 2 metrics}
     \label{fig:global_compare}
 \end{figure}
@@ -193,7 +186,7 @@ After a section on the contribution, I will adress in section \ref{sec:redaction
 %%%%%%%%%%%%%%%%%%%%%%%%%% Contribution %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The contribution}
 \label{sec:contribution}
-The first contribution of this work is direct and practical: the provision of usable \acrshort{hpo} algorithms and experiments specifically tailored for \acrshort{llm} \gls{fine_tuning}. The popularization of \acrshort{llm}s is a relatively recent development, and while these models are increasingly adopted by companies and end-users, the process of \gls{fine_tuning} remains somewhat inaccessible due to knowledge barriers and the lack of practical resources. By providing detailed experiments and insights into \acrshort{hpo} algorithms, this work aims to lower these barriers, enabling users to better understand and utilize \gls{fine_tuning} techniques. Furthermore, this contribution supports the selection of \glspl{hyperparameter}—a crucial step in achieving optimal performance without excessive trial and error.
+The first contribution of this work is direct and practical: the provision of usable \acrshort{hpo} algorithms and experiments specifically tailored for \acrshort{llm} \gls{fine_tuning}. The popularization of \acrshort{llm}s is a relatively recent development, and while these models are increasingly adopted by companies and end-users, the process of \gls{fine_tuning} remains somewhat inaccessible due to knowledge barriers and the lack of practical resources. By providing detailed experiments and insights into \acrshort{hpo} algorithms, this work aims to lower these barriers, enabling users to better understand and utilize \gls{fine_tuning} techniques. Furthermore, this contribution supports the selection of \glspl{hyperparameter} : a crucial step in achieving optimal performance without excessive trials and errors.
 
 The second contribution lies in addressing the challenge of optimizing expensive functions. The development and training of \acrshort{ann}s are computationally intensive processes, underscoring the importance of efficient optimization methods. This has driven significant interest in \acrshort{bo} algorithms, originally developed for scenarios such as mechanical and aeronautical engineering, where simulations can take hours to run. However, other domains with similarly expensive functions stand to benefit from advancements in this area. Through this work, a comparative analysis was conducted between two approaches for optimization in settings with limited evaluations, providing valuable insights for both researchers and practitioners.
 
@@ -203,19 +196,20 @@ Finally, this work contributes to the scalability of \acrshort{bo} algorithms. G
 %%%%%%%%%%%%%%%%%%%%%%%%%% Redaction %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Redaction}
 \label{sec:redaction}
+The redaction process was as interesting as it was frustrating at times. At the outset, I spent considerable time analyzing the structure of numerous published articles to understand how to organize and present research effectively. This gave me a better sense of how to approach the task. Additionally, I had discussions with my supervisor to define the overall content and structure of the article, ensuring that the key aspects of the work were covered comprehensively. With this framework in mind, I began writing as early as possible, focusing on sections that did not require finalized results. This proactive approach allowed me to step back and reflect on my work as it progressed, identifying gaps and limitations in both my understanding and the way I communicated the research.
 
-The redaction was as interesting as it was frustating sometimes. To start, I looked at many articles structures, and talked with my supervisor to define the global contents of the article. With this first step, I wrote as early as possible what I could write without having results, to be able to step back on my own work, and see the limitations of what I have written. 
+However, the final stages of the paper's completion turned out to be more challenging, as I faced a tight timeline. The latter part of the writing process felt rushed because I only obtained correct and usable results two days before the submission deadline. This created a significant constraint on my ability to test and validate the results thoroughly. The time and resources required for each experiment were substantial, which limited the number of tests I could conduct within the available timeframe. Despite these challenges, I focused on making the most of the results I had, presenting them in the most coherent and impactful way possible.
 
-The end of the paper was a little bit more rushed, because I did not have correct and useful results before 2 days before the submission deadline. The time and ressource for one experiments were so that I could not launch a lot of experiment to do sufficient tests. 
-
-In a technical aspect, the redaction of the article, like the redaction on this report was useful to learn how to use \LaTeX{}, from making tables and load figures, to the production of figures using \textit{Tikz} library. 
+On a technical level, the redaction of the article, much like the drafting of this report, was a valuable learning experience. It helped me deepen my proficiency in using \LaTeX{}, from creating structured tables and formatting content to incorporating figures seamlessly. Moreover, I learned how to produce high-quality illustrations and diagrams using the \textit{TikZ} library, which enhanced the visual presentation of the article. This process not only improved my technical skills but also gave me practical experience in preparing a professional, publication-ready document that adhered to academic standards.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% Challenges %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Challenges}
 \label{sec:challenge}
 
-This section outlines the key challenges encountered during the internship and the strategies employed to address them. Undertaking a project situated at the intersection of multiple research domains presented unique difficulties, from defining and addressing a novel research problem to managing the technical complexities of implementation and resource constraints. Each of these challenges required a combination of critical thinking, adaptability, and collaboration to overcome. The following sections delve into these obstacles in detail, highlighting the learning process and the methods used to navigate the intricacies of both the theoretical and practical aspects of the work.
+This section outlines the key challenges encountered during the internship and the strategies employed to address them. The terms \textit{challenge} can have two signification, a difficulty or like a challenge to adress (like a sport team winning a cup), and this section adress the two kinds of challenge.
+
+Undertaking a project situated at the intersection of multiple research domains presented unique difficulties, from defining and addressing a novel research problem to managing the technical complexities of implementation and resource constraints. Each of these challenges required a combination of critical thinking, adaptability, and collaboration to overcome.
 
 
 
@@ -243,4 +237,16 @@ The first significant difficulty I encountered was related to the development pr
 
 Another major challenge was working with numerous libraries for implementing the black-box objective function. The codebase involved a complex network of libraries, classes, and functions, all deeply interconnected. It was initially overwhelming to understand how these components interacted and to adapt the existing code to fit my specific requirements. This was especially challenging because my use case—\acrlong{hpo}—was not a generic application of the libraries. As such, no pre-existing implementation was readily available to use \acrshort{hpo} as a black-box objective function, requiring significant effort to tailor the code.
 
-Resource limitations also posed a considerable obstacle. At the beginning of the project, I had to rely on Grid'5000 as the primary computational resource. While g5k provided an essential platform for experimentation, its limitations in terms of scalability and availability required careful management of resources and computational tasks. Overcoming these challenges not only helped me refine my problem-solving skills but also provided valuable experience in navigating the practical constraints of real-world computational research.
+The last key challenge is about the computing resources, and the discovery of Grid'5000 plateform. I never used before python as command line, or even shell on an unix environment. Theses elements push me to learn a lot about the deployment of the code on a unix-based cluster, about virtual environment and so on. On the other hand, working with grid'5000 means working with resource with time-limitation, with reservation. This force me to think a lot before launching an experiment, to not lose my reservation with useless experiment or small bugs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% Technical implementation %%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Open the door of Partition-based Bayesian Optimization}
+\label{sec:part_bo}
+
+As written multiple time, a key facet of this internship was the exploration of parallel \acrfull{bo}, based on hybridization with \acrfull{pbo}. On my main job, I explored this topic, but without looking too far, since I had many other things to do, and to not lose myself. 
+
+After the submission of my article, I talked with my tutor and one of his PhD candidate, to talk about the following of my work. There was a part about the direct continuation of my work, like expanding models, datasets, \gls{search_space} and so on. But there was also a more theoric work, about the parallelization of \acrshort{bo} algorithms. 
+
+Based on articles \cite{Kawaguchi_Kaelbling_Lozano-Pérez_2016,de_Paz_Vaquera_Huerta_Albores_Velasco_Bauer_Mengelberg_Romero_Padilla_2024,Merrill_Fern_Fern_Dolatnia_2021}, with the PhD candidate, we made a first litterature review of this field, to make a first unification on the field. This includes how to exploit the most of surrogates for \acrshort{pbo} algorithms, what's the best surrogate to scale for \gls{exascale} computing, and all small questions arising from them. 
+
+This work allow me to exploit a lot of reflection I had during my work, and face really interesting challenges like the specific needs of highly scalable parallel algorithm. 
