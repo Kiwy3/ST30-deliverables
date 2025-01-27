@@ -8,9 +8,9 @@ The methodology is a cornerstone of any research or project, providing a structu
 
 % //TODO - rename article repo if needed
 
-To ensure my sincere approach, and contribute to open-source domain, all the code of my internship is readable on \href{https://github.com/Kiwy3/}{my github account}\footnote{link : https://github.com/Kiwy3/}. It's split in two parts : \textit{Scalable\_HPO\_LLM} for everything linked to the article (code, data, experiments...) and \textit{ST30-deliverable} for every deliverable of this internship (presentation, report, defence).
+To ensure my sincere approach, and contribute to open-source domain, all the code of my internship is readable on \href{https://github.com/Kiwy3}{my github account}\footnote{link :\url{https://github.com/Kiwy3/}}. It's split in two parts : \textit{Scalable\_HPO\_LLM} for everything linked to the article (code, data, experiments...) and \textit{ST30-deliverable} for every deliverable of this internship (presentation, report, defence and so on).
 
-In this chapter, I will talk about the contextualization in academic literature, then tackle the elaboration of the blackbox function. The definition of the search space being one of the most crucial step in global optimization, the section \ref{sec:search_space} will focus on this. After this preliminary work, we will enter the core of this report : optimization algorithms. A section about experimental setup, to explore resource and scientific integrity, will precede the conclusion section, approaching insight about the realization of this part.
+In this chapter, I will talk about the contextualization in academic literature, then tackle the elaboration of the blackbox function. The definition of the search space being one of the most crucial step in global optimization, the section \ref{sec:search_space} will focus on this. After this preliminary work, we will enter the core of this report : optimization algorithms. Previous sections will be linked in section \ref{sec:concrete_impl}, for the description of the concrete implementation. A section about experimental setup, to explore the resource used during this internship, is concluding this chapter.
 
 %%-------------------- SECTION : Literature ---------------------%%
 
@@ -18,9 +18,9 @@ In this chapter, I will talk about the contextualization in academic literature,
 \label{sec:litterature}
 In industrial field of works, the goal is to be better than competitor, or at least be better than the past of the company. In research fields, a contribution must aims to be better than existing, at least by one facet. In order to do this, the first step of every research project is to make an exhaustive bibliography of the domain, to understand what's already done, and what could be the contribution of the project. 
 
-Chapter \ref{chap:subject_def} was the result of a first stage of bibliography, to define what's the context of this internship. With this, we have insights and contexts about \acrshort{dnn},\acrshort{llm},\gls{fine_tuning} and \acrshort{peft}, and a first look at global optimization fields. In this chapter, a complementary approach will be done about specific optimization algorithm, frameworks and implementation specific details. 
+Chapter \ref{chap:subject_def} was the result of a first stage of bibliography, to define what's the context of this internship. With this, we have insights and contexts about \acrshort{dnn}, \acrshort{llm}, \gls{ft} and \acrshort{peft}, and a first look at global optimization fields. In this chapter, a complementary approach will be done about specific optimization algorithms, frameworks and implementation specific details. 
 
-At the beginning of this internship, I started my bibliography using few articles that my tutor sent me, for a first look of the subject. From theses articles, I jumped to referenced articles until I started to make a loop between articles. It allows me to find fundational article like articles \cite{vaswani_attention_2017,talbi_automated_2021}, establishing the core of the domain, and reviews like article \cite{elsken_neural_2019,talbi_automated_2021}, allowing to understand a global context and finding a way to classify what I read before.
+At the beginning of this internship, I started my bibliography using few articles that my tutor sent me, for a first look of the subject. From theses articles, I jumped to referenced articles until I started to make a loop between articles. It allows me to find fundational article like articles \cite{vaswani_attention_2017,talbi_automated_2021}, establishing the core of the domain, and reviews like articles \cite{elsken_neural_2019,talbi_automated_2021}, allowing to understand a global context and finding a way to classify what I read before.
 
 To manage my bibliography, in a first time I used Notion App\footnote{\href{https://www.notion.so}{https://www.notion.so}} to make a table for my bibliography, with papers charateristics (title, authors, year ...), an export of bibtex from original site and my notes. The table can be found on this \href{https://ribbon-crown-5f6.notion.site/6539799af4a24b32b6d4b91c4e07de49?v=b1542338391647aaa38cc8bb4ad1d5d8&pvs=4}{link}. When I started writing my article, I thought that it's wasn't pratical to copy bibtex export one by one, and I looked at others tools to manage this. It's how I found \href{https://www.zotero.org/}{Zotero}\footnote{link : \href{https://www.zotero.org/}{https://www.zotero.org/}}, with many options to ease my life like collecting article from web with only one click, and export a collection.
 
@@ -37,55 +37,54 @@ My internship can be seen as global optimization applied to a noisy, mixed-varia
     \label{fig:hpo_workflow}
 \end{figure}
 
-The blackbox process here is described by figure \ref{fig:hpo_workflow}. This process start by the \gls{fine_tuning} of the model, using training dataset, and then evaluating the model, using the validation dataset. Next sections will explore in details the action box of figure \ref{fig:hpo_workflow}. The reproduction of the blackbox function using Python is done with a \textit{ModelEvaluator} class, reproducing the nexts parts.
-
-% //TODO - rename ModelEvaluator if needed
+The blackbox process here is described by figure \ref{fig:hpo_workflow}. This process start by the \gls{fine_tuning} of the model, using training dataset, and then evaluating the model, using the validation dataset. Next sections will explore in details the action box of figure \ref{fig:hpo_workflow}.
 
 %%-------------------- SUBSECTION : Fine Tuning ---------------------%%
 \subsection{Fine-Tuning of the Model}
 \label{sec:fine_tuning}
 
-For \gls{fine_tuning}, the first step is to choose the model to work with. For this choice, the first element was the kind of tasks we want to work with. For the biggest use case and impact, the focus is done on \textit{Decoder-only} model. Then, based on article \cite{tribes_hyperparameter_2024}, and open-source model availability, I choose to work with a model of LlaMa family.
+For \gls{fine_tuning}, the first step is to choose the model to work with. For this choice, the first element was the kind of tasks we want to work with. For the biggest use case and impact,  focus is done on \textit{Decoder-only} model. Then, based on article \cite{tribes_hyperparameter_2024}, and open-source model availability, I choose to work with a model of LlaMa family.
 
-The LlaMa family, launched on February 24, 2023 with the publication of \say{LLaMA: Open and Efficient Foundation Language Models}\cite{touvron_llama_2023}, is a family of open-source (topology and weights values) \textit{decoder-only} fundational models produced and maintained by Meta AI. Latest releases from september 2024, LlaMa 3\cite{grattafiori_llama_2024} set, include model from one billion of parameters (\textit{LlaMa 3.2-1B}) to 405 billions of parameters (\textit{LLaMA 3.1-405B}), and achieved \acrlong{sota} performances on benchmarks. During the first phase of the elaboration of the fine-tuning, I work with \textit{TinyLlama-1.1B}, a lightweight model based on LlaMa architecture. After this phase, I upgraded to \textit{LlaMa 3.2-3B} for a better fidelity compared to high performance models, but compatible with hardware constraints described in section \ref{sec:exp_setup}.
+The LlaMa family, launched on February 24, 2023 with the publication of \say{LLaMA: Open and Efficient Foundation Language Models}\cite{touvron_llama_2023}, is a family of open-source (topology and weights values) \textit{\gls{decoder}} fundational models produced and maintained by Meta AI. Latest releases from september 2024, LlaMa 3\cite{grattafiori_llama_2024} set of models, include model from one billion of parameters (\textit{LlaMa 3.2-1B}) to 405 billions of parameters (\textit{LLaMA 3.1-405B}), and achieved \acrlong{sota} performances on multiple benchmarks. During the first phase of the elaboration of the fine-tuning, I work with \textit{TinyLlama-1.1B}, a lightweight model based on LlaMa architecture. After this phase, I upgraded to \textit{LlaMa 3.2-1B} for a better performance, but compatible with hardware constraints described in section \ref{sec:exp_setup}.
 
-After the model, the next step is the training dataset. The reference in fine-tuning training dataset is the \textit{Alpaca} dataset\cite{hashimoto_stanford_2024}. It's an AI-generated dataset of 52k examples of instruction-based dialogues from the \textit{Stanford Alpaca} project. The dataset is composed of 3 fields : \textit{input}, \textit{output},\textit{instruction} and \textit{text}. At first, I used \textit{Alpaca-2K} datasets, a small subset of \textit{Alpaca} dataset composed of 2k examples. Then, I used the full \textit{Alpaca} dataset when I reached a stable version. 
+After the model, the next step is the training dataset. The reference in fine-tuning training dataset is the \textit{Alpaca} dataset\cite{hashimoto_stanford_2024}. It's an AI-generated dataset of 52k examples of instruction-based dialogues from the \textit{Stanford Alpaca} project. The dataset is composed of 4 fields : \textit{input}, \textit{output},\textit{instruction} and \textit{text}. At first, I used \textit{Alpaca-2K} dataset, a small subset of \textit{Alpaca} composed of 2k examples. Then, I used the full \textit{Alpaca} dataset when I reached a stable version. 
 
-For the training of the weights, as described in \ref{sec:dnn}, I use \acrshort{adamw}, a variant of \acrshort{adam} decoupling weigth decay \cite{krogh_simple_1991} from learning rate. Along with the optimizer, the training went with \acrfull{lora} as a \acrfull{peft} methods, as defined in section \ref{sec:fine_tune}. The fine-tuning follow the generic \acrshort{ann} training process, except only \acrshort{lora} are trainable. \acrshort{lora} is applied to all weights inside \acrlong{mha}, i.e. keys, weights, queries and output weights, so the linear layers outside \acrshort{mha} are not affected.
+For the training of the weights, as described in \ref{sec:dnn}, I use \acrshort{adamw}, a variant of \acrshort{adam} decoupling \gls{decay} \cite{krogh_simple_1991} from \gls{lr}. Along with the optimizer, the training went with \acrfull{lora} as a \acrfull{peft} method, as defined in section \ref{sec:fine_tune}. The \gls{ft} follow the generic \acrshort{ann} training process, except only \acrshort{lora} are trainable. \acrshort{lora} is applied to all weights inside \acrlong{mha}, i.e. keys, values, queries and output weights, so the linear layers outside \acrshort{mha} are not affected.
 
-For the implementation, at first I started from example from \gls{lightning} documentation, then I adapted it to my needs. This approach used \gls{pytorch} as backend, providing \textit{LightningModule} and \textit{LightningDataModule} classes. \acrshort{gpt} specific function and classes were implemented in \gls{litgpt} librairy. For loading models, \gls{hf}, the standard hub for model and datasets, is used to manage token with Meta interface. 
+%# cite Pytorch
+For the implementation, at first I started from example from \gls{lightning} documentation, then I adapted it to my needs. This approach used \gls{pytorch} as backend, providing \textit{LightningModule} and \textit{LightningDataModule} classes, with \acrfull{ddp} as parallelism strategy. \acrshort{gpt} specific function and classes were implemented in \gls{litgpt} librairy. For loading models, \gls{hf}, the standard hub for model and datasets, is used to manage token with Meta interface. 
 After few adaptations, I had python code almost usable for fine-tuning, but the file input and output at each step (after training, merging with \acrshort{lora} weights, conversion for evaluation) was prone to error and file corruption. 
 
-In the last half of December, I decided to restart this part from scratch, using solely \gls{litgpt} library with it's \acrfull{cli}. This approach was easier to implement, and provided a more stable workflow although it reduced the training performance, using another parallel strategy. In this approach, I managed long string corresponding to \acrshort{cli} commands, and I used python \textit{subprocess} to execute them.
+In the last half of December, I decided to restart this part from scratch, using solely \gls{litgpt} library with it's \acrfull{cli}. This approach was easier to implement, and provided a more stable workflow although it reduced the training performance, using another parallel strategy (\acrfull{fsdp}). In this approach, I managed long strings corresponding to \acrshort{cli} commands, and I used python \textit{subprocess} to execute them.
 
 
 %%-------------------- SUBSECTION : Evaluation ---------------------%%
 \subsection{Evaluation of the model}
 \label{sec:model_evaluation}
 
-To evaluate an \acrshort{ann}, the standard way is to split the dataset into training and validation datasets. The training dataset is used to train the model, and the validation dataset is used to evaluate the model. The evaluation metric can be the loss, a metric about the difference between the predicted output and the true output, or the accuracy, a metric about the percentage of correct predictions. There exists differents kind of loss, link cross-entropy, or mean-square error, to adapt to the datasets and the problem.
+To evaluate an \acrshort{ann}, the standard way is to split the dataset into training and validation datasets. For \acrfull{hpo}, a testing dataset is used to prevent data leakage, and prevent overfitting. The training dataset is used to train the model, and the validation dataset is used to evaluate the model. The evaluation metric can be the loss, a metric about the difference between the predicted output and the true output, or the accuracy, a metric about the percentage of correct predictions. There exists differents kind of loss, link cross-entropy, or mean-square error, to adapt to the datasets and the problem.
 
-With \acrshort{llm}, the diversity of the tasks, even with a \textit{decoder}-only model, is crucial. During the training, the loss or the accuracy is done with the prediction of the next word, compared to the true one. It does not represent the generalization capability of the model. To deal with it, challenge benchmarks, often using \acrfull{mcq} on diverses thematics, were rising. It's was enhanced by article like \cite{wei_finetuned_2022}, proving the advantage of fine-tuning in terms of generalization. 
+With \acrshort{llm}, the diversity of the tasks, even with a \gls{decoder} model, is crucial. During the training, the loss or the accuracy is done with the prediction of the next word, compared to the true one. It does not represent the generalization capability of the model. To deal with it, challenge benchmarks, often using \acrfull{mcq} on diverses thematics, were rising. It's was enhanced by article like \cite{wei_finetuned_2022}, proving the advantage of fine-tuning in terms of generalization. 
 
-Among those challenge benchmark datasets, I choose two of them : one to use during \acrshort{hpo} and the other to look at overfitting. The Hellaswag \cite{zellers_hellaswag_2019} dataset is composed of 40k lines of text and 4 choice of answers, meaning random pick lead to 25\% of accuracy. I use this first during \acrshort{hpo}. The MMLU dataset \cite{hendrycks_measuring_2021} is a dataset over multiples subjects, use to prevent overfitting.
+Among those challenge benchmark datasets, I choose two of them : one to use during \acrshort{hpo} and the other for testing. The \Gls{hs} \cite{zellers_hellaswag_2019} dataset is composed of 40k lines of text and 4 choice of answers, meaning random pick lead to 25\% of accuracy. I use this first during \acrshort{hpo}. The MMLU dataset \cite{hendrycks_measuring_2021} is the testing dataset, measuring general knowledge for a lot of fields. .
 
-The implementation of this part is done with \gls{litgpt} library, as a \acrshort{cli} like for training. Under the \gls{litgpt} part, it's using lm\_eval library from \gls{hf} to manage the evaluation of the accuracy. 
+The implementation of this part is also done with \gls{litgpt} library, as a \acrshort{cli} like for training. Under the \gls{litgpt} part, it's using lm\_eval library from \gls{hf} to manage the evaluation of the accuracy. 
 
 
 
 %%-------------------- SECTION : Search Space ---------------------%%
-\section{Search Space Definition}
+\section{Search Space}
 \label{sec:search_space}
 
 The search space is defined with the choice of hyperparameters, theirs bounds, theirs types and even the scale of theirs steps.  Well-defined search space is crucial for a correct application of \acrshort{hpo} : if the space is too high-dimensional, the \acrshort{hpo} algorithm will need too many shots to converge to a good solution, if it's too small, we are missing it's relevance. 
 
 The search space is composed of 5 hyperparameters, from classical training hyperparameters to \acrshort{lora} specific ones. A detailed presentation of hyperparameters is just below, but one can look at table \ref{tab:hyperparam_table} for a summary.
 \begin{itemize}
-    \item LoRA rank : with LoRA methods, the fine-tuning weights matrix $\Delta W \in \mathbb{R}^{n*p}$ is replaced by two matrices $A \in \mathbb{R}^{r*p}$ and $B \in \mathbb{R}^{n*r}$ with $\Delta W = B*A$. $r$ is called the LoRA rank, and scale the reduction of the weights matrix. It's an integer, and it's value range from 1 to 512, following article \cite{tribes_hyperparameter_2024} indication.
-    \item LoRA scale ($\alpha$) : when merging pre-trained weights $W_0$ and Lora fine-tuned weights $B*A$, the scale $\alpha$ is weighting the influence of fine-tuning, with $W = W_0 + \frac{\alpha}{r} * (B*A)$. It's an integer value, from $1$ to $64$ as guided by \acrshort{lora} article and LitGpt framework.
-    \item Learning rate : the learning rate is a classical hyperparameter used in \acrshort{hpo}, weighting the gradient of each weight when doing backpropagation. It is often tuned in a logarithmic scale, to manage effectively the exploration. 
-    \item Dropout probability : based on article \cite{srivastava_dropout_2014}, dropout is a method used to prevent over-fitting, by randomly fixing cells/layers to zeroes during one iteration. Being a probability, it's bounds by 0 and 1.
-    \item Weight decay : weight decay is used to improve generalization capacity, as proved in article \cite{krogh_simple_1991}, by reducing the weights at each iterations by a small value, to force the model to use new inputs. Typically, the parameter for weight decay is set on a logarithmic scale between $10^{-3}$ and $10^{-1}$.
+    \item \Gls{rank} : with \acrshort{lora} method, the \gls{ft} weights matrix $\Delta W \in \mathbb{R}^{n*p}$ is replaced by two matrices $A \in \mathbb{R}^{r*p}$ and $B \in \mathbb{R}^{n*r}$ with $\Delta W = B*A$. $r$ is called the \gls{rank}, and scale the reduction of the weights matrix. It's an integer, and it's value range from 1 to 64.
+    \item \Gls{scale} ($\alpha$) : when merging pre-trained weights $W_0$ and Lora fine-tuned weights $B*A$, the scale $\alpha$ is weighting the influence of fine-tuning, with $W = W_0 + \frac{\alpha}{r} * (B*A)$. It's an integer value, from $1$ to $64$ as guided by \acrshort{lora} article and LitGpt framework.
+    \item \Gls{lr} : \gls{lr} is a classical hyperparameter used in \acrshort{hpo}, weighting the gradient of each weight when doing backpropagation. It is often tuned in a logarithmic scale, to manage effectively the exploration. 
+    \item \Gls{dropout} : based on article \cite{srivastava_dropout_2014}, dropout is a method used to prevent over-fitting, by randomly fixing cells/layers to zeroes during one iteration. Being a probability, it's bounds by 0 and 1, but for this work it's between 0 and 0.5.
+    \item \Gls{decay} : \gls{decay} is used to improve generalization capacity, as proved in article \cite{krogh_simple_1991}, by reducing the weights at each iterations by a small value, to force the model to use new inputs. Typically, the parameter for \gls{decay} is set on a logarithmic scale between $10^{-3}$ and $10^{-1}$.
 \end{itemize}
 
 
@@ -94,21 +93,21 @@ The search space is composed of 5 hyperparameters, from classical training hyper
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multirow{2}{*}{\textbf{Hyper-parameter}} & \multicolumn{2}{|c|}{\textbf{Optimization range}} & \multirow{2}{*}{\textbf{Conversion}} \\
+        \multirow{2}{*}{\textbf{ \Gls{hyperparameter} }} & \multicolumn{2}{|c|}{\textbf{Optimization range}} &\multirow{2}{*}{\textbf{ Type }}& \multirow{2}{*}{\textbf{ Conversion }} \\
         \cline{2-3}
-         & \textbf{Lower Bound} & \textbf{Upper Bound} &  \\
+         & \textbf{ Lower Bound } & \textbf{ Upper Bound } & & \\
         \hline
-        \textbf{Learning Rate} & $-10$ & $-1$ & $f(x) = 10^{x}$ \\
+        \textbf{\Gls{lr}} & $-10$ & $-1$ & log. & $f(x) = 10^{x}$ \\
         \hline
-        \textbf{LoRA Rank} & 2 & 32 & $f(x) = \text{round}(x)$ \\
+        \textbf{\Gls{rank}} & 1 & 64 &int. &$f(x) = \text{round}(x)$ \\
         \hline
-        \textbf{LoRA scale ($\alpha$)} & 16 & 64 & $f(x) = \text{round}(x)$ \\
+        \textbf{\Gls{scale}} &1 & 64 & int. &$f(x) = \text{round}(x)$ \\
         \hline
-        \textbf{LoRA Dropout} & 0 & 0.5 & $f(x) = x$ \\
+        \textbf{\Glspl{dropout}} & 0 & 0.5 & cont.& $f(x) = x$ \\
         \hline
-        \textbf{Weight Decay} & $-3$ & $-1$ & $f(x) = 10^{x}$  \\
+        \textbf{\Gls{decay}} & $-3$ & $-1$ &log.& $f(x) = 10^{x}$  \\
         \hline
     \end{tabular}
     \caption{Summary of Hyperparameter Search Space}
@@ -126,22 +125,21 @@ Linked with section \ref{sec : opt_algo}, this part aims to describe the impleme
 
 The first approach to explore is \acrfull{smbo}, and particularly \acrfull{bo} using \acrfull{gp} (\acrshort{bo}-\acrshort{gp}). Then considering the dimensionnality of the problem, and the \acrshort{pbo} performance benchmark in article \cite{firmin_fractal-based_2022}, I went with \acrfull{soo} algorithm as representative of \acrshort{pbo} methods. After theses two approachs, section \ref{sec:bamsoo} present an hybrid approach, combining the intrinsic parallel abilities of \acrshort{pbo} combined to the efficiency and exploitation of \acrshort{bo}.
 
-\subsection{\acrfull{bo}}
+\subsection{\acrfull{bogp}}
 \label{sec:bo}
 
-We saw in \ref{sec : opt_algo} that \acrshort{bo} use a surrogate model to perform optimization. On this work, a focus is done on \acrshort{gp} for the \acrshort{bo} surrogate. \acrshort{gp} use the kernel trick to build a bayesian nonparametric regression model. It use a mean vector $m_i$ and a covariance matrix $K_{i,j}$ to define the prior function : 
+We saw in \ref{sec : opt_algo} that \acrshort{bo} use a surrogate model to perform optimization. On this work, a focus is done on \acrshort{gp} for the \acrshort{bo} surrogate. \acrshort{gp} use the kernel trick to build a bayesian nonparametric regression model. It use a mean vector $m_i$ and a covariance matrix $K_{i,j}$ to define the prior function as equation \ref{eq:prior_gp}.
 
 \begin{equation}
     \text{f} | X \sim  \mathcal N (m,K)
     \label{eq:prior_gp}
 \end{equation}
 
-From the prior function and the data points $\mathcal D$, the \acrshort{gp} build a posterior. On this posterior is build an acquisition function used as a surrogate for the objective function.
-
-
-    
+From the prior function and the data points $\mathcal D$, the \acrshort{gp} build a posterior. The prior was representing the assumption made for the regression, the posterior represent the regression itself. On this posterior is build an acquisition function used as a surrogate for the objective function.
 
 Algorithm \ref{algo:bo} offer an overview of the BO process. To ease the first build of the surrogate, it's crucial, as proven in article \cite{wilson_efficiently_2020}, to sample efficiently the search space. This sampling provides information for the Gaussian Process to estimation the function. Like article \cite{borisut_adaptive_2023}, \acrfull{lhs}\cite{mckay_comparison_1979} is used as a sampling method, for a defined budget called $n\_init$. 
+
+%#TODO - Add LHS algo in appendix
 
 \begin{algorithm}[H]
     \caption{BO}
@@ -154,8 +152,7 @@ Algorithm \ref{algo:bo} offer an overview of the BO process. To ease the first b
         $\mathcal{D} \gets \mathcal{D} \cup \{(\lambda', f(\lambda'))\}$ \tcp{Add solution and evaluation to set of data}
     }
     \For{$i \gets 1$ \KwTo $n_{\text{opt}}$}{ 
-        $\mu_D, K_D \gets \text{Update}(K_D, \mathcal{D})$ \;
-        $K_D \gets \text{Fit}(\text{GP}(K_D), \mathcal{D})$ \;
+        $K_D, \mu_D \gets \text{Fit}(\text{GP}(K_D, \mu_D), \mathcal{D})$ \;
         $\lambda' \gets \text{Optimize}(f_{\text{acq}}(K_D), \mathcal{O})$ \tcp{Generate new point}
         $\mathcal{D} \gets \mathcal{D} \cup \{(\lambda', f(\lambda'))\}$ \tcp{scoring function}
     }
@@ -163,18 +160,18 @@ Algorithm \ref{algo:bo} offer an overview of the BO process. To ease the first b
     \Return best of $\{(\lambda^*, f(\lambda^*)) \in \mathcal{D}\}$
 \end{algorithm}
 
-After this preliminary phase, a second phase is done with on loop containing the update of the Gaussian Process, the optimization of the acquisition function to obtain a new points to evaluate. After the evaluation of the point, the point is added to the history $\mathcal D$ and so on. The loop end based on a budget $n_{opt}$. 
+After this preliminary phase, a second phase is done with loop containing the update of the Gaussian Process, the optimization of the acquisition function to obtain a new points to evaluate and the evaluation. After the evaluation of the point, the point is added to the history $\mathcal D$ and so on. The loop end based on a budget $n_{opt}$, with the budget $n_{max}=n_{init}+n_{opt}$
 
-For this algorithm, the first requirements is the search space, and the objective function already described in \ref{sec:search_space} and \ref{sec:blackbox} respectively. On the \acrshort{gp} part, we need to define a Kernel function $K_\mathcal D$, an acquisition function $f_{acq}$ and an Inner Optimizer $\mathcal O$. The acquisition function is logEI, more reliable than EI, based on article \cite{ament_unexpected_2024}. The kernel and the inner optimizer are the standard implementation of Botorch, introduced in the next paragraph, with a radial basis function kernel and multi-start optimization method. 
+For this algorithm, the first requirements is the \gls{search_space}, and the objective function already described in \ref{sec:search_space} and \ref{sec:blackbox} respectively. On the \acrshort{gp} part, we need to define a Kernel function $K_\mathcal D$, an \gls{acq_fun} $f_{acq}$ and an Inner Optimizer $\mathcal O$. The\gls{acq_fun} is logEI, more reliable than \acrfull{ei}, based on article \cite{ament_unexpected_2024}. The kernel and the inner optimizer are the standard implementation of Botorch, introduced in the next paragraph, with a radial basis function kernel and multi-start optimization method. 
 
 BoTorch \cite{balandat_botorch_2020} is a Bayesian Optimization library built on PyTorch, designed for efficient and scalable optimization of expensive black-box functions. Leveraging PyTorch's GPU acceleration and integration with GPyTorch \cite{gardner_gpytorch_2021} for Gaussian Processes, BoTorch enables advanced surrogate modeling and optimization. Botorch is used on this work for all tasks including \acrshort{gp}, this part and section \ref{sec:bamsoo}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SOO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\acrfull{soo}}
+\subsection{\acrlong{pbo} : \acrfull{soo}}
 \label{sec:soo}
 
-\acrshort{soo} \cite{munos_optimistic_2011} is a tree-based space partitioning method for black-box optimization, inspired by \acrfull{mcts} methods. \acrshort{soo} is called optimistic since it assume the existence of $ l$ such that $f(x^*)-f(x) \leq l(x,x^*)$ where $x^*$ is the maximizer of $x$.The algorithm partition the space $\Omega$ by building a tree with smaller and smaller sub-space $\Omega_n$. A node $(h,j)$, the node number $j$ of depth $h$, is scored at the center of his space. 
+\acrshort{soo} \cite{munos_optimistic_2011} is a tree-based space partitioning method for black-box optimization, inspired by \acrfull{mcts} methods. \acrshort{soo} is called optimistic since it assume the existence of $ l$ such that $f(x^*)-f(x) \leq l(x,x^*)$ where $x^*$ is the maximizer of $x$.The algorithm partition the space $\Omega$ by building a tree with smaller and smaller sub-space $\Omega_{h,j}$. A node $(h,j)$, the node number $j$ of depth $h$, is scored at the center of his space. 
     
 An expanded node have $K$ children, making the tree a $K$-nary tree. $L_n$ is the \textit{open list} of the tree, to avoid expanding the same nodes over and over. At each round, \acrshort{soo} expand a maximum of one node by depth, meaning that each round score a maximum of $depth*(K)$ solution, enhancing the parallel evaluation of the solution. Summary of \acrshort{soo} is present in algorithm \ref{algo:soo}.
 
@@ -187,7 +184,7 @@ The original algorithm manage the end of the loop with the $h_{max}(n)$ function
     \tcp{initiate }
     $x_{0,0} \gets \text{center}(\Omega)$ \;
     $f_{0,0} \gets f(x_{0,0})$ \;
-    $\mathcal{T}_1 \gets \{x_{0,0}, f_{0,0}, \Omega\}$ \;
+    $\mathcal{T}_1 \gets \{x_{0,0}, f_{0,0}, \Omega_{0,0}\}$ \;
     $n \gets 1$ \;
 
     \While{$n < n_{\text{max}}$}{
@@ -195,14 +192,14 @@ The original algorithm manage the end of the loop with the $h_{max}(n)$ function
         \For{$h \gets 0$ \KwTo $\text{depth}(\mathcal{T}_n)$}{
             $j \gets \arg\max_{j \in \{j \mid (h,j) \in L_n\}} f(x_{h,j})$ \tcp{select function}
             \If{$f(x_{h,j}) > \nu_{\text{max}}$}{
-                $\Omega_{h+1,j+1}, \dots, \Omega_{h+1,j+K} \gets \text{section}(\Omega_{h,j}, K)$ \;
+                $\Omega_{h+1,kj+1}, \dots, \Omega_{h+1,kj+K} \gets \text{section}(\Omega_{h,j}, K)$ \;
                 \For{$i \gets 1$ \KwTo $K$}{
                     $n \gets n+1$ \;
-                    $x_{h+1,j+i} \gets \text{center}(\Omega_{n})$ \;
+                    $x_{h+1,kj+i} \gets \text{center}(\Omega_{n})$ \;
                     \textcolor{blue}{
-                    $f_{h+1,j+i} \gets f(x_{h+1,j+i})$  \tcp{Scoring function}
+                    $f_{h+1,j+i} \gets f(x_{h+1,kj+i})$  \tcp{Scoring function}
                     }
-                    $\mathcal{T}_n \gets \{(x_{h+1,j+i}, f_{h+1,j+i}, \Omega_{n+1})\}$ \tcp{add\_leaf function
+                    $\mathcal{T}_n \gets \{(x_{h+1,kj+i}, f_{h+1,kj+i}, \Omega_{n+1})\}$ \tcp{add\_leaf function
                 }
                 $\nu_{\text{max}} \gets f_{h,j}$ \;}
             }
@@ -210,6 +207,10 @@ The original algorithm manage the end of the loop with the $h_{max}(n)$ function
     }
     \Return best of $x_{h,j}, f(x_{h,j})$ \;
     \end{algorithm}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSECTION : BaMSOO %%%%%%%%%%%%
 \subsection{\acrfull{bamsoo}}
 \label{sec:bamsoo}
 
@@ -247,13 +248,16 @@ The difference with lies primarily in the scoring $g(.)$ of the partitions (blue
     \Return best of $x_{h,j}, g(x_{h,j})$ \;
     \end{algorithm}
 
-To sum up, this algorithm efficiently navigates the search space by leveraging partition-based exploration and utilizing the gathered information to prioritize regions with higher potential. By balancing exploration of untested partitions and exploitation of known promising areas, \acrshort{bamsoo} optimally allocates the evaluation budget, ensuring that computational resources are directed toward regions most likely to contain optimal solutions. This hybrid approach significantly mitigates the limitations of traditional methods, combining the global scalability of partitioning with the precision of \acrshort{gp}-based surrogate modeling.
+To sum up, this algorithm prevent unpromising evaluations in order to allocate more budget for exploring more promising areas than \acrshort{soo}. This hybrid approach harness a part of \acrshort{bogp} exploitation of knowledge without losing the intrinsic parallel abilities.
 
 For the implementation of the GP components, including the calculation of \acrshort{lcb} and \acrshort{ucb} scores, the BoTorch library was employed. This choice ensures computational efficiency and robustness, as BoTorch provides a modular framework for Bayesian optimization and GP modeling, seamlessly integrating with the partition-based structure of BamSOO. By adhering to the methodology outlined in section \ref{sec:bo}, the framework ensures consistency in surrogate modeling and acquisition function computation, further enhancing the effectiveness of the algorithm in high-dimensional, continuous search spaces.
 
 %%-------------------- SECTION : Concrete implentation ---------------------%%
 \section{Concrete Implementation}
 \label{sec:concrete_impl}
+
+At first, one may think that for this kind of article and experiment, the quality of the code does not really matter. But a relevant way of designing the implementation, concise classes and functions and precise documentation are what make possible for the code to live even after the article. On this part, I describe the structure and implementation on my work, with the goal of being able to give it to a PhD candidate working on close field.
+
 To implement what's described in section \ref{sec:blackbox} to \ref{sec:opt}, I used Python as my main language. After a first phase of coding only with function on a small number of file, I started to rethink everything as \acrfull{oop}. When the rework from scratch happened in December, I used this opportunity to structure my code with \acrshort{oop}. 
 
 \begin{figure}[h]
@@ -263,7 +267,7 @@ To implement what's described in section \ref{sec:blackbox} to \ref{sec:opt}, I 
     \label{fig:class_diag}
 \end{figure}
 
-Figure \ref{fig:class_diag} is an UML class diagramm presenting the whole framework of my internship, split in tree parts : the optimization part, including all optimization algorithm seen in section \ref{sec:opt}, the search space part, and evaluation part/
+Figure \ref{fig:class_diag} is an UML class diagramm presenting the whole framework of my internship, split in tree parts : the optimization part, including all optimization algorithm seen in section \ref{sec:opt}, the search space part, and evaluation part.
 
 At the left, the optimization part includes a base class for optimization algorithm, managing all recurrent tasks, especially scoring and extracting the best result. From this class is built \acrshort{soo} and \acrshort{bo} classes. All theirs attributes and functions are described in section \ref{sec:soo} and \ref{sec:bo} respectively, with comment in algorithms to precise which function is used for which line. \acrshort{soo} being a tree-based algorithm, a leaf class in create to manage the leaf of the tree, and especially the decomposition of the space. From \acrshort{soo} class, \acrshort{bamsoo} is built, add especially the \acrshort{gp} surrogate, and updating the scoring function with \acrshort{ucb} and \acrshort{lcb} to adapt to algorithm \ref{algo:bamsoo_scoring}.
 
@@ -273,7 +277,7 @@ The last part is the eval class, use to store the model id, the experiment folde
 
 Along these part, all experiments are also stored as a subpackage of the whole, and then called from the main file. This method ease the reproducibility of the experiments, and avoid import or module error from python package management. 
 
-After this rework, I finished my work with documenting my code. There is various form of documenting my code. At first, I use \textit{type hinting}, to show for every fonction what are the type of input and outputs, like what's mandatory in c++ for instance. After this, I write a small description for each function, and I use \textit{docstring} to explain what each function does. On top of this, I concluded with adding small comment in specific part when needed. All of this aims to be able to reuse my code after the end of this internship.
+After this rework, I worked on the documentation of my code. There are various forms of documenting my code. At first, I use \textit{type hinting}, to show for every fonction what are the type of input and outputs, like what's mandatory in c++ for instance. After this, I write a small description for each function, and I use \textit{docstring} to explain what each function does. On top of this, I concluded with adding small comment in specific part when needed. To finish about the reusability of my code, I wrote a \textit{readme} file, explaining how to implement the code, and how to modify a part for reusing it.
 
 %%-------------------- SECTION : Experimental Setup ---------------------%%
 \section{Experiments setup}

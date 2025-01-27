@@ -70,7 +70,7 @@
 
 % Chap 3
 \newacronym{bogp}{BO-GP}{Bayesian Optimization using Gaussian Process}
-
+\newacronym{ei}{EI}{Expected Improvement}
 
 % Glossary
 \newglossaryentry{transformer}
@@ -141,7 +141,7 @@
     description = {automated deep learning training framework}
 }
 \newglossaryentry{litgpt}{
-    name = litgpt,
+    name = LitGPT,
     description = {PyTorch based framework for training \acrshort{llm}}
 }
 \newglossaryentry{hf}{
@@ -154,10 +154,7 @@
     description = {Validation Dataset for LLM Fine Tuning}
 }
 
-\newglossaryentry{rank}{
-    name = \acrshort{lora} rank, 
-    description = {value used for scaling the reduction of \acrfull{lora}}
-}
+
 
 \newglossaryentry{bb}{
     %#TODO - Rephrase description
@@ -182,4 +179,36 @@
     %#TODO - Rephrase description
     name = exascale, 
     description = {DEFINE}
+}
+
+\newglossaryentry{decoder}{
+    %#TODO - Rephrase description
+    name = decoder-only, 
+    description = {\acrshort{llm} model with only the decoder part of the \gls{transformer}}
+}
+
+\newglossaryentry{rank}{
+    name = LoRA rank, 
+    description = {value used for scaling the reduction of \acrfull{lora}}
+}
+\newglossaryentry{scale}{
+    %#TODO - Rephrase description
+    name = LoRA scale, 
+    description = {NEED IT}
+}
+\newglossaryentry{lr}{
+    %#TODO - Rephrase description
+    name = learning rate, 
+    description = {NEED IT}
+}
+\newglossaryentry{dropout}{
+    %#TODO - Rephrase description
+    name = dropout probability, 
+    plural = dropout,
+    description = {NEED IT}
+}
+\newglossaryentry{decay}{
+    %#TODO - Rephrase description
+    name = weight decay, 
+    description = {NEED IT}
 }
