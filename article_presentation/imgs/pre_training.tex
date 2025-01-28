@@ -1,0 +1,29 @@
+\begin{tikzpicture}[node distance=1.5cm]
+
+% Define block styles
+\tikzstyle{model} = [rectangle,rounded corners, minimum width=2cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{data} = [rectangle, rounded corners, minimum width=2cm, minimum height=1cm,text centered, draw=black, fill=yellow!30]
+\tikzstyle{action} = [rectangle, rounded corners, minimum width=2cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+% Define nodes
+\node (model1) [model,align=center] {Model\\Random init};
+\node (data1) [data, below of=model1,align=center]{Pre-Training \\ Data Corpus} ;
+\node (pre-train)[action, right of=model1, xshift=1.5cm,yshift=-1cm]{Pre-Training};
+\node (model2) [model, right of=pre-train, xshift = 1.5cm, yshift=1cm ]{Pre-Trained Model};
+\node (data2) [data, below of= model2]{In-domain data};
+\node (fine-tuning)[action, right of = model2, xshift = 1.5cm,yshift=-1cm]{Fine Tuning};
+\node (model3) [model, right of=fine-tuning, xshift = 1.5cm,align=center ]{Fine-Tuned \\ model};
+
+
+% Draw arrows
+\draw [arrow] (data1) -- (pre-train);
+\draw [arrow] (model1) -- (pre-train);
+\draw [arrow] (pre-train) -- (model2);
+\draw [arrow] (model2) -- (fine-tuning);
+\draw [arrow] (data2) -- (fine-tuning);
+\draw [arrow] (fine-tuning) -- (model3);
+
+% Add a rectangle around the last four nodes
+\node[draw, thick, dashed, rounded corners, fit=(model2) (fine-tuning) (model3) (data2), inner sep=0.5cm, label=above:{Fine-Tuning Framework}] {};
+\end{tikzpicture}

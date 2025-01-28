@@ -1,0 +1,86 @@
+\begin{tikzpicture}[node distance=1.5cm]
+
+    % Define block styles
+    \tikzstyle{class}=[rectangle split,rectangle split parts=2,draw,text centered]
+    \tikzstyle{action} = [rectangle, rounded corners, minimum width=2cm, minimum height=0.8cm,text centered, draw=black, fill=red!30]
+    \tikzstyle{decision} = [diamond,text centered, draw=black, fill=yellow!30]
+    \tikzstyle{final} = [rectangle, minimum width=2cm, minimum height=1cm,text centered, draw=black]
+    
+    % Define arrow styles
+    \tikzstyle{tarrow} = [thick,->,>=stealth]
+    \tikzstyle{larrow} = [thick,dotted,->,>=stealth]
+    \tikzstyle{coin} = [thick]
+    \tikzstyle{light} = [thick,dotted]
+    
+    
+    % Define nodes
+    
+    % black box function
+    \node (model) [class, align=center]
+        {
+            \textbf{Model }
+            \nodepart{second} Llama-3.2-1B \\ hyperparameters };  
+    
+    \node (trainer) [class, below of=model]
+        {
+            \textbf{Trainer}
+            \nodepart{second} hyperparameters};
+    
+    \node (training)[action,right of = model,xshift=2cm]{Training};
+    \node (evaluate)[action,below of = training]{Evaluate};
+    
+    \node(bbfunction)[draw, thick, dashed, rounded corners, fit=(model) (trainer) (training) (evaluate), inner sep=0.2cm, label=below:{Black-Box function}] {};
+    
+    
+    %datasets
+    \node (train_data) [class, right of=training,xshift=2cm]
+        {
+            \textbf{Training Dataset}
+            \nodepart{second} Alpaca \cite{hashimoto_stanford_2024}};
+    
+    \node (val_data) [class, right of=evaluate,xshift=2cm]
+        {
+            \textbf{Validation/Testing Dataset}
+            \nodepart{second} Hellaswag\cite{zellers_hellaswag_2019}, MMLU\cite{hendrycks_measuring_2021}};
+    
+    % decision
+    \node (decision)[decision,below of = evaluate,yshift=-1cm,align=center]{if \\ $n_{eval} \leq n_{max}$ };
+    
+    \node (final)[final,right of = decision,xshift=2cm]{return best point};
+    
+    % HPO
+    \node (hpo) [class, below of=trainer,yshift=-1cm]
+        {
+            \textbf{HPO}
+            \nodepart{second} optimization loop};
+    
+    
+    % functionnal node
+    \node (trainerright) [right of=trainer]{};
+    \node (modelright) [right of=model]{};
+    \node (hpoleft) [left of = hpo]{};
+    \node (modelleft) [left of = model]{};
+    \node (trainerleft) [left of = trainer]{};
+    
+    
+    % arrow inside bb function
+    \draw [larrow] (model) -- (training);
+    \draw [light] (trainer) -- (trainerright.center);
+    \draw [light] (trainerright.center) -- (modelright.center);
+    \draw [larrow] (modelright.center) -- (training);
+    \draw [larrow] (training) -- (evaluate);
+    
+    % arrows outside bb function
+    \draw [tarrow] (train_data) -- (training);
+    \draw [tarrow] (val_data) -- (evaluate);
+    \draw [tarrow] (evaluate) -- (decision);
+    \draw [tarrow] (decision) -- (hpo);
+    \draw [tarrow] (decision) -- (final);
+    
+    % arrow from hpo to bb function
+    \draw [coin] (hpo) -- (hpoleft.center);
+    \draw [coin] (hpoleft.center) -- (modelleft.center);
+    \draw [tarrow] (modelleft.center) -- (model);
+    \draw [tarrow] (trainerleft.center) -- (trainer);
+    
+    \end{tikzpicture}

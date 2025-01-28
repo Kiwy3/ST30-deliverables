@@ -1,0 +1,71 @@
+\begin{tikzpicture}[node distance=0.8cm]
+
+\tikzstyle{matmul} = [rectangle,rounded corners, minimum width=2cm , text centered, draw=black, fill=purple!30]
+\tikzstyle{softmax} = [rectangle,rounded corners, minimum width=2cm , text centered, draw=black, fill=green!30]
+\tikzstyle{mask} = [rectangle,rounded corners, minimum width=2cm , text centered, draw=black, fill=pink!30]
+\tikzstyle{sca} = [rectangle, rounded corners, minimum width=2cm ,text centered, draw=black, fill=yellow!30]
+\tikzstyle{action} = [rectangle, rounded corners, minimum width=2cm ,text centered, draw=black, fill=red!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\tikzstyle{linear} = [rectangle, rounded corners, minimum width=1cm ,text centered, draw=black, fill=blue!30]
+\tikzstyle{dot-prod} = [rectangle, rounded corners, minimum width=2cm,minimum height = 1cm ,text centered, draw=black, fill=purple!50]
+\tikzstyle{concat} = [rectangle, rounded corners, minimum width=2cm ,text centered, draw=black, fill=yellow!50]
+
+
+
+% Define nodes
+\node (matmul1) [matmul]{Matmul};
+\node (softmax)[softmax, below of = matmul1, xshift = -0.8cm]{Softmax};
+\node (mask) [mask, below of=softmax]{Mask (optionnal)};
+\node (scale) [sca, below of=mask]{Scale};
+\node (matmul2) [matmul, below of=scale]{Matmul};
+\node (q) [below of=matmul2, xshift=-0.5cm]{Q};
+\node (k) [below of=matmul2, xshift=0.5cm]{K};
+\node (v) [below of=matmul2, xshift=1.5cm]{V};
+
+
+% Draw arrows
+\draw [arrow] (matmul1.north) -- ([yshift=0.5cm]matmul1.north);
+\draw [arrow] (softmax.north) -- ([xshift=-0.8cm]matmul1.south);
+\draw [arrow] (mask.north) -- (softmax.south);
+\draw [arrow] (scale.north) -- (mask.south);
+\draw [arrow] (matmul2.north) -- (scale.south);
+\draw [arrow] (q.north) -- ([xshift=-0.5cm]matmul2.south);
+\draw [arrow] (k.north) -- ([xshift=0.5cm]matmul2.south);
+\draw [arrow] (v.north) -- ([xshift=0.7cm]matmul1.south);
+
+
+% MHA 
+\node (linear1) [linear, right of = matmul1, xshift = 4cm] {Linear};
+\node (concat) [concat, below of = linear1] {Concat};
+\node (dot-prod) [dot-prod, below of = concat,yshift= -0.4cm] {Scaled Dot-product Attention};
+\node (linear2) [linear, below of = dot-prod, xshift = -1.5cm, yshift = -0.4cm] {Linear};
+\node (linear3) [linear, below of = dot-prod, yshift = -0.4cm] {Linear};
+\node (linear4) [linear, below of = dot-prod, xshift = 1.5cm, yshift = -0.4cm] {Linear};
+\node (q2) [below of=linear2]{Q};
+\node (k2) [below of=linear3]{K};
+\node (v2) [below of=linear4]{V};
+
+% MHA arrow
+\draw [arrow] (q2) -- (linear2);
+\draw [arrow] (k2) -- (linear3);
+\draw [arrow] (v2) -- (linear4);
+\draw [arrow] (linear2.north) -- ([xshift=-1.5cm]dot-prod.south);
+\draw [arrow] (linear3.north) -- (dot-prod.south);
+\draw [arrow] (linear4.north) -- ([xshift=1.5cm]dot-prod.south);
+\draw [arrow] (dot-prod) -- (concat);
+\draw [arrow] (concat) -- (linear1);
+\draw [arrow] (linear1.north) -- ([yshift=0.5cm]linear1.north);
+
+% MHA * h
+\node[draw, thick, dashed, rounded corners, fit=(dot-prod), inner sep=0.1cm, label=right:{$\times$ h}] {};
+\node[draw, thick, dashed, rounded corners, fit=(linear2)(linear3)(linear4), inner sep=0.1cm, label=right:{$\times$ h}] {};
+
+
+% Title
+\node (dot_t) [above of = matmul1,yshift=0.5cm] {\textbf{Scaled Dot-Product Attention}};
+\node (mha) [above of = linear1,yshift=0.5cm] {\textbf{Multi-Head Attention}};
+
+
+
+\end{tikzpicture}
