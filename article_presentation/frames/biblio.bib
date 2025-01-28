@@ -1,0 +1,308 @@
+
+
+
+
+@misc{hashimoto_stanford_2024,
+	title = {Stanford {Alpaca}: {An} {Instruction}-following {LLaMA} model},
+	copyright = {Apache-2.0},
+	url = {https://github.com/tatsu-lab/stanford_alpaca},
+	abstract = {Code and documentation to train Stanford's Alpaca models, and generate the data.},
+	urldate = {2024-12-18},
+	publisher = {GitHub},
+	author = {Hashimoto, Rohan Taori {and} Ishaan Gulrajani {and} Tianyi Zhang {and} Yann Dubois {and} Xuechen Li {and} Carlos Guestrin {and} Percy Liang {and} Tatsunori B.},
+	month = dec,
+	year = {2024},
+	note = {publisher : GitHub},
+	keywords = {deep-learning, instruction-following, language-model},
+}
+
+@misc{zellers_hellaswag_2019,
+	title = {{HellaSwag}: {Can} a {Machine} {Really} {Finish} {Your} {Sentence}?},
+	shorttitle = {{HellaSwag}},
+	url = {http://arxiv.org/abs/1905.07830},
+	doi = {10.48550/arXiv.1905.07830},
+	abstract = {Recent work by Zellers et al. (2018) introduced a new task of commonsense natural language inference: given an event description such as "A woman sits at a piano," a machine must select the most likely followup: "She sets her fingers on the keys." With the introduction of BERT, near human-level performance was reached. Does this mean that machines can perform human level commonsense inference? In this paper, we show that commonsense inference still proves difficult for even state-of-the-art models, by presenting HellaSwag, a new challenge dataset. Though its questions are trivial for humans ({\textgreater}95\% accuracy), state-of-the-art models struggle ({\textless}48\%). We achieve this via Adversarial Filtering (AF), a data collection paradigm wherein a series of discriminators iteratively select an adversarial set of machine-generated wrong answers. AF proves to be surprisingly robust. The key insight is to scale up the length and complexity of the dataset examples towards a critical 'Goldilocks' zone wherein generated text is ridiculous to humans, yet often misclassified by state-of-the-art models. Our construction of HellaSwag, and its resulting difficulty, sheds light on the inner workings of deep pretrained models. More broadly, it suggests a new path forward for NLP research, in which benchmarks co-evolve with the evolving state-of-the-art in an adversarial way, so as to present ever-harder challenges.},
+	urldate = {2024-12-05},
+	publisher = {arXiv},
+	author = {Zellers, Rowan and Holtzman, Ari and Bisk, Yonatan and Farhadi, Ali and Choi, Yejin},
+	month = may,
+	year = {2019},
+	note = {arXiv:1905.07830 [cs]},
+	keywords = {Computer Science - Computation and Language, dataset, hellaswag},
+	annote = {Comment: ACL 2019. Project page at https://rowanzellers.com/hellaswag},
+}
+
+@misc{hendrycks_measuring_2021,
+	title = {Measuring {Massive} {Multitask} {Language} {Understanding}},
+	url = {http://arxiv.org/abs/2009.03300},
+	doi = {10.48550/arXiv.2009.03300},
+	abstract = {We propose a new test to measure a text model's multitask accuracy. The test covers 57 tasks including elementary mathematics, US history, computer science, law, and more. To attain high accuracy on this test, models must possess extensive world knowledge and problem solving ability. We find that while most recent models have near random-chance accuracy, the very largest GPT-3 model improves over random chance by almost 20 percentage points on average. However, on every one of the 57 tasks, the best models still need substantial improvements before they can reach expert-level accuracy. Models also have lopsided performance and frequently do not know when they are wrong. Worse, they still have near-random accuracy on some socially important subjects such as morality and law. By comprehensively evaluating the breadth and depth of a model's academic and professional understanding, our test can be used to analyze models across many tasks and to identify important shortcomings.},
+	urldate = {2024-12-05},
+	publisher = {arXiv},
+	author = {Hendrycks, Dan and Burns, Collin and Basart, Steven and Zou, Andy and Mazeika, Mantas and Song, Dawn and Steinhardt, Jacob},
+	month = jan,
+	year = {2021},
+	note = {arXiv:2009.03300 [cs]},
+	keywords = {Computer Science - Machine Learning, Computer Science - Computation and Language, Computer Science - Artificial Intelligence, Computer Science - Computers and Society, dataset, mmlu},
+	annote = {Comment: ICLR 2021; the test and code is available at https://github.com/hendrycks/test},
+}
+
+@article{klein_structural_2023,
+	title = {Structural {Pruning} of {Large} {Language} {Models} via {Neural} {Architecture} {Search}},
+	url = {https://openreview.net/forum?id=VAwgL8kPvr},
+	abstract = {Large language models (LLMs) mark the state-of-the-art for natural language understanding. However, their large size poses challenges in deploying them for inference in real-world applications, due to significant GPU memory requirements and high inference latency. This paper explores weight-sharing based neural architecture search (NAS) as a form of structural pruning to find sub-parts of the fine-tuned network that optimally trade-off efficiency, for example in terms of model size or latency, and generalization performance. Unlike traditional pruning methods with fixed thresholds, we propose to adopt a multi-objective approach that identifies the Pareto optimal set of sub-networks, allowing for a more flexible and automated compression process. Our NAS approach achieves up to 50\% compression with less than 5\% performance drop for a fine-tuned BERT model on 7 out of 8 text classification tasks.},
+	language = {en},
+	urldate = {2024-11-20},
+	author = {Klein, Aaron and Golebiowski, Jacek and Ma, Xingchen and Perrone, Valerio and Archambeau, Cedric},
+	month = oct,
+	year = {2023},
+	file = {Full Text PDF:/home/jan/snap/zotero-snap/common/Zotero/storage/JXYIXK39/Klein et al. - 2023 - Structural Pruning of Large Language Models via Neural Architecture Search.pdf:application/pdf},
+}
+
+@article{gao_autobert-zero_2022,
+	title = {{AutoBERT}-{Zero}: {Evolving} {BERT} {Backbone} from {Scratch}},
+	volume = {36},
+	copyright = {Copyright (c) 2022 Association for the Advancement of Artificial Intelligence},
+	issn = {2374-3468},
+	shorttitle = {{AutoBERT}-{Zero}},
+	url = {https://ojs.aaai.org/index.php/AAAI/article/view/21311},
+	doi = {10.1609/aaai.v36i10.21311},
+	abstract = {Transformer-based pre-trained language models like BERT and its variants have recently achieved promising performance in various natural language processing (NLP) tasks. However, the conventional paradigm constructs the backbone by purely stacking the manually designed global self-attention layers, introducing inductive bias and thus leads to sub-optimal. In this work, we make the first attempt to automatically discover novel pre-trained language model (PLM) backbone on a flexible search space containing the most fundamental operations from scratch. Specifically, we propose a well-designed search space which (i) contains primitive math operations in the intra-layer level to explore novel attention structures, and (ii) leverages convolution blocks to be the supplementary for attentions in the inter-layer level to better learn local dependency. To enhance the efficiency for finding promising architectures, we propose an Operation-Priority Neural Architecture Search (OP-NAS) algorithm, which optimizes both the search algorithm and evaluation of candidate models. Specifically, we propose Operation-Priority (OP) evolution strategy to facilitate model search via balancing exploration and exploitation. Furthermore, we design a Bi-branch Weight-Sharing (BIWS) training strategy for fast model evaluation. Extensive experiments show that the searched architecture (named AutoBERT-Zero) significantly outperforms BERT and its variants of different model capacities in various downstream tasks, proving the architecture's transfer and scaling abilities. Remarkably, AutoBERT-Zero-base outperforms RoBERTa-base (using much more data) and BERT-large (with much larger model size) by 2.4 and 1.4 higher score on GLUE test set.},
+	language = {en},
+	number = {10},
+	urldate = {2024-11-20},
+	journal = {Proceedings of the AAAI Conference on Artificial Intelligence},
+	author = {Gao, Jiahui and Xu, Hang and Shi, Han and Ren, Xiaozhe and Yu, Philip L. H. and Liang, Xiaodan and Jiang, Xin and Li, Zhenguo},
+	month = jun,
+	year = {2022},
+	note = {Number: 10},
+	keywords = {LLM, NAS, Speech \& Natural Language Processing (SNLP)},
+	pages = {10663--10671},
+	file = {Full Text PDF:/home/jan/snap/zotero-snap/common/Zotero/storage/57VWRI7L/Gao et al. - 2022 - AutoBERT-Zero Evolving BERT Backbone from Scratch.pdf:application/pdf},
+}
+
+@inproceedings{wang_cost-effective_2023,
+	title = {Cost-{Effective} {Hyperparameter} {Optimization} for {Large} {Language} {Model} {Generation} {Inference}},
+	url = {https://proceedings.mlr.press/v224/wang23b.html},
+	abstract = {Large Language Models (LLMs) have sparked significant interest in their generative capabilities, leading to the development of various commercial applications. The high cost of using the models drives application builders to maximize the value of generation under a limited inference budget. This paper presents a study of optimizing inference hyperparameters such as the number of responses, temperature and max tokens, which significantly affects the utility/cost of text generation. We design a framework named EcoOptiGen which leverages economical hyperparameter optimization and cost-based pruning. Experiments with the GPT-3.5/GPT-4 models on a variety of tasks verify its effectiveness. EcoOptiGen is implemented in the “autogen” package of the FLAML library: {\textbackslash}url\{https://aka.ms/autogen\}.},
+	language = {en},
+	urldate = {2025-01-13},
+	booktitle = {Proceedings of the {Second} {International} {Conference} on {Automated} {Machine} {Learning}},
+	publisher = {PMLR},
+	author = {Wang, Chi and Liu, Xueqing and Awadallah, Ahmed Hassan},
+	month = dec,
+	year = {2023},
+	note = {ISSN: 2640-3498},
+	pages = {21/1--17},
+	file = {Full Text PDF:/home/jan/snap/zotero-snap/common/Zotero/storage/9R3JIG8H/Wang et al. - 2023 - Cost-Effective Hyperparameter Optimization for Large Language Model Generation Inference.pdf:application/pdf},
+}
+
+@misc{tribes_hyperparameter_2024,
+	title = {Hyperparameter {Optimization} for {Large} {Language} {Model} {Instruction}-{Tuning}},
+	url = {http://arxiv.org/abs/2312.00949},
+	doi = {10.48550/arXiv.2312.00949},
+	abstract = {The fine-tuning of Large Language Models (LLMs) has enabled them to recently achieve milestones in natural language processing applications. The emergence of ever larger LLMs has paved the way for more efficient fine-tuning methods. Among these, the Low-Rank Adaptation (LoRA) method keeps most of the weights of the pre-trained LLM frozen while introducing a low-rank decomposition of the weight matrix, enabling the tuning of only a very small proportion of the network. The performance on downstream tasks of models fine-tuned with LoRA heavily relies on a set of hyperparameters including the rank of the decomposition. In this work, we investigate the choice of these hyperparameters through two main blackbox optimization (BBO) techniques. We examine the whole pipeline of performing fine-tuning and validation on a pre-trained LLM as a blackbox and efficiently explore the space of hyperparameters with the {\textbackslash}nomad algorithm, achieving a boost in performance and human alignment of the tuned model.},
+	urldate = {2024-11-20},
+	publisher = {arXiv},
+	author = {Tribes, Christophe and Benarroch-Lelong, Sacha and Lu, Peng and Kobyzev, Ivan},
+	month = jan,
+	year = {2024},
+	note = {arXiv:2312.00949},
+	keywords = {Computer Science - Computation and Language, Mathematics - Optimization and Control, Fine-tuning, HPO, LLM},
+	file = {Preprint PDF:/home/jan/snap/zotero-snap/common/Zotero/storage/LCC9QEWN/Tribes et al. - 2024 - Hyperparameter Optimization for Large Language Model Instruction-Tuning.pdf:application/pdf;Snapshot:/home/jan/snap/zotero-snap/common/Zotero/storage/9R9QNLD4/2312.html:text/html},
+}
+
+@misc{wu_evolutionary_2024,
+	title = {Evolutionary {Computation} in the {Era} of {Large} {Language} {Model}: {Survey} and {Roadmap}},
+	shorttitle = {Evolutionary {Computation} in the {Era} of {Large} {Language} {Model}},
+	url = {http://arxiv.org/abs/2401.10034},
+	doi = {10.48550/arXiv.2401.10034},
+	abstract = {Large language models (LLMs) have not only revolutionized natural language processing but also extended their prowess to various domains, marking a significant stride towards artificial general intelligence. The interplay between LLMs and evolutionary algorithms (EAs), despite differing in objectives and methodologies, share a common pursuit of applicability in complex problems. Meanwhile, EA can provide an optimization framework for LLM's further enhancement under black-box settings, empowering LLM with flexible global search capacities. On the other hand, the abundant domain knowledge inherent in LLMs could enable EA to conduct more intelligent searches. Furthermore, the text processing and generative capabilities of LLMs would aid in deploying EAs across a wide range of tasks. Based on these complementary advantages, this paper provides a thorough review and a forward-looking roadmap, categorizing the reciprocal inspiration into two main avenues: LLM-enhanced EA and EA-enhanced LLM. Some integrated synergy methods are further introduced to exemplify the complementarity between LLMs and EAs in diverse scenarios, including code generation, software engineering, neural architecture search, and various generation tasks. As the first comprehensive review focused on the EA research in the era of LLMs, this paper provides a foundational stepping stone for understanding the collaborative potential of LLMs and EAs. The identified challenges and future directions offer guidance for researchers and practitioners to unlock the full potential of this innovative collaboration in propelling advancements in optimization and artificial intelligence. We have created a GitHub repository to index the relevant papers: https://github.com/wuxingyu-ai/LLM4EC.},
+	urldate = {2024-11-20},
+	publisher = {arXiv},
+	author = {Wu, Xingyu and Wu, Sheng-hao and Wu, Jibin and Feng, Liang and Tan, Kay Chen},
+	month = may,
+	year = {2024},
+	note = {arXiv:2401.10034},
+	keywords = {Computer Science - Computation and Language, LLM, Computer Science - Artificial Intelligence, Computer Science - Neural and Evolutionary Computing, EA, Survey},
+	file = {Preprint PDF:/home/jan/snap/zotero-snap/common/Zotero/storage/K4C3W7Q3/Wu et al. - 2024 - Evolutionary Computation in the Era of Large Language Model Survey and Roadmap.pdf:application/pdf;Snapshot:/home/jan/snap/zotero-snap/common/Zotero/storage/38C9TJK8/2401.html:text/html},
+}
+
+@misc{liu_large_2024,
+	title = {Large {Language} {Model} {Agent} for {Hyper}-{Parameter} {Optimization}},
+	url = {http://arxiv.org/abs/2402.01881},
+	doi = {10.48550/arXiv.2402.01881},
+	abstract = {Hyperparameter optimization is critical in modern machine learning, requiring expert knowledge, numerous trials, and high computational and human resources. Despite the advancements in Automated Machine Learning (AutoML), challenges in terms of trial efficiency, setup complexity, and interoperability still persist. To address these issues, we introduce a novel paradigm leveraging Large Language Models (LLMs) to automate hyperparameter optimization across diverse machine learning tasks, which is named AgentHPO (short for LLM Agent-based Hyperparameter Optimization). Specifically, AgentHPO processes the task information autonomously, conducts experiments with specific hyperparameters (HPs), and iteratively optimizes them based on historical trials. This human-like optimization process largely reduces the number of required trials, simplifies the setup process, and enhances interpretability and user trust, compared to traditional AutoML methods. Extensive empirical experiments conducted on 12 representative machine-learning tasks indicate that AgentHPO not only matches but also often surpasses the best human trials in terms of performance while simultaneously providing explainable results. Further analysis sheds light on the strategies employed by the LLM in optimizing these tasks, highlighting its effectiveness and adaptability in various scenarios.},
+	urldate = {2025-01-13},
+	publisher = {arXiv},
+	author = {Liu, Siyi and Gao, Chen and Li, Yong},
+	month = feb,
+	year = {2024},
+	note = {arXiv:2402.01881 [cs]},
+	keywords = {Computer Science - Artificial Intelligence, Computer Science - Machine Learning},
+	file = {Preprint PDF:/home/jan/snap/zotero-snap/common/Zotero/storage/8R9LSVYS/Liu et al. - 2024 - Large Language Model Agent for Hyper-Parameter Optimization.pdf:application/pdf;Snapshot:/home/jan/snap/zotero-snap/common/Zotero/storage/SLMXZVBY/2402.html:text/html},
+}
+
+@misc{guo_connecting_2024,
+	title = {Connecting {Large} {Language} {Models} with {Evolutionary} {Algorithms} {Yields} {Powerful} {Prompt} {Optimizers}},
+	url = {http://arxiv.org/abs/2309.08532},
+	doi = {10.48550/arXiv.2309.08532},
+	abstract = {Large Language Models (LLMs) excel in various tasks, but they rely on carefully crafted prompts that often demand substantial human effort. To automate this process, in this paper, we propose a novel framework for discrete prompt optimization, called EvoPrompt, which borrows the idea of evolutionary algorithms (EAs) as they exhibit good performance and fast convergence. To enable EAs to work on discrete prompts, which are natural language expressions that need to be coherent and human-readable, we connect LLMs with EAs. This approach allows us to simultaneously leverage the powerful language processing capabilities of LLMs and the efficient optimization performance of EAs. Specifically, abstaining from any gradients or parameters, EvoPrompt starts from a population of prompts and iteratively generates new prompts with LLMs based on the evolutionary operators, improving the population based on the development set. We optimize prompts for both closed- and open-source LLMs including GPT-3.5 and Alpaca, on 31 datasets covering language understanding, generation tasks, as well as BIG-Bench Hard (BBH) tasks. EvoPrompt significantly outperforms human-engineered prompts and existing methods for automatic prompt generation (e.g., up to 25\% on BBH). Furthermore, EvoPrompt demonstrates that connecting LLMs with EAs creates synergies, which could inspire further research on the combination of LLMs and conventional algorithms.},
+	urldate = {2025-01-13},
+	publisher = {arXiv},
+	author = {Guo, Qingyan and Wang, Rui and Guo, Junliang and Li, Bei and Song, Kaitao and Tan, Xu and Liu, Guoqing and Bian, Jiang and Yang, Yujiu},
+	month = feb,
+	year = {2024},
+	note = {arXiv:2309.08532 [cs]},
+	keywords = {Computer Science - Artificial Intelligence, Computer Science - Computation and Language},
+	annote = {Comment: International Conference on Learning Representations (ICLR) 2024},
+	file = {Preprint PDF:/home/jan/snap/zotero-snap/common/Zotero/storage/GULW8AF5/Guo et al. - 2024 - Connecting Large Language Models with Evolutionary Algorithms Yields Powerful Prompt Optimizers.pdf:application/pdf},
+}
+
+%------------------Attention is all you need - 2017 ---------------
+@inproceedings{NIPS2017_3f5ee243,
+author = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N and Kaiser, \L ukasz and Polosukhin, Illia},
+booktitle = {Advances in Neural Information Processing Systems},
+editor = {I. Guyon and U. Von Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett},
+pages = {},
+publisher = {Curran Associates, Inc.},
+title = {Attention is All you Need},
+url = {https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf},
+volume = {30},
+year = {2017}
+}
+
+%------------------ GPT4 - 2023 ---------------
+@misc{openai2023gpt4,
+    title         = {GPT-4 Technical Report},
+    author        = {OpenAI},
+    year          = {2023},
+    month         = {March},
+    publisher     = {OpenAI},
+    note          = {\url{https://openai.com/research/gpt-4}}
+}
+
+
+%------------------ LLama 3.1 - 2024 ---------------
+@misc{touvron2024llama,
+    title         = {LLaMA 3: Open and Adaptable Foundation Models},
+    author        = {Guillaume Lample and Hugo Touvron and Lucas Beeching and others},
+    year          = {2024},
+    month         = {July},
+    publisher     = {Meta AI},
+    note          = {\url{https://github.com/meta-llama/llama3}}
+}
+
+%------------------ Alpaca dataset - 2023 ---------------
+@misc{alpaca,
+  author = {Rohan Taori and Ishaan Gulrajani and Tianyi Zhang and Yann Dubois and Xuechen Li and Carlos Guestrin and Percy Liang and Tatsunori B. Hashimoto },
+  title = {Stanford Alpaca: An Instruction-following LLaMA model},
+  year = {2023},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/tatsu-lab/stanford_alpaca}},
+}
+
+%------------------ Databricks' Dolly - 2023 ---------------
+@online{DatabricksBlog2023DollyV2,
+    author    = {Mike Conover and Matt Hayes and Ankit Mathur and Jianwei Xie and Jun Wan and Sam Shah and Ali Ghodsi and Patrick Wendell and Matei Zaharia and Reynold Xin},
+    title     = {Free Dolly: Introducing the World's First Truly Open Instruction-Tuned LLM},
+    year      = {2023},
+    url       = {https://www.databricks.com/blog/2023/04/12/dolly-first-open-commercially-viable-instruction-tuned-llm},
+    urldate   = {2023-06-30}
+}
+
+%------------------ Low Rank Adaptation - 2021 ---------------
+@misc{hu2021loralowrankadaptationlarge,
+title={LoRA: Low-Rank Adaptation of Large Language Models},
+author={Edward J. Hu and Yelong Shen and Phillip Wallis and Zeyuan Allen-Zhu and Yuanzhi Li and Shean Wang and Lu Wang and Weizhu Chen},
+year={2021},
+eprint={2106.09685},
+archivePrefix={arXiv},
+primaryClass={cs.CL},
+url={https://arxiv.org/abs/2106.09685},
+}
+
+%------------------ DiRect - 1993 ---------------
+@article{jones1993direct,
+    author    = {Donald R. Jones and Cary D. Perttunen and Bruce E. Stuckman},
+    title     = {Lipschitzian Optimization Without the Lipschitz Constant},
+    journal   = {Journal of Optimization Theory and Applications},
+    year      = {1993},
+    volume    = {79},
+    number    = {1},
+    pages     = {157--181},
+    publisher = {Springer}
+}
+
+%------------------ Fractals - 2022 ---------------
+@unpublished{firmin:hal-04474444,
+TITLE = {{A fractal-based decomposition framework for continuous optimization}},
+AUTHOR = {Firmin, Thomas and Talbi, El-Ghazali},
+URL = {https://hal.science/hal-04474444},
+NOTE = {working paper or preprint},
+YEAR = {2022},
+MONTH = Jul,
+KEYWORDS = {Continuous optimization ; Metaheuristic ; High-dimensional optimization ; Decomposition ; Fractal ; Tree search},
+PDF = {https://hal.science/hal-04474444v1/file/fractal_decomposition_jogo-6.pdf},
+HAL_ID = {hal-04474444},
+HAL_VERSION = {v1},
+}
+
+%------------------ SOO - 2011 ---------------
+@inproceedings{munos2011soo,
+    author    = {Rémi Munos},
+    title     = {Optimistic Optimization of a Deterministic Function without the Knowledge of its Smoothness},
+    booktitle = {Advances in Neural Information Processing Systems 24 (NeurIPS)},
+    year      = {2011},
+    pages     = {783--791}
+}
+
+%------------------ BaMSOO - 2014 ---------------
+@article{wang2014bamsoo,
+  title={Bayesian multi-scale optimistic optimization},
+  author={Wang, Ziyu and Shakibi, Babak and Jin, Lin and de Freitas, Nando},
+  journal={Proceedings of the 17th International Conference on Artificial Intelligence and Statistics},
+  volume={33},
+  pages={1005--1013},
+  year={2014},
+  publisher={Proceedings of Machine Learning Research}
+}
+
+%------------------ GLUE - 2018 ---------------
+@inproceedings{wang2018glue,
+  title={GLUE: A multi-task benchmark and analysis platform for natural language understanding},
+  author={Wang, Alex and Singh, Amanpreet and Michael, Julian and Hill, Felix and Levy, Omer and Bowman, Samuel R.},
+  booktitle={Proceedings of the 2018 EMNLP Workshop BlackboxNLP: Analyzing and Interpreting Neural Networks for NLP},
+  pages={353--355},
+  year={2018}
+}
+
+%------------------ MMLU - 2021 ---------------
+@article{hendrycks2021mmlu,
+  title={Measuring Massive Multitask Language Understanding},
+  author={Hendrycks, Dan and Burns, Collin and Basart, Steven and Zou, Andy and Mazeika, Mantas and Song, Dawn and Steinhardt, Jacob},
+  journal={arXiv preprint arXiv:2009.03300},
+  year={2020}
+}
+
+
+
+
+%------------------ BOHB - 2018 ---------------
+@article{DBLP:journals/corr/abs-1807-01774,
+  author       = {Stefan Falkner and
+                  Aaron Klein and
+                  Frank Hutter},
+  title        = {{BOHB:} Robust and Efficient Hyperparameter Optimization at Scale},
+  journal      = {CoRR},
+  volume       = {abs/1807.01774},
+  year         = {2018},
+  url          = {http://arxiv.org/abs/1807.01774},
+  eprinttype    = {arXiv},
+  eprint       = {1807.01774},
+  timestamp    = {Mon, 13 Aug 2018 16:47:48 +0200},
+  biburl       = {https://dblp.org/rec/journals/corr/abs-1807-01774.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+

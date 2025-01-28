@@ -44,17 +44,13 @@
                      outer sep=0pt, inner sep=0pt},
      ]
    \useasboundingbox (0,0) rectangle (\paperwidth,\paperheight);
-   \node [mainlogo] at (0,\paperheight+1) {\titlelogo};
+   \node [mainlogo] at (\hmargin,\canvastop) {\titlelogo};
    \node [title] at (\fullpageinnerhmargin+0.15\textwidth,.66\paperheight) {%
-          {\Huge\textbf{\inserttitle}}\\[3ex]
-          {\Large \insertsubtitle}\\[2ex]
+          {\Huge\textbf{\inserttitle}}\\
+          {\barrecouleur}\\[2ex]
+          {\Large \insertsubtitle}\\[3ex]
           {\insertauthor}
     };
-    \node [anchor = south east,align = right] at (\paperwidth - \hmargin,\footerheight)
-      {\large \semester \text{ -} \course};
-    %\shade[left color=bleu_utt_fonce, right color=bleu_utt_clair] 
-    %(\fullpageinnerhmargin+0.15\textwidth,.7\paperheight - 1.25cm) 
-    %rectangle (\fullpageinnerhmargin+0.15\textwidth+3cm,.7\paperheight - 1.35cm);
   \end{tikzpicture}
 }
 
@@ -118,26 +114,16 @@
 
 \defbeamertemplate*{frametitle}{inria}[1][]{%
   % textblock 
-
-  \hspace*{-\fullpageinnerhmargin}%
-  %
-  \begin{tikzpicture}[%
-    mainlogo/.style={anchor=north west,
-                outer sep=0pt, inner sep=0pt},
-    ]
-    \useasboundingbox (0,0) rectangle (\paperwidth,\paperheight);
-    \node [mainlogo] at (0,\paperheight+0.1cm) {\titlelogo};
-    \end{tikzpicture}
-
-  \vspace{-\paperheight+\banniereheight}
-
-  \begin{textblock*}{\textwidth}(\hmargin+\anglewidth,\vmargin+\banniereheight-0.1cm)
+  \begin{textblock*}{\anglewidth}(\hmargin,\vmargin)
+      \anglepng
+  \end{textblock*}
+  \begin{textblock*}{\textwidth}(\hmargin+\anglewidth,\vmargin+\angleheight)
       \textbf{\LARGE \insertframetitle}
   \end{textblock*}
 
 \settoheight{\titleH}{\insertframetitle}
 \addtolength{\titleH}{\angleheight}
-\vspace*{1\titleH}
+\vspace*{2\titleH} 
 
 }
 

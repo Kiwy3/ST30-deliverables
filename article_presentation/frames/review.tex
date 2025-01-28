@@ -1,0 +1,86 @@
+%---------------------------------- Prompt Engineering -------------------------------
+\begin{frame}{Prompt Engineering}
+    Prompt : process of interacting with an artificial intelligence (AI) system by providing specific instructions or queries to achieve a desired outcome. 
+
+    Example with article \cite{guo_connecting_2024}, when a second LLM is used to modify the prompt.
+
+    \begin{columns}
+        
+        \begin{column}[t]{0.45\textwidth}
+            \begin{block}{Pros}
+                Don't need to deal with architecture, weights : 
+                act like the LLM is a generating blackbox
+                
+            \end{block}
+
+        \end{column}
+
+        \begin{column}[t]{0.45\textwidth}
+            \begin{block}{Cons}
+                Low impact, locate this work as the end-user, not so much usable
+                
+            \end{block}
+
+        \end{column}
+
+    \end{columns}
+
+    
+\end{frame}
+
+%---------------------------------- LLM to Optimization -------------------------------
+\begin{frame}{LLM applied to Optimization}
+    Multiples articles show the use of LLM to develop or code optimization algorithms, in particular Evolutionnary Algorithm. One intersting impact is to popularize the development of optimization algorithm.
+
+    \begin{columns}
+        
+        \begin{column}[t]{0.45\textwidth}
+            \begin{block}{Pros}
+                Extend the fields of Meta-Heuristics, with new kinds of operators. 
+                
+            \end{block}
+
+        \end{column}
+
+        \begin{column}[t]{0.45\textwidth}
+            \begin{block}{Cons}
+                Low impact, don't achieve remarkable performance. 
+            \end{block}
+
+        \end{column}
+
+    \end{columns}
+
+    
+\end{frame}
+
+%---------------------------------- Auto DNN -------------------------------
+\begin{frame}{Auto DNN}
+    \begin{block}{Sub-domains}
+        \begin{itemize}
+            \item \textbf{HyperParameter Optimization(HPO) : Automaticaly define best hyper-parameters, from training to inference} 
+            \item Neural Architecture Search(NAS) : Define the best architecture, from scratch or from pruning an existing one
+        \end{itemize}
+        
+    \end{block}
+
+
+    \begin{block}{Metrics}
+        \begin{itemize}
+            \item Performance metrics : Accuracy, Latency
+            \item Ressource metrics : inference time, memory usage, energy consumption
+        \end{itemize}
+        
+    \end{block}
+    
+\end{frame}
+
+%---------------------------------- Review Summary -------------------------------
+\begin{frame}{Summary}
+    \begin{figure}
+        \input{imgs/summary_review.tex}
+        \caption{Summary of links between LLM and Optimization}
+    \end{figure}
+    
+    
+\end{frame}
