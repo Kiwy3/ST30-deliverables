@@ -1,68 +1,89 @@
 %\makeglossaries
-%general
+
+
+%Institution
 \newacronym{bonus}{BONUS}{Big Optimization aNd Ultra-Scale computing}
+\newacronym{inria}{INRIA}{National Research Institute for Computer Science and Automation}
 \newacronym{utt}{UTT}{University of Technology of Troyes}
+\newacronym{pepr}{PEPR}{Priority Research Program and Equipment}
+
+
+% Generic acronyms
 \newacronym{sota}{SOTA}{State-of-the-art}
 \newacronym{flops}{FLOPS}{Floating-Point Operations per Second}
 \newacronym{ai}{AI}{Artifical Intelligence}
-\newacronym{pepr}{PEPR}{Priority Research Program and Equipment}
+\newacronym{ml}{ML}{Machine Learning}
+\newacronym{poc}{POC}{Proof-of-Concept}
+\newacronym{cli}{CLI}{Command Line Interface}
+\newacronym{mcq}{MCQ}{Multi-Choice Question}
+\newacronym{oop}{OOP}{Object Oriented Programming}
+\newacronym{wrt}{w.r.t.}{with respect to}
 
-%chap 2.1
-\newacronym{llm}{LLM}{Large Language Models}
-\newacronym{dnn}{DNN}{Deep Neural Networks}
-\newacronym{mha}{MHA}{Multi-Head Attention}
+% DNN specific
+\newacronym[shortplural=DNNs, longplural={Deep Neural Networks}]{dnn}{DNN}{Deep Neural Network}
 \newacronym{ann}{ANN}{Artificial Neural Networks}
 \newacronym{nn}{NN}{Neural Networks}
-\newacronym{nlp}{NLP}{Natural Language Processing}
-\newacronym{gpt}{GPT}{Generative Pre-Trained}
 \newacronym{sgd}{SGD}{Stochastic Gradient Descent}
 \newacronym{adam}{Adam}{Adaptive Moment Estimation}
 \newacronym{lstm}{LTSM}{Long Short-Term Memory}
-\newacronym{peft}{PEFT}{Parameter Efficient Fine-Tuning}
-\newacronym{lora}{LoRA}{Low Rank Adaptation}
 \newacronym{mse}{MSE}{Mean-Squared Error}
 \newacronym{mlp}{MLP}{Multi-Layer Perceptron}
 \newacronym{cnn}{CNN}{Convolutional Neural Networks}
-\newacronym{vae}{VAE}{Variable Auto-Encoder}
+\newacronym{vae}{VAE}{Variational Auto-Encoder}
+\newacronym{adamw}{AdamW}{Adaptive Moment Estimation with Weight Decay}
+\newglossaryentry{hyperparameter}
+{
+    name=hyperparameter,
+    plural=hyperparameters,
+    description={Parameters not learned by the model}
+}
+% LLM
+\newacronym[shortplural=LLMs, longplural={Large Language Models}]{llm}{LLM}{Large Language Model}
+\newacronym{mha}{MHA}{Multi-Head Attention}
+\newacronym{nlp}{NLP}{Natural Language Processing}
+\newacronym{gpt}{GPT}{Generative Pre-Trained}
+\newacronym{peft}{PEFT}{Parameter Efficient Fine-Tuning}
+\newacronym{lora}{LoRA}{Low Rank Adaptation}
 
-
-%chap 2.2
-\newacronym{bo}{BO}{Bayesian Optimization}
-\newacronym{nas}{NAS}{Neural Architecture Search}
-\newacronym{hpo}{HPO}{Hyper-Parameter Optimization}
-\newacronym{automl}{Auto-ML}{Automated Machine Learning}
-\newacronym{autodnn}{Auto-DNN}{Automated Deep Neural Networks}
+% Optimization
 \newacronym{mvop}{MVOP}{Mixed Variable-size Optimization Problem}
-\newacronym{ml}{ML}{Machine Learning}
 \newacronym{gs}{GS}{Grid Search}
 \newacronym{rs}{RS}{Random Search}
-\newacronym{ea}{EA}{Evolutionnary Algorithms}
+\newacronym{ea}{EA}{Evolutionnary Algorithm}
 \newacronym{ga}{GA}{Genetic Algorithms}
 \newacronym{ils}{ILS}{Iterated Local Search}
 \newacronym{sa}{SA}{Simulated Annealing}
-\newacronym{pbo}{PBO}{Partition Based Optimization}
+\newacronym{lhs}{LHS}{Latin Hypercube Sampling}
+% BO
+\newacronym{bo}{BO}{Bayesian Optimization}
 \newacronym{smbo}{SMBO}{Surrogate-Model Based Optimization}
+\newacronym{gp}{GP}{Gaussian Process}
+\newacronym{bogp}{BO-GP}{Bayesian Optimization using Gaussian Process}
+\newacronym{ei}{EI}{Expected Improvement}
+\newacronym{logei}{LogEI}{Logarithm of Expected Improvement}
+% PBO
+\newacronym{pbo}{PBO}{Partition Based Optimization}
 \newacronym{soo}{SOO}{Simultaneous Optimistic Optimization}
 \newacronym{fda}{FDA}{Fractal Decomposition Algorithm}
 \newacronym{direct}{DIRECT}{DIviding RECTangle}
-\newacronym{gp}{GP}{Gaussian Process}
-\newacronym{gpu}{GPU}{Graphics Processing Unit}
-\newacronym{hpc}{HPC}{High Performance Computing}
-\newacronym{poc}{POC}{Proof-of-Concept}
-\newacronym{qc}{QC}{Quality Control}
-\newacronym{scm}{SCM}{Supply Chain Management}
-
-% Chap 3
-\newacronym{adamw}{AdamW}{Adaptive Moment Estimation with Weight Decay}
-\newacronym{cli}{CLI}{Command Line Interface}
-\newacronym{mcq}{MCQ}{Multi-Choice Question}
-\newacronym{lhs}{LHS}{Latin Hypercube Sampling}
 \newacronym{bamsoo}{BaMSOO}{Bayesian Multi Scale Optimistic Optimization}
 \newacronym{mcts}{MCTS}{Monte Carlo Tree Search}
 \newacronym{ucb}{$\mathcal {UCB}$}{Upper Confidence Bound}
 \newacronym{lcb}{LCB}{Lower Confidence Bound}
-\newacronym{oop}{OOP}{Object Oriented Programming}
-
+% Auto DNN
+\newacronym{nas}{NAS}{Neural Architecture Search}
+\newacronym[first = {Hyperparameter Optimization(HPO)}]{hpo}{HPO}{\Gls{hyperparameter} Optimization}
+\newacronym{automl}{Auto-ML}{Automated Machine Learning}
+\newacronym{autodnn}{Auto-DNN}{Automated Deep Neural Networks}
+% HPC
+\newacronym{dp}{DP}{Data Parallel}
+\newacronym{ddp}{DDP}{Distributed Data Parallel}
+\newacronym{fsdp}{FSDP}{Fully-Sharded Data Parallel}
+\newacronym{gpu}{GPU}{Graphics Processing Unit}
+\newacronym{hpc}{HPC}{High Performance Computing}
+% Manufacturing
+\newacronym{qc}{QC}{Quality Control}
+\newacronym{scm}{SCM}{Supply Chain Management}
 
 % Glossary
 \newglossaryentry{transformer}
@@ -71,13 +92,11 @@
     plural=transformers,
     description={Neural networks layers type using attention mechanisms}
 }
-\newglossaryentry{fine_tuning}
-{
+\newglossaryentry{ft}{
     name=fine-tuning,
     description={2nd step of \acrshort{llm} training}
 }
-\newglossaryentry{pre-training}
-{
+\newglossaryentry{pt}{
     name=pre-training,
     description={1st step of training \acrshort{llm}}
 }
@@ -87,30 +106,30 @@
     name=instruction tuning,
     description={Fine-tuning with Instruction and behavior dataset}
 }
-\newglossaryentry{hyperparameter}
-{
-    name=hyperparameter,
-    plural=hyperparameters,
-    description={Parameters not learned by the model}
-}
-\newglossaryentry{search_space}
-{
+
+\newglossaryentry{search_space}{
     name=search space,
     plural=search spaces,
-    description={need to define it}
+    description={The sets of possible solutions for an optimization problem}
 }
 
-\newglossaryentry{search_strat}
-{
-    name=search strategy ,
+\newglossaryentry{search_strat}{
+    name=search strategy,
     plural=search strategies,
-    description={need to define it}
+    parent = search_space,
+    description={The ways to generate the solutions to evaluate in the search space}
 }
+
+\newglossaryentry{himmelblau}{
+    name=himmelblau,
+    description={well-known non-convex function, equation \ref{eq : himmelblau} }
+}
+
 \newglossaryentry{perf_est}
 {
     name=performances estimation strategy ,
     plural=performances estimation strategies,
-    description={need to define it}
+    description={All configurations to evaluate a solution}
 }
 \newglossaryentry{pytorch}{
     name = PyTorch,
@@ -121,10 +140,77 @@
     description = {automated deep learning training framework}
 }
 \newglossaryentry{litgpt}{
-    name = litgpt,
+    name = LitGPT,
     description = {PyTorch based framework for training \acrshort{llm}}
 }
 \newglossaryentry{hf}{
     name = HuggingFace,
     description = {Deep Learning Hub with models and datasets}
+}
+
+\newglossaryentry{hs}{
+    name = HellaSwag,
+    description = {Validation Dataset for LLM Fine Tuning}
+}
+
+
+
+\newglossaryentry{bb}{
+    name = black-box objective function, 
+    description = {An objective function that can not be expressed analytically}
+}
+
+\newglossaryentry{mf}{
+    name = multi-fidelity, 
+    description = {Optimization approach were the solution is not always fully evaluated}
+}
+
+\newglossaryentry{acq_fun}{
+    name = acquisition function, 
+    description = {Representation of a surrogate model for the objective function}
+}
+
+
+\newglossaryentry{exascale}{
+    name = exascale, 
+    description = {Very high performance computing resources}
+}
+\newglossaryentry{encoder_decoder}{
+    name = encoder-decoder, 
+    description = {\acrshort{llm} model using the whole \gls{transformer} architecture}
+}
+\newglossaryentry{decoder}{
+    name = decoder-only, 
+    description = {\acrshort{llm} model with only the decoder part of the \gls{transformer}}
+}
+\newglossaryentry{encoder}{
+    name = encoder-only, 
+    description = {\acrshort{llm} model with only the encoder part of the \gls{transformer}}
+}
+
+\newglossaryentry{rank}{
+    name = LoRA rank, 
+    description = {value used for scaling the reduction of \acrfull{lora}}
+}
+\newglossaryentry{scale}{
+    name = LoRA scale, 
+    description = {Value used to weight the influence of fine-tuning}
+}
+\newglossaryentry{lr}{
+    name = learning rate, 
+    description = {value used to weight the gradient reduction during backpropagation}
+}
+\newglossaryentry{dropout}{
+    name = dropout probability, 
+    plural = dropout,
+    description = {probability of removing a neuron during backpropagation}
+}
+\newglossaryentry{decay}{
+    name = weight decay, 
+    description = {value used to reduce the value of weights during training, to prevent overfitting}
+}
+
+\newglossaryentry{llama}{
+    name = LlaMa, 
+    description = {Meta sets of \acrshort{llm} models}
 }

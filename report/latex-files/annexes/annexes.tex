@@ -7,19 +7,32 @@
 \appendix
 \chapter{Appendix}
 
-\SubAppendix{Official Documents}
-
-\SubAppendix{Annexe 1 : Sujet de stage}
-\includepdf[pages=-]{latex-files/annexes/Internship.pdf}
-%\includegraphics[ scale = 0.75,page = 1]{latex-files/annexes/Internship.pdf}
-
-\SubAppendix{Algorithm}
-
+\SubAppendix{\acrfull{bamsoo} algorithm}
 \label{ap:bamsoo_algo}
 \input{latex-files/annexes/bamsoo.tex}
 
-\SubAppendix{Captures d'écran}
+\SubAppendix{Internship offer}
+\label{ap:internship}
+\includepdf[pages=-]{latex-files/annexes/Internship.pdf}
 
-\SubAppendix{Formules chimiques}
+\SubAppendix{\acrfull{lhs} algorithm}
+\label{ap:lhs_algo}
 
-\SubAppendix{Extraits de code source}
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \KwIn{Number of samples $N$, Number of dimensions $D$}
+    \KwOut{$N \times D$ matrix of sampled points}
+    
+    Initialize an empty matrix $M$ of size $N \times D$\;
+    
+    \For{each dimension $i \in \{1, 2, \dots, D\}$}{
+        Divide the range $[0, 1]$ into $N$ equally spaced intervals\;
+        Shuffle the interval indices randomly\;
+        \For{each sample $j \in \{1, 2, \dots, N\}$}{
+            Pick a random value $x$ within the $j$-th interval\;
+            Assign $x$ to $M[j][i]$\;
+        }
+    }
+    \Return{$M$}
+    \caption{Latin Hypercube Sampling Algorithm}
+\end{algorithm}

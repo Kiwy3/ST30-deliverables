@@ -80,7 +80,7 @@
     -- ([yshift=-2.2cm, xshift = 2cm]enc_fit.north)
      -- ([yshift=-2.2cm, xshift = 3.8cm]enc_fit.north)
      -- (mha2.south);
-\draw[arrow] ([yshift = -0.55cm, xshift = -0.4cm]mha2.south) -- ([xshift = -0.4cm]mha2.south);
+\draw[arrow] ([yshift = -0.45cm, xshift = -0.4cm]mha2.south) -- ([xshift = -0.4cm]mha2.south);
 
 % encoder input
 \node (enc_plus) [sum, below of = enc_base,yshift=-0.1cm]{\Large $+$};
@@ -121,7 +121,7 @@
 \draw[arrow] (out.north) -- ([yshift = 0.5cm]out.north);
 
 % Encoder and Decoder Legend
-\node [left of = enc_base,xshift= -2cm]{\textbf{Encoder}};
-\node [right of = dec_base,xshift= 2cm]{\textbf{Decoder}};
+\node [left of = enc_base,xshift= -2cm, yshift = 1cm]{\textbf{Encoder}};
+\node [right of = dec_base,xshift= 2cm, yshift = 1cm]{\textbf{Decoder}};
 
 \end{tikzpicture}

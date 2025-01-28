@@ -86,14 +86,14 @@ def iterated_local_search(objective, bounds, n_iter, step_size, n_restarts, p_si
 
 def himmel_plot():
     fig,ax = plt.subplots()
-    x = np.linspace(-4,4,200)
+    x = np.linspace(-1,4,200)
     X,Y = np.meshgrid(x,x)
     Z = objective([X,Y])
 
-    map = ax.contourf(X,Y,Z,cmap="plasma",levels=1000)
+    map = ax.contourf(X,Y,Z,cmap="Blues",levels=50,alpha=0.8,vmin=-50,vmax=400)
     fig.colorbar(map)
 
-    plt.title("Iterated Local Search on Himmelblau function")
+    #plt.title("Iterated Local Search on Himmelblau function")
 # seed the pseudorandom number generator
 seed(73754615)
 # define range for input
@@ -101,9 +101,9 @@ bounds = asarray([[-4.0, 4.0], [-4.0, 4.0]])
 # define the total iterations
 n_iter = 8
 # define the maximum step size
-step_size = 0.5
+step_size = 0.4
 # total number of random restarts
-n_restarts = 3
+n_restarts = 4
 # perform the hill climbing search
 best, score,history, unpromising= iterated_local_search(objective, bounds, n_iter, step_size, n_restarts=n_restarts, p_size=0.1)
 print('Done!')
@@ -115,7 +115,11 @@ for i in range(len(history)):
     x1,x2 = history[i]
     plt.scatter(x1,x2,s=10, label = f"local search {i}")
     for i in range(len(x1)):
-      plt.text(x1[i],x2[i]+0.1,str(i))
+      if i%2 == 0:
+         step = 0.05
+      else :
+         step = -0.05
+      plt.text(x1[i]+step,x2[i]+0.05,str(i))
 
 k1= []
 k2 = []
@@ -123,7 +127,7 @@ for i in range(len(unpromising)):
    for j in range(len(unpromising[i])):
       k1.append(unpromising[i][0][j])
       k2.append(unpromising[i][1][j])
-plt.scatter(k1,k2,s=6, c="white", label = "Unpromising")
+plt.scatter(k1,k2,s=6, c="black", label = "Unpromising")
 plt.legend()
-
+plt.tight_layout()
 plt.savefig("assets/img/chap_2/plots/ils.png")

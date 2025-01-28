@@ -1,86 +1,61 @@
-\begin{tikzpicture}[node distance=2cm]
+\newcommand{\Dtrain}{\mathcal{D}_{train}}
+\newcommand{\Dval}{\mathcal{D}_{val}}
+\newcommand{\model}{\mathcal{M}}
 
-% Define block styles
-\tikzstyle{class}=[rectangle split,rectangle split parts=2,draw,text centered]
-\tikzstyle{action} = [rectangle, rounded corners, minimum width=2cm, minimum height=1cm,text centered, draw=black, fill=red!30]
-\tikzstyle{decision} = [diamond,text centered, draw=black, fill=yellow!30]
-\tikzstyle{final} = [rectangle, minimum width=2cm, minimum height=1cm,text centered, draw=black]
+\begin{tikzpicture}
+    \tikzstyle{data}=[rectangle split, rectangle split parts = 2,draw,text centered, fill=yellow!20]
+    \tikzstyle{model} = [rectangle, draw, text centered, fill = blue!20]
+    \tikzstyle{function} = [rectangle, draw, text centered, fill = red!20, font = \bfseries]
+    \tikzstyle{metrics} = [rectangle, text centered, draw, fill=teal!20]
+    
+\tikzstyle{dot_arrow} = [thick,dotted,->,>=stealth]
 
-% Define arrow styles
-\tikzstyle{tarrow} = [thick,->,>=stealth]
-\tikzstyle{larrow} = [thick,dotted,->,>=stealth]
-\tikzstyle{coin} = [thick]
-\tikzstyle{light} = [thick,dotted]
-
-
-% Define nodes
-
-% black box function
-\node (model) [class]
+\node (train_data) [data]
     {
-        \textbf{Model}
-        \nodepart{second} hyperparameters};  
+        \textbf{Training Data}
+        \nodepart{second} Alpaca};  
 
-\node (trainer) [class, below of=model]
+\node (PT_model)[model, below of = train_data]{Pre Trained Model };
+
+\node (training) [function, right of = PT_model, anchor = west, xshift = 1.7cm]{Training};
+
+\node (hp) [metrics, above of = training]{hyperparameters};
+
+\node (FT_model) [model, right of = training, anchor = west, xshift = 0.7cm]{Fine Tuned model};
+
+\node (val_data) [data, above of = FT_model, xshift = 0.5cm]
     {
-        \textbf{Trainer}
-        \nodepart{second} hyperparameters};
+        \textbf{Validation Data}
+        \nodepart{second} Hellaswag}; 
+        
+\node (evaluate) [function, right of = FT_model, anchor = west, xshift = 1cm]{Evaluate};
 
-\node (training)[action,right of = model,xshift=2cm]{Training};
-\node (evaluate)[action,below of = training]{Evaluate};
-
-\node(bbfunction)[draw, thick, dashed, rounded corners, fit=(model) (trainer) (training) (evaluate), inner sep=0.5cm, label=above:{Black-Box function}] {};
-
-
-%datasets
-\node (train_data) [class, right of=training,xshift=2cm]
-    {
-        \textbf{Training Dataset}
-        \nodepart{second} Alpaca};
-
-\node (val_data) [class, right of=evaluate,xshift=2cm]
-    {
-        \textbf{Validation/Testing Dataset}
-        \nodepart{second} Hellaswag, MMLU };
-
-% decision
-\node (decision)[decision,below of = evaluate,yshift=-1cm,align=center]{if \\ $n_{eval} \leq$ budget};
-
-\node (final)[final,right of = decision,xshift=2cm]{return best point};
-
-% HPO
-\node (hpo) [class, below of=trainer,yshift=-1cm]
-    {
-        \textbf{HPO}
-        \nodepart{second} optimization loop};
+\node (metrics) [metrics, right of = evaluate, anchor = west, xshift = 0.3cm]{metrics};
 
 
-% functionnal node
-\node (trainerright) [right of=trainer]{};
-\node (modelright) [right of=model]{};
-\node (hpoleft) [left of = hpo]{};
-\node (modelleft) [left of = model]{};
-\node (trainerleft) [left of = trainer]{};
+\begin{scope}[on background layer]
+    \node(bbfunction)[draw, thick,fill=black!10,draw=black!20, dashed, rounded corners, fit=(train_data) (PT_model) (training) (FT_model)(val_data)(evaluate)(metrics), inner sep=0.3cm, label=160:{Black-Box function}] {};
+\end{scope}
+
+\draw [dot_arrow] (train_data) -- (training);
+\draw [dot_arrow] (PT_model) -- (training);
+\draw [dot_arrow] (hp) -- (training);
+\draw [dot_arrow] ([xshift = -1.9cm]bbfunction.north) -- (hp.north);
+\draw [dot_arrow] (training) -- (FT_model);
+\draw [dot_arrow] (val_data) -- (evaluate);
+\draw [dot_arrow] (FT_model) -- (evaluate);
+\draw [dot_arrow] (evaluate) -- (metrics);
+\draw [dot_arrow] (metrics) -- ([xshift = 6.5cm]bbfunction.north);
+
+\node (hpo) [circle, above of = bbfunction, yshift = 2cm,xshift=2.2cm, draw, fill = teal!40]{HPO};
+\node [left of = hpo, yshift = 0.25cm, anchor = east]{solution};
+\node [right of = hpo, yshift = 0.25cm,anchor = west]{validation accuracy};
+
+%\draw [thick,->,>=stealth]    ([xshift = 6.25cm]bbfunction.north) to[out=90,in=-5] (hpo.east);
+\draw [thick,<-,>=stealth]     (hpo.east)to[out=0,in=90] ([xshift = 6.5cm]bbfunction.north);
+\draw [thick,->,>=stealth]     (hpo.west) to[out=180,in=90] ([xshift = -1.9cm]bbfunction.north);
 
 
-% arrow inside bb function
-\draw [larrow] (model) -- (training);
-\draw [light] (trainer) -- (trainerright.center);
-\draw [light] (trainerright.center) -- (modelright.center);
-\draw [larrow] (modelright.center) -- (training);
-\draw [larrow] (training) -- (evaluate);
 
-% arrows outside bb function
-\draw [tarrow] (train_data) -- (training);
-\draw [tarrow] (val_data) -- (evaluate);
-\draw [tarrow] (evaluate) -- (decision);
-\draw [tarrow] (decision) -- (hpo);
-\draw [tarrow] (decision) -- (final);
-
-% arrow from hpo to bb function
-\draw [coin] (hpo) -- (hpoleft.center);
-\draw [coin] (hpoleft.center) -- (modelleft.center);
-\draw [tarrow] (modelleft.center) -- (model);
-\draw [tarrow] (trainerleft.center) -- (trainer);
 
 \end{tikzpicture}
