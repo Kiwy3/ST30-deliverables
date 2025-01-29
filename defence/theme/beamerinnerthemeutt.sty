@@ -26,13 +26,15 @@
 %% PREMIERE PLANCHE - TITRE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\defbeamertemplate*{title page}{inria}[1][]{%
-  \hspace*{1.9cm}{\Huge\textbf{\inserttitle}}\\[3ex]
-  \hspace*{2cm}{\Large \insertsubtitle}\\[2ex]
-  \hspace*{2cm}{\insertauthor}
+\defbeamertemplate*{old title page}{inria}[1][]{%
+\begin{textblock}{3}(1, 1)
+  {\Large\textbf{\inserttitle}}\\[3ex]
+  {\large \insertsubtitle}\\[2ex]
+  {\insertauthor}
+\end{textblock}
 }
 
-\defbeamertemplate*{old title page}{inria}[1][]{%
+\defbeamertemplate*{title page}{inria}[1][]{%
   %
   % reset to (0,0) 
   % - only horizontal, which is set to fullpageinnerhmargin
@@ -43,13 +45,13 @@
   \begin{tikzpicture}[%
             title/.style={text=inria-noir,
                      anchor=north west,align=left,
-                     text width={\dimexpr\paperwidth-2\hmargin},
+                     text width={\dimexpr\paperwidth-3\hmargin},
                      inner sep=0pt,outer sep=0pt},
        mainlogo/.style={anchor=north west,
                      outer sep=0pt, inner sep=0pt},
      ]
-   \useasboundingbox (0,0) rectangle (\paperwidth,\paperheight);
-   \node [title] at (\fullpageinnerhmargin+0.15\textwidth,0.8\paperheight) {%
+   \useasboundingbox (0,0) rectangle (\paperwidth-2\hmargin,\paperheight);
+   \node [title] at (\fullpageinnerhmargin,0.8\paperheight) {%
           {\Huge\textbf{\inserttitle}}\\[3ex]
           {\Large \insertsubtitle}\\[2ex]
           {\insertauthor}
