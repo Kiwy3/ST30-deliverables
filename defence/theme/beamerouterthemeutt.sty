@@ -9,11 +9,54 @@
 
 \defbeamertemplate*{headline}{inria}
 {%
-      \leavevmode
+  \titlelogo
       % empty
 }
 
+
+
 \defbeamertemplate*{footline}{inria}
+  {%
+  \ifnum\thepage>1
+      \leavevmode % classical page
+      \hbox{%
+        \begin{beamercolorbox}[wd = \paperwidth, ht=\footerheight, colsep=0pt]{section in head/foot}
+          
+          \vspace*{4pt}
+          \hspace*{\hmargin}
+          \small{\beamer@shortdate}
+                    \hfill 
+          \vspace*{4pt}          
+          \raisebox{3pt}{\footnotesize\insertnavigation{0.7\paperwidth}}
+          \hfill
+          \small\insertframenumber
+          \hspace*{\hmargin}        
+        \end{beamercolorbox}%
+      }
+  \else
+      \ifnum \thepage <2 % title page
+
+      \begin{beamercolorbox}[wd = \paperwidth, ht=\footerheight, colsep=0pt]{section in head/foot}
+        \vspace*{5pt}
+        \hspace*{\hmargin} 
+        \large
+        { \text{Semester}  \semester}
+        \hfill
+        \course
+        \hspace*{\hmargin}
+
+        
+        
+        
+      \end{beamercolorbox}%
+      \else % Summary
+
+      \fi
+  \fi
+  }
+
+
+\defbeamertemplate*{test}{inria}
 {%
       \leavevmode
       \hspace*{\hmargin}%
@@ -24,7 +67,7 @@
                    % \insertdate
                    \beamer@shortdate
                    \hfill
-                   %\ifnum\thepage>1\relax
+                   \relax
                       %\smash{\raisebox{-0.1\footerheight}{}}
                    %\fi
                    \kern2em\parbox{1em}{\raggedleft\insertframenumber}

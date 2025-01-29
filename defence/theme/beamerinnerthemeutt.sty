@@ -26,8 +26,13 @@
 %% PREMIERE PLANCHE - TITRE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \defbeamertemplate*{title page}{inria}[1][]{%
+  \hspace*{1.9cm}{\Huge\textbf{\inserttitle}}\\[3ex]
+  \hspace*{2cm}{\Large \insertsubtitle}\\[2ex]
+  \hspace*{2cm}{\insertauthor}
+}
+
+\defbeamertemplate*{old title page}{inria}[1][]{%
   %
   % reset to (0,0) 
   % - only horizontal, which is set to fullpageinnerhmargin
@@ -44,17 +49,14 @@
                      outer sep=0pt, inner sep=0pt},
      ]
    \useasboundingbox (0,0) rectangle (\paperwidth,\paperheight);
-   \node [mainlogo] at (0,\paperheight+1) {\titlelogo};
-   \node [title] at (\fullpageinnerhmargin+0.15\textwidth,.66\paperheight) {%
+   \node [title] at (\fullpageinnerhmargin+0.15\textwidth,0.8\paperheight) {%
           {\Huge\textbf{\inserttitle}}\\[3ex]
           {\Large \insertsubtitle}\\[2ex]
           {\insertauthor}
     };
-    \node [anchor = south east,align = right] at (\paperwidth - \hmargin,\footerheight)
-      {\large \semester \text{ -} \course};
-    %\shade[left color=bleu_utt_fonce, right color=bleu_utt_clair] 
-    %(\fullpageinnerhmargin+0.15\textwidth,.7\paperheight - 1.25cm) 
-    %rectangle (\fullpageinnerhmargin+0.15\textwidth+3cm,.7\paperheight - 1.35cm);
+  
+
+
   \end{tikzpicture}
 }
 
@@ -62,8 +64,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 \defbeamertemplate*{background canvas}{inria}[1][]{%
   \begin{tikzpicture}[%
        line/.style={color=inria-noir},
@@ -78,7 +78,7 @@
    \filldraw [util]   (\fullpageinnerhmargin,  \posfooterline)
             rectangle (\paperwidth-\fullpageinnerhmargin,   \paperheight-\vmargin);
    \fi%
-   \draw [line] (\hmargin,\posfooterline) -- (\paperwidth-\hmargin,\posfooterline);
+   %\draw [line] (\hmargin,\posfooterline) -- (\paperwidth-\hmargin,\posfooterline);
   \end{tikzpicture}
 }
 
@@ -86,28 +86,33 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% SECTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\defbeamertemplate*{section page}{inria}[1][]{%
-  % \vspace*\fullpageinnervmargin%
-  % \hspace*{-\fullpageinnerhmargin}%
-  \begin{tikzpicture}[%
-      title/.style={draw=none,text=inria-noir,
-                 anchor=center,align=center,
-                 text width={\dimexpr\paperwidth-2\hmargin},
-                 inner sep=0pt,outer sep=0pt},
-      ]%
-   \useasboundingbox (0,0) rectangle (\paperwidth,\paperheight);
-   \node [title] at (\textwidth/2,\posfooterline+\textheight/2) {%
-      \begin{center}
-          \textbf{\Huge%
-          \padzeroes[2]{\decimal{section}} \\[1ex]
-          \insertsection} \\[1ex]
-          {\barrecouleur}
-      \end{center}
-   };
-  \end{tikzpicture}
+\AtBeginSection[]
+{
+  \frame{\sectionpage}
 }
+
+  \defbeamertemplate*{section page}{inria}[1][]{%
+  \huge\textbf{\contentsname}
+  
+    {
+    \normalsize
+    \tableofcontents[currentsection]
+    }
+    \vfill
+}
+
+\defbeamertemplate*{old section page}{inria}[1][]{%
+  \begin{center}
+    \textbf{\Huge%
+    \padzeroes[2]{\decimal{section}} \\[1ex]
+    \insertsection} \\[1ex]
+    %{\barrecouleur}
+
+    \blueshade{3}
+  \end{center}
+}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -120,19 +125,9 @@
   % textblock 
 
   \hspace*{-\fullpageinnerhmargin}%
-  %
-  \begin{tikzpicture}[%
-    mainlogo/.style={anchor=north west,
-                outer sep=0pt, inner sep=0pt},
-    ]
-    \useasboundingbox (0,0) rectangle (\paperwidth,\paperheight);
-    \node [mainlogo] at (0,\paperheight+0.1cm) {\titlelogo};
-    \end{tikzpicture}
-
-  \vspace{-\paperheight+\banniereheight}
 
   \begin{textblock*}{\textwidth}(\hmargin+\anglewidth,\vmargin+\banniereheight-0.1cm)
-      \textbf{\LARGE \insertframetitle}
+      \textbf{\LARGE \color{deep_blue_eut} \insertframetitle}
   \end{textblock*}
 
 \settoheight{\titleH}{\insertframetitle}
@@ -147,8 +142,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
 \defbeamertemplate*{section in toc}{inria}{%
+\leavevmode
+\hspace*{10pt}
+\begin{beamercolorbox}[ht=4ex, wd=0.6\textwidth, rounded=true]{section in head/foot}
+  \vskip2pt
+  \hspace*{5pt}\textbf{\inserttocsectionnumber.~\inserttocsection}
+  \vskip4pt
+\end{beamercolorbox}%
+}
+\defbeamertemplate*{old section in toc}{inria}{%
     \vspace*{2ex}
+    \hspace*{5pt}
     \textcolor{inria-noir}{\textbf{\inserttocsectionnumber.~\inserttocsection}}
 }
 
@@ -156,7 +162,17 @@
     \hspace*{1em} \textcolor{inria-noir}{\inserttocsubsection}
 }
 
-\defbeamertemplate*{toc page}{inria}[1][]{%
+
+\defbeamertemplate*{toc page}{inria}[1][]{
+  \huge\textbf{\contentsname}
+  {
+  \normalsize
+  \tableofcontents
+  }
+  \vfill
+}
+
+\defbeamertemplate*{old toc page}{inria}[1][]{%
   % \vspace*\fullpageinnervmargin%
   \hspace*{-\fullpageinnerhmargin}%
   \begin{tikzpicture}[%
@@ -184,22 +200,12 @@
 
 
 \defbeamertemplate*{merci}{inria}[1][]{%
-  %\vspace*\fullpageinnervmargin%
-  %\hspace*{-\fullpageinnerhmargin}%
-  \begin{tikzpicture}[%
-      title/.style={draw=none, text=inria-noir,
-                 anchor=center,align=center,
-                 text width={\dimexpr\paperwidth-2\hmargin},
-                 inner sep=0pt,outer sep=0pt}
-      ]%
-    \useasboundingbox (0,0) rectangle (\paperwidth,\paperheight);
-    \node [title] at (\textwidth/2,\posfooterline+\textheight/2) {%
+
             \begin{center}
               \textit{\Huge \switchtoserif \thankyou}\\
-              {\barrecouleurC}
+              \blueshade{2}
             \end{center}
-     };
-  \end{tikzpicture}%
+
 }
 
 \def\merci{\usebeamertemplate*{merci}}

@@ -1,0 +1,29 @@
+\begin{tikzpicture}
+
+    \begin{tikzpicture}[scale = 2]
+
+        \draw[] (0,0) -- (1,0) node(a2)[right] {$a_2$};
+        \draw[] (1,0) -- (0.8,0.5) node(a3)[above] {$a_3$};
+        \draw[] (0.8,0.5) -- (0,0) node(a1)[left] {$a_1$};
+        \node [anchor = north] at (0.5, -0.1){simplex $A$};
+        
+        \onslide<2->{\draw[->] (1.2, 0.3) -- (2, 0.3);
+        
+        \draw[] (2,0) -- (3,0) node(a2b)[right] {$a_2$};
+        \draw[] (3,0) -- (2.8,0.5) node(a3b)[above] {$a_3$};
+        \draw[] (2.8,0.5) -- (2,0) node(a1b)[left] {$a_1$};
+        
+        \fill[red] (2.7,0) circle (0.03);
+        \draw[red, thick] (2.8,0.5) -- (2.7,0) node(ap)[below] {$a^*$};
+        
+        \fill[blue!30, opacity = 0.5] (2,0) -- (2.7,0) -- (2.8,0.5);
+        \fill[orange!30, opacity = 0.5] (3,0) -- (2.7,0) -- (2.8,0.5);
+        
+        \node[left of = a3b, anchor = west, blue ]{$A_1$};
+        \node[above of = a2b, anchor = north, orange ]{$A_2$};}
+        
+            
+        \end{tikzpicture}
+
+
+\end{tikzpicture}
