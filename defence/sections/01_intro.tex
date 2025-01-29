@@ -1,6 +1,35 @@
-\begin{frame}{Large Language Model (LLM)}
+\begin{frame}{Large Language Models}
+   \begin{columns}
+         
+       \begin{column}[t]{0.4\textwidth}
+       \begin{block}{Summary}
+       
+           \begin{itemize}
+               \item State-of-the-art of Natural Language Processing (NLP) problems
+               \item Architecture : Transformers\cite{NIPS2017_3f5ee243} block, mixed with classical layers (MLP, Conv)
+               \item Huge size : Billions of parameters (1B to 405B for Llama 3)
+               \item 2 phases of training : pre-training and \textbf{fine-tuning}
+           \end{itemize}
+               
    
-\end{frame}
+       \end{block}
+       \end{column}
+           
+       \begin{column}[t]{0.55\textwidth}
+       \begin{block}{Self Attention }
+   
+           \begin{figure}
+               \centering
+               \input{assets/tikz_picture/self_atttention.tex}
+               \caption{Self Attention mecanism illustration}
+           \end{figure}
+       
+           Self attention is the key of LLM, used to compute the context of each token.
+       \end{block}  
+       \end{column}
+            
+   \end{columns}
+   \end{frame}
 
 \begin{frame}{Fine Tuning}
    
