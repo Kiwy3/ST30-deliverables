@@ -1,0 +1,101 @@
+%---------------------------------- Problem definition -------------------------------
+\begin{frame}{Problem Definition}
+    This problem can be characterized the optimization of an \large\textbf{expensive, mixed-variable, noisy, blackbox} function.
+
+    \begin{columns}
+    
+        \begin{column}[t]{0.5\textwidth}
+        \begin{block}{Problem Formulation}
+            The HPO problem can be defined as 
+            \begin{equation}
+               \eta^* \in \arg\min_{\eta \in \mathcal{H}} \mathcal{F}(\eta) 
+            \end{equation}
+
+        \end{block}
+
+        \begin{block}{Search Space $\mathcal{H}$}
+            $\mathcal{H}$ is the set of all values the solution tuple $\eta$ can take. This stage includes method to handle the mixed-variables aspect of the problems.   
+        \end{block}
+        \end{column}
+        
+        \begin{column}[t]{0.5\textwidth}
+
+    
+        \begin{block}{Search Strategy}
+            With $\eta_i$ all the tested solutions, the search strategy is the method used to define the next solution $\eta_{next}$ to evaluate. 
+        \end{block}
+
+        \begin{block}{Perfomance Evaluation Strategy}
+            $\mathcal{F}$ represent the objective function, how the function is implemented. Also includes method like multi-fidelity that affect the fidelity of the evaluation.
+        \end{block}
+
+        \end{column}
+         
+  \end{columns}
+\end{frame}
+
+
+%------------------------------------ Search Space ---------------------------
+\begin{frame}{Search Space}
+
+    The search space is composed of variables of different type.
+
+    \begin{block}{Hyper-parameters}
+    
+        \begin{table}[h!]
+            \centering
+            \begin{tabular}{|c|c|c|c|}
+                \hline
+                \multirow{2}{*}{\textbf{Hyper-parameter}} & \multicolumn{2}{|c|}{\textbf{Optimization range}} & \multirow{2}{*}{\textbf{Conversion}} \\
+                \cline{2-3}
+                 & \textbf{Lower Bound} & \textbf{Upper Bound} &  \\
+                \hline
+                \textbf{Learning Rate} & $-10$ & $-1$ & $f(x) = 10^{x}$ \\
+                \hline
+                \textbf{LoRA Rank} & 2 & 512 & $f(x) = \text{round}(x)$ \\
+                \hline
+                \textbf{LoRA scale ($\alpha$)} & 1 & 64 & $f(x) = \text{round}(x)$ \\
+                \hline
+                \textbf{LoRA Dropout} & 0 & 0.5 & $f(x) = x$ \\
+                \hline
+                \textbf{Weight Decay} & $-5$ & $-1$ & $f(x) = 10^{x}$  \\
+                \hline
+            \end{tabular}
+            \caption{Summary of Hyperparameter Search Space}
+            \label{tab:hyperparam_table}
+        \end{table}
+        
+    \end{block}
+    
+    Conversion and naming convention is taken from LitGPT framework.
+\end{frame}
+
+
+%---------------------------------- Search Strategy  -------------------------------
+\begin{frame}{Search Strategy}
+    The search strategy of an optimization problem can be seen as a balance between the exploration, i.e. going to unexplored regions, and exploitation, i.e. going close to promising areas. Here are the fields of optimization to tackle HPO problems. Standard optimization fields : 
+    \begin{itemize}
+        \item sampling/exploratory : Grid Search, Random Search, Latin Hypercube Sampling \\ \quad no exploitation, give a lower bound
+        \item Bayesian Optimization : use surrogate to approximate the objective function, and optimize it. \\ \quad weak parallel ability, strong exploitation
+        \item Partition-Based Optimization : FDA, SOO, DiRect \\ \quad innate parallel ability, slow convergence
+    \end{itemize}
+
+\end{frame}
+%---------------------------------- Performance Evaluation Strategy -------------------------------
+
+\begin{frame}{Performance Evaluation Strategy}
+    \begin{block}{Evaluation context}
+    In this part, there are many options, like the number of epochs (if not an hyperparameters), the precision of the model, the datasets of training or evaluation. 
+        
+    \end{block}
+    \begin{block}{Objective function}
+        For this problem, there are 2 ways to evaluate a solution : 
+        \begin{itemize}
+            \item Loss (validation or testing) : the loss is computed through the training, and we can keep a small part of the datasets unused to use it the evaluate the model. Cons : dataset dependant, difficult to put in global context
+            \item \textbf{Benchmark dataset (GLUE\cite{wang2018glue}, MMLU\cite{hendrycks2021mmlu})} : the accuracy on a literature benchmark dataset can be used to evaluate the training. It's interesting, since it's a good measure of generalization, since the model has not read this type of questions. Warning : the benchmark used during the optimization can't be used as a final testing. 
+        \end{itemize}
+
+        Multi-fidelity approaches can be used to reduce the cost of evaluation in earlier steps. Algorithms like Bayesian Optimization and HyperBand (BOHB\cite{DBLP:journals/corr/abs-1807-01774}) achieve cost-efficient optimization by reducing the part of the datasets in early stages.
+    \end{block}
+    
+\end{frame}

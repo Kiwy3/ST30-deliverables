@@ -1,0 +1,78 @@
+\begin{tikzpicture}[node distance = 1.15cm]
+
+\tikzstyle{field} = [rectangle,rounded corners, minimum width=2cm, minimum height=0.8cm, text centered, draw=black]
+\tikzstyle{art} = [rectangle split, rectangle split parts = 2, minimum width=2cm, minimum height=0.8cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{arrow} = [thick, ->, >=stealth]
+
+
+% base
+\node (base)[field, fill = violet!30]{LLM and Optimization \cite{wu_evolutionary_2024}};
+
+% lvl 1
+\node (opt_llm)[field, below of = base, xshift = -3cm, fill = blue!30]{Optimization to LLM};
+
+\node (llm_opt)[field, below of = base, xshift = 3cm, fill = purple!30]{LLM to Optimization};
+
+% lvl 2
+\node (autodnn)[field, below of = opt_llm, xshift = -0.5cm, fill=teal!30]{AutoDNN};
+\node(prompt)[art,right of = autodnn, xshift = 2.5cm, fill = blue!20]{
+    \textbf{Prompt Eng.}
+    \nodepart{second} Art. \cite{guo_connecting_2024}
+};
+\node (gen_ea)[art, below of = llm_opt, fill = purple!20]{
+    \textbf{Generate EA}
+    \nodepart{second} Art. \cite{liu_large_2024}
+};
+
+% lvl 3
+\node (hpo)[field, below of = autodnn, xshift = -1.5cm, fill = cyan!50]{HPO};
+\node (nas)[field, right of = hpo, xshift = 3.5cm, fill = green!30]{NAS};
+
+% lvl4 hpo
+
+\node (hpo_ft)[art, below of = hpo, fill = cyan!35]{
+    \textbf{Fine-Tuning}
+    \nodepart{second} Art. \cite{tribes_hyperparameter_2024}
+};
+\node (hpo_pt)[art, left of = hpo_ft, xshift = -1cm, fill = cyan!20]{
+    \textbf{Pre-training}
+    \nodepart{second} -
+};
+\node (hpo_gen)[art, right of = hpo_ft,xshift = 1cm, fill = cyan!20]{
+    \textbf{Generation}
+    \nodepart{second} Art. \cite{wang_cost-effective_2023}
+};
+% lvl4 nas
+\node (nas_scratch)[art, below of = nas, fill = green!20]{
+    \textbf{From Scratch}
+    \nodepart{second} Art. \cite{gao_autobert-zero_2022}
+};
+\node (nas_pruning)[art, right of = nas_scratch,xshift = 1cm, fill = green!20]{
+    \textbf{Pruning}
+    \nodepart{second} Art. \cite{klein_structural_2023}
+};
+
+% arrows
+\draw[arrow] (base) -- (opt_llm);
+\draw[arrow] (base) -- (llm_opt);
+
+\draw[arrow] (opt_llm) -- (autodnn);
+\draw[arrow] (opt_llm) -- (prompt);
+\draw[arrow] (llm_opt) -- (gen_ea);
+
+\draw[arrow] (autodnn) -- (hpo);
+\draw[arrow] (autodnn) -- (nas);
+
+\draw[arrow] (hpo) -- (hpo_pt);
+\draw[arrow] (hpo) -- (hpo_ft);
+\draw[arrow] (hpo) -- (hpo_gen);
+
+\draw[arrow] (nas) -- (nas_scratch);
+\draw[arrow] (nas) -- (nas_pruning);
+
+% fitting box
+\node (current)[draw,thick, dashed, rounded corners, 
+    fit = (hpo)(hpo_ft), inner sep = 0.2cm,
+    label = below :{Current work}]{};
+
+\end{tikzpicture}

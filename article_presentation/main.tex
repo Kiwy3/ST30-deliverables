@@ -1,0 +1,129 @@
+\documentclass[A4,svgnames,9pt,aspectratio=169]{beamer}
+%% document options:
+%% - aspectratio = { 43, 169, 1610 }
+%% - utf8
+%%
+
+%%
+%% insert list of packages
+%%
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+%% \usepackage[english,french]{babel}
+
+\hypersetup{
+   allcolors=rouge_inria,
+   pdfauthor   = {firstname lastname},
+   pdftitle    = {\@title},
+   pdfsubject  = {Resum\'{e} of everything},
+   pdfkeywords = {firstname~lastname, curriculum vit\ae{}}
+}
+
+\usepackage[doi=false,isbn=false,url=false,natbib=true,style=numeric,backend=bibtex,useprefix=true]{biblatex}
+\addbibresource{frames/biblio.bib}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning, fit}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title[titrecourt]{Scalable Hyperparameter Optimization\\ for LLM
+Fine-Tuning}
+\subtitle{Bayesian and Partition-based optimization}
+\date[20/01/2025]{date long}
+\author[A. et al.]{N. Davouse}
+
+\usetheme{inria}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Le titre des planches de sommaire est \contentsname, sa valeur
+% est fixée ici à "Sommaire" par défaut.
+\renewcommand{\contentsname}{Summary}
+
+% Si le package babel est utilisé la valeur
+% prend celle par défaut de la langue sélectionnée.
+% Pour imposer une valeur, y compris lors de l'utilisation de
+% babel, faire attention à redéfinir cette variable _après_
+% un \selectlanguage{}
+
+% \selectlanguage{french}
+% \selectlanguage{english}
+
+\frame{\tocpage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\frame{\sectionpage}
+\include{frames/introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Review of Related Works}
+\frame{\sectionpage}
+\include{frames/review}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem Definition}
+\frame{\sectionpage}
+\include{frames/problem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methodology}
+\frame{\sectionpage}
+\include{frames/methodo}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Experiments}
+\frame{\sectionpage}
+\include{frames/experiment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Conclusion}
+\include{frames/conclusion}
+
+\
+\begin{frame}[allowframebreaks]{Bibliography}
+\printbibliography[]
+\nocite{*}
+\end{frame}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Le texte est modifiable en changeant \thankyou
+\renewcommand{\thankyou}{Thank You.}
+\frame{\merci}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
