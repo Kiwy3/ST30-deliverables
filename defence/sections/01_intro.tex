@@ -1,46 +1,109 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LLM %%%%%%%%%%%%%%%%%%
 \begin{frame}{Large Language Models}
    \begin{columns}
          
-       \begin{column}[t]{0.4\textwidth}
-       \begin{block}{Summary}
-       
+    %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+       \begin{column}[t]{0.45\textwidth} 
+       \begin{block}{Point clés}
            \begin{itemize}
-               \item State-of-the-art of Natural Language Processing (NLP) problems
-               \item Architecture : Transformers\footnote{Vaswani et al, Attention is all you need,2017} block, mixed with classical layers (MLP, Conv)
+               \item Etat de l'art pour le traitement de language naturel.
+               \item Réseaux de Neurones avec une architecture basé sur le  transformer\footnote{Vaswani et al, Attention is all you need,2017 }
+               \item Taille : entre 1 et 405 Milliards de neurones
            \end{itemize}
                
-   
        \end{block}
        \end{column}
            
+    %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
        \begin{column}[t]{0.55\textwidth}
-       \begin{block}{Self Attention }
-   
+       \begin{block}{Auto-attention}
            \begin{figure}
                \centering
                \input{assets/tikz_picture/self_atttention.tex}
-               \caption{Self Attention mecanism illustration}
-           \end{figure}
-       
-           Self attention is the key of LLM, used to compute the context of each token.
+               \caption{Illustration du mécanisme d'auto-attention}
+           \end{figure}    
+           L'auto-attention est la clé du LLM, en permettant de comprendre le contexte
        \end{block}  
        \end{column}
             
    \end{columns}
    \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fine Tuning %%%%%%%%%%%%%%%%%%
 \begin{frame}{Fine Tuning}
+    \begin{itemize}
+        \item second phase de l'entrainement (prendre que la partie de droite)
+        
+        \begin{block}{PEFT}
+            Utilisation de la méthode LoRA, qui permet de réduire les couts d'entrainement. (cf annexe \ref{ap:lora})
+            
+        \end{block}
+    \end{itemize}
    
 \end{frame}
 
-\begin{frame}{Hyperparameter Optimization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% HPO %%%%%%%%%%%%%%%%%%
+\begin{frame}{Optimisation des Hyperparamètres (OHP)}
+   \begin{columns}
+         
+    %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+       \begin{column}[t]{0.3\textwidth} 
+       \begin{block}{Hyperparamètres}
+         Paramètres qui ne sont pas entrainés par le modèle (learning rate, dropout ...)           
+       \end{block}
+       \begin{block}{Objectifs}
+        \begin{itemize}
+            \item Meilleur performance qu'en manuel
+            \item Retirer le besoin d'expertise
+        \end{itemize}
+        
+       \end{block}
+
+       \end{column}
+           
+    %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+       \begin{column}[t]{0.8\textwidth}
+        \begin{figure}
+            \centering
+            \input{assets/tikz_picture/hpo.tex}
+            \caption{Fonctionnement général de l'optimisation des hyperparamètres}
+       \end{figure}  
+       \end{column}
+            
+   \end{columns}
+
+   
+
+\end{frame}
+
+\begin{frame}{Formulation du problème}
+    \begin{block}{Equation}
+        \begin{equation}
+            \eta^* \in \arg \max_{\eta \in \mathcal A}f(\eta), \quad f:\mathbb{R}^d \rightarrow \mathbb{R}
+        \end{equation}
+        Avec $\eta$ une solution de dimension $d$ et $f$ la fonction représentant l'entrainement et l'évaluation d'un modèle.
+    \end{block}
+
+    \begin{block}{Charactéristiques de la fonction $f$}
+        \begin{itemize}
+            \item Boite-noire : non dérivable
+            \item Couteux : une évaluation se compte en dizaine de minutes
+            \item Bruité : évaluer 2 fois la même solution peut donner un résultat différent
+            \item Variables mixes : les variables sont de plusieurs type (entier, continu...)
+        \end{itemize}
+        
+    \end{block}
+    
    
 \end{frame}
 
-\begin{frame}{Problem Formulation}
-   
-\end{frame}
-
-\begin{frame}{Related Works}
+\begin{frame}{Travaux connexes}
+    \begin{figure}
+        \centering
+        \input{assets/tikz_picture/related_work.tex}
+        \caption{Classification des travaux similaires}
+   \end{figure} 
    
 \end{frame}
