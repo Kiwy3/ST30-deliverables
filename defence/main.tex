@@ -28,6 +28,7 @@
 \usepackage{tikz}
 \usetikzlibrary{calc,shapes, arrows, positioning, fit, backgrounds}
 
+
 \title[titrecourt]{Optimization des Hyperparamètres appliquée au Fine Tuning de LLM}
 \subtitle{Basé sur l'article : \textit{Bayesian and Partition-Based Optimization for Hyperparameter Optimization of LLM Fine-Tuning}}
 \date[19/02/2025]{date long}
@@ -37,12 +38,13 @@
 
 
 \usetheme{utt}
-
 \begin{document}
 
 % Appeler la page titre
 \frame{\titlepage}
 
+% Roman numbering for footnote
+\renewcommand{\thempfootnote}{\arabic{mpfootnote}}
 % Renommer le titre du sommaire, pour une présentation en anglais par exemple
 \renewcommand{\contentsname}{Sommaire}
 % Appeler la page de sommaire
