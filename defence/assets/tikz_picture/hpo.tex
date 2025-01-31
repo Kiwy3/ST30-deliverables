@@ -29,7 +29,7 @@
 
 
 \begin{scope}[on background layer]
-    \node(bbfunction)[draw, thick,fill=black!10,draw=black!20, dashed, rounded corners, fit=(train_data) (PT_model) (training) (FT_model)(val_data)(evaluate)(metrics), inner sep=0.1cm, label=155:{Black-Box function}] {};
+    \node(bbfunction)[draw, thick,fill=black!10,opacity=0.5,draw=black!70, dashed, rounded corners, fit=(train_data) (PT_model) (training) (FT_model)(val_data)(evaluate)(metrics), inner sep=0.1cm, label=155:{Fonction boite noire}] {};
 \end{scope}
 
 \draw [dot_arrow] (train_data) -- (training);
@@ -42,9 +42,9 @@
 \draw [dot_arrow] (evaluate) -- (metrics);
 \draw [dot_arrow] (metrics) -- ([xshift = 4.45cm]bbfunction.north);
 
-\node (hpo) [circle, above of = bbfunction, yshift = 0.8cm,xshift=1.415cm, draw, fill = teal!40]{HPO};
-\node [left of = hpo, yshift = 0.25cm, anchor = east]{solution};
-\node [right of = hpo, yshift = 0.25cm,anchor = west]{validation accuracy};
+\node (hpo) [circle, above of = bbfunction, yshift = 0.8cm,xshift=1.415cm,align=center, draw, fill = teal!40]{Opt. \\ Algo.};
+\node [left of = hpo, yshift = 0.cm, anchor = south east]{Solution};
+\node [right of = hpo, yshift = 0cm,anchor = south west, align = center]{Résultat sur le jeu\\ de validation};
 
 %\draw [thick,->,>=stealth]    ([xshift = 6.25cm]bbfunction.north) to[out=90,in=-5] (hpo.east);
 \draw [thick,<-,>=stealth]     (hpo.east)to[out=0,in=90] ([xshift = 4.45cm]bbfunction.north);

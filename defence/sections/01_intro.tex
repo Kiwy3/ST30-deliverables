@@ -8,7 +8,7 @@
        \begin{block}{Point clés}
            \begin{itemize}
                \item Etat de l'art pour le traitement de language naturel.
-               \item Réseaux de Neurones avec une architecture basé sur le  transformer\footnote{Vaswani et al, Attention is all you need,2017 }
+               \item Réseaux de Neurones avec une architecture basé sur le  transformer\footnote{Vaswani et al, Attention is all you need,2017 } (annexe \ref{ap:llm_architecture})
                \item Taille : entre 1 et 405 Milliards de neurones
            \end{itemize}
                
@@ -16,11 +16,11 @@
        \end{column}
            
     %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
-       \begin{column}[t]{0.55\textwidth}
+       \begin{column}[t]{0.5\textwidth}
        \begin{block}{Auto-attention}
            \begin{figure}
                \centering
-               \input{assets/tikz_picture/self_atttention.tex}
+               \input{assets/tikz_picture/self_attention.tex}
                \caption{Illustration du mécanisme d'auto-attention}
            \end{figure}    
            L'auto-attention est la clé du LLM, en permettant de comprendre le contexte
@@ -33,15 +33,33 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fine Tuning %%%%%%%%%%%%%%%%%%
 \begin{frame}{Fine Tuning}
-    \begin{itemize}
-        \item second phase de l'entrainement (prendre que la partie de droite)
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \textbf{Aspect} & \textbf{Pre-entrainement} & \textbf{Fine Tuning} \\
+            \hline
+            Objectif & Apprentissage general & Adaptation à un domaine \\
+            \hline
+            Données & Larges et diverses & Restreintes et Spécifiques \\
+            \hline
+            Ressources & Centaines de GPU & au moins 1 GPU \\
+            \hline
+            Durée & Semaine/Mois & Heures/Jours \\
+            \hline
+        \end{tabular}
+        \caption{Comparaison entre le Pre-entrainement et le Fine Tuning de LLM}
+        \label{tab:pretrain_vs_finetune}
+    \end{table}
+
+    \begin{block}{Parameter-Efficient Fine-Tuning (PEFT)}
+        \begin{itemize}
+            \item Ensemble de méthodes pour réduire le nombre de paramètres à entrainer
+            \item Utilisation de la méthode LoRA (annexe \ref{ap:lora})
+            \item Amène des nouveaux hyperparamètres
+        \end{itemize}
         
-        \begin{block}{PEFT}
-            Utilisation de la méthode LoRA, qui permet de réduire les couts d'entrainement. (cf annexe \ref{ap:lora})
-            
-        \end{block}
-    \end{itemize}
-   
+    \end{block}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% HPO %%%%%%%%%%%%%%%%%%
@@ -78,6 +96,8 @@
 
 \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Formulation PBM %%%%%%%%%%%%%%%%%%
 \begin{frame}{Formulation du problème}
     \begin{block}{Equation}
         \begin{equation}
@@ -99,6 +119,7 @@
    
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Related works %%%%%%%%%%%%%%%%%%
 \begin{frame}{Travaux connexes}
     \begin{figure}
         \centering
