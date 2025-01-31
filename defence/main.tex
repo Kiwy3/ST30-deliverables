@@ -28,6 +28,10 @@
 \usepackage{tikz}
 \usetikzlibrary{calc,shapes, arrows, positioning, fit, backgrounds}
 
+\newcommand*{\disableanim}[1]{{%
+  \RenewDocumentCommand{\onslide}{ R<>{} }{}%
+  #1%
+}}
 
 \title[titrecourt]{Optimization des Hyperparamètres appliquée au Fine Tuning de LLM}
 \subtitle{Basé sur l'article : \textit{Bayesian and Partition-Based Optimization for Hyperparameter Optimization of LLM Fine-Tuning}}
@@ -39,6 +43,7 @@
 
 \usetheme{utt}
 \begin{document}
+
 
 % Appeler la page titre
 \frame{\titlepage}
@@ -57,7 +62,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Design et Implémentation}
+%\disableanim{
 \input{sections/02_design}
+%}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
