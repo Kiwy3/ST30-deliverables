@@ -29,22 +29,138 @@
 
 \end{frame}
 
-\begin{frame}{Search Strategy : BO}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : BO %%%%%%%%%%%%%%%%%%
+\begin{frame}{Strategie de Recherche : Optimisation Bayésienne par Process Gaussien }
+    \begin{columns}
+    %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+    \begin{column}[t]{0.4\textwidth} 
+        \begin{block}{Algorithm}
+                \begin{itemize}
+                    \item Echantillon de $n$ Points (LHS)
+                    \item Evaluer ces $n$ points
+                    \item Jusqu'à fin du budget
+                    \begin{itemize}
+                        \item Entrainer le Process Gaussien (GP)
+                        \item Optimiser ce GP pour obtenir un nouveau Point
+                        \item Evaluer ce nouveaux point
+                    \end{itemize}
+                \end{itemize}
+        \end{block}
+ 
+        \end{column}
+             
+     %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+        \begin{column}[t]{0.6\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width = \textwidth]{assets/imgs/gaussian_process.png}
+                \caption{Example d'un surrogate sur une fonction en 1D}
+            \end{figure} 
+        \end{column}
+             
+    \end{columns}
 
 \end{frame}
 
-\begin{frame}{Search Strategy : SOO}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : SOO %%%%%%%%%%%%%%%%%%
+\begin{frame}{Strategie de Recherche : Simultaneous Optimistic Optimization (SOO)}
+    \begin{columns}
+        %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+        \begin{column}[t]{0.5\textwidth} 
+            \begin{figure}
+                \centering
+                \input{assets/tikz_picture/soo_partition.tex}
+                \caption{Partition de l'espace de recherche par SOO}
+            \end{figure} 
+     
+            \end{column}
+                 
+         %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+            \begin{column}[t]{0.5\textwidth}
+                \begin{figure}
+                    \centering
+                    \input{assets/tikz_picture/soo_tree.tex}
+                    \caption{Arbre correspondant à SOO}
+                \end{figure} 
+            \end{column}
+                 
+    \end{columns}
 
 \end{frame}
 
-\begin{frame}{Search Strategy : BaMSOO}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : BaMSOO %%%%%%%%%%%%%%%%%%
+\begin{frame}{Search Strategy : BaMSOO (TO DO)}
+    \begin{columns}
+        %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+        \begin{column}[t]{0.5\textwidth} 
+            \begin{figure}
+                \centering
+                \input{assets/tikz_picture/bamsoo_partition.tex}
+                \caption{Partition de l'espace de recherche par SOO}
+            \end{figure} 
+     
+            \end{column}
+                 
+         %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+            \begin{column}[t]{0.5\textwidth}
+                \begin{figure}
+                    \centering
+                    \input{assets/tikz_picture/bamsoo_tree.tex}
+                    \caption{Arbre correspondant à SOO}
+                \end{figure} 
+            \end{column}
+                 
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : Performance Estimation Strategy %%%%%%%%%%%%%%%%%%
+\begin{frame}{Stratégie d'Evaluation de Solutions}
+    \begin{block}{Implémentation}
+        \begin{itemize}
+            \item Fine Tuning
+            \begin{itemize}
+                \item modèle : LlaMa-3.2-1B
+                \item 
+            \end{itemize}
+            \item Evaluation
+            \begin{itemize}
+                \item librairie lm\_eval
+                \item Evaluation par la précision sur des jeu de données Benchmark : Hellaswag et MMLU
+            \end{itemize}
+        \end{itemize}
+
+        
+    \end{block}
 
 \end{frame}
 
-\begin{frame}{Performance Estimation Strategy}
-
-\end{frame}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Implementation %%%%%%%%%%%%%%%%%%
 \begin{frame}{Implémentation}
+    \begin{columns}
+        %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+        \begin{column}[t]{0.45\textwidth} 
+            \begin{block}{}
+                
+                \begin{itemize}
+                    \item Programmation Orienté Object en Python
+                    \item Travail de documentation : \textit{readme}, indication de type...
+                    \item Objectif : permettre le réusage
+                    \item Utilisable en ligne de commande pour Grid5000
+                \end{itemize}
+            \end{block}
+     
+            \end{column}
+                 
+         %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+            \begin{column}[t]{0.45\textwidth}
+                \begin{figure}
+                    \centering
+                    \input{assets/tikz_picture/implement.tex}
+                    \caption{Diagramme de l'implémentation}
+                \end{figure}
+            \end{column}
+                 
+    \end{columns}
+
 
 \end{frame}
