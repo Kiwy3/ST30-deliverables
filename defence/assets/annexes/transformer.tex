@@ -1,0 +1,127 @@
+\begin{tikzpicture}[node distance=0.8cm]
+
+
+    \tikzstyle{norm} = [rectangle, rounded corners, minimum width=1cm ,text centered, draw=black, fill=red!30]
+    \tikzstyle{mha} = [rectangle,rounded corners, minimum width=2cm , text centered, draw=black, fill=orange!30]
+    \tikzstyle{feed} = [rectangle, rounded corners, minimum width=1cm ,text centered, draw=black, fill=blue!40]
+    \tikzstyle{embed} = [rectangle, rounded corners, minimum width=1cm ,text centered, draw=black, fill=pink!30]
+    \tikzstyle{encoding} = [rectangle, rounded corners, minimum width=1cm ,text centered, draw=black, fill=pink!40]
+    \tikzstyle{linear} = [rectangle, rounded corners, minimum width=1cm ,text centered, draw=black, fill=blue!20]
+    \tikzstyle{softmax} = [rectangle, rounded corners, minimum width=1cm ,text centered, draw=black, fill=green!20]
+    
+    
+    \tikzstyle{arrow} = [thick,->,>=stealth]
+    \tikzstyle{lightA} = [thick,dotted,->,>=stealth]
+    
+    \tikzstyle{sum} = [circle, draw, minimum size=0.5cm, node distance=1cm, inner sep=0pt]
+    
+    % Decoder node
+    
+    \node (norm3)[norm,yshift = -0.5cm]{Add \& Norm};
+    \node (feed2)[feed,below of = norm3, yshift = 0.1cm]{Feed-Forward};
+    
+    \node (norm4)[norm,below of = feed2,yshift=0.1cm]{Add \& Norm};
+    \node (mha2)[mha,below of = norm4, yshift = 0.1cm]{MHA};
+    
+    \node (norm5)[norm,below of = mha2,yshift=-0.5cm]{Add \& Norm};
+    \node (mha3)[mha,below of = norm5]{Masked MHA};
+    
+    % Encoder node
+    
+    \node (norm1)[norm,left of = norm4, xshift=-3cm]{Add \& Norm};
+    \node (feed1)[feed,below of = norm1]{Feed-Forward};
+    
+    \node (norm2)[norm,below of = feed1,yshift=-0.5cm]{Add \& Norm};
+    \node (mha1)[mha,below of = norm2]{MHA};
+    
+    % Arrow inside encoder
+    \node (enc_base)[below of = mha1]{};
+    
+    \draw[lightA] (enc_base.center) -- (mha1);
+    \draw[lightA] (enc_base.center) -- ([xshift=-0.4cm, yshift = -0.4cm]mha1.south) -- ([xshift=-0.4cm]mha1.south);
+    \draw[lightA] ([yshift = -0.3cm]enc_base.center) -- (enc_base.center) -- ([xshift=0.4cm, yshift = -0.4cm]mha1.south) -- ([xshift=0.4cm]mha1.south);
+    
+    \draw[lightA] ([yshift = -0.3cm]enc_base.center) -- ([yshift = -0.3cm,xshift = -1.3cm]enc_base.center) -- ([xshift = -1.3cm]norm2.center) -- (norm2.west);
+    
+    \draw [lightA] (mha1) -- (norm2); 
+    \draw [lightA] (norm2) -- (feed1); 
+    \draw [lightA] (feed1) -- (norm1); 
+    
+    \draw[lightA] ([yshift = 0.6cm]norm2.center) -- ([xshift = -1.3cm,yshift = 0.6cm]norm2.center) -- ([xshift = -1.3cm]norm1.center) -- (norm1.west);
+    
+    \node(enc_fit)[draw, thick, dashed, rounded corners, fit=(norm1)(feed1)(norm2)(enc_base), inner sep=0.4cm, label=left:{N $\times$ }] {};
+    
+    % Arrow inside decoder
+    \node (dec_base)[below of = mha3]{};
+    
+    \draw[lightA] (dec_base.center) -- (mha3);
+    \draw[lightA] (dec_base.center) -- ([xshift=-0.4cm, yshift = -0.4cm]mha3.south) -- ([xshift=-0.4cm]mha3.south);
+    \draw[lightA] ([yshift = -0.3cm]dec_base.center) -- (dec_base.center) -- ([xshift=0.4cm, yshift = -0.4cm]mha3.south) -- ([xshift=0.4cm]mha3.south);
+    
+    \draw[lightA] ([yshift = -0.3cm]dec_base.center) -- ([yshift = -0.3cm,xshift = 1.3cm]dec_base.center) -- ([xshift = 1.3cm]norm5.center) -- (norm5.east);
+    
+    \draw [lightA] (mha3) -- (norm5); 
+    
+    \draw [lightA] (norm5) --([yshift = 0.4cm]norm5.center) -- ([yshift=-0.4cm,xshift=0.4cm]mha2.south) -- ([xshift=0.4cm]mha2.south); 
+    
+    \draw [lightA] (mha2) -- (norm4); 
+    \draw [lightA] (norm4) -- (feed2); 
+    \draw [lightA] (feed2) -- (norm3); 
+    
+    \draw[lightA] ([yshift = 0.4cm]norm5.center) -- ([xshift = 1.3cm,yshift = 0.4cm]norm5.center) -- ([xshift = 1.3cm]norm4.center) -- (norm4.east);
+    \draw[lightA] ([yshift = 0.6cm]norm4.center) -- ([xshift = 1.3cm,yshift = 0.6cm]norm4.center) -- ([xshift = 1.3cm]norm3.center) -- (norm3.east);
+    
+    \node(dec_fit)[draw, thick, dashed, rounded corners, fit=(norm3)(dec_base), inner sep=0.2cm, label=right:{$\times$ N}] {};
+    
+    %arrow from encoder to decoder
+    
+    \draw[arrow] (norm1.north) -- ([yshift=0.4cm]enc_fit.north)
+        -- ([yshift=0.4cm, xshift = 2cm]enc_fit.north)
+        -- ([yshift=-2.2cm, xshift = 2cm]enc_fit.north)
+         -- ([yshift=-2.2cm, xshift = 3.8cm]enc_fit.north)
+         -- (mha2.south);
+    \draw[arrow] ([yshift = -0.45cm, xshift = -0.4cm]mha2.south) -- ([xshift = -0.4cm]mha2.south);
+    
+    % encoder input
+    \node (enc_plus) [sum, below of = enc_base,yshift=-0.1cm]{\Large $+$};
+    \node (in_embed) [embed, below of = enc_plus,align=center, yshift = -0.2cm]{Input \\ Embedding};
+    \node (encoding1) [encoding,left of = enc_plus, align = center, xshift = -1.5cm, yshift=-0.2cm]{Positional \\ Encoding};
+    \node (input) [below of = in_embed, yshift = -0.3cm]{Input};
+    
+    % Decoder Input
+    \node (dec_plus) [sum, below of = dec_base,yshift=-0.1cm]{\Large $+$};
+    \node (out_embed) [embed, below of = dec_plus,align=center, yshift = -0.2cm]{Ouput \\ Embedding};
+    \node (encoding2) [encoding,right of = dec_plus, align = center, xshift = 1.5cm, yshift=-0.2cm]{Positional \\ Encoding};
+    \node (output) [below of = out_embed, yshift = -0.3cm, align = center]{Ouputs \\ (shifted right)};
+    
+    %outputs
+    \node (linear) [linear, above of = norm3, yshift = -0.1cm]{Linear};
+    \node (softmax) [softmax, above of = linear, yshift = -0.1cm]{Softmax};
+    \node (out) [above of = softmax,align = center, yshift=-0.1cm]{Output};
+    
+    
+    % I/O arrow
+    \draw[arrow] (input) -- (in_embed);
+    \draw[arrow] (in_embed) -- (enc_plus);
+    
+    
+    \draw[arrow] (input.west) -- ([ yshift = -0.8cm]encoding1.south) -- (encoding1);
+    \draw[arrow] (output.east) -- ([ yshift = -0.8cm]encoding2.south) -- (encoding2);
+    
+    
+    \draw[arrow] (output) -- (out_embed);
+    \draw[arrow] (out_embed) -- (dec_plus);
+    \draw[arrow] (encoding1) -- (enc_plus);
+    \draw[arrow] (encoding2) -- (dec_plus);
+    \draw[arrow] (enc_plus) -- ([yshift = -0.3cm]enc_base.center);
+    \draw[arrow] (dec_plus) -- ([yshift = -0.3cm]dec_base.center);
+    \draw[arrow] (norm3.north) -- (linear);
+    \draw[arrow] (linear) -- (softmax);
+    \draw[arrow] (softmax) -- (out);
+    \draw[arrow] (out.north) -- ([yshift = 0.2cm]out.north);
+    
+    % Encoder and Decoder Legend
+    \node [left of = enc_base,xshift= -2cm, yshift = 1cm]{\textbf{Encoder}};
+    \node [right of = dec_base,xshift= 2cm, yshift = 1cm]{\textbf{Decoder}};
+    
+    \end{tikzpicture}
