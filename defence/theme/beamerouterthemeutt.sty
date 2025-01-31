@@ -20,14 +20,14 @@
   \ifnum\thepage>1
       \leavevmode % classical page
       \hbox{%
-        \begin{beamercolorbox}[wd = \paperwidth, ht=\footerheight, colsep=0pt]{section in head/foot}
+        \begin{beamercolorbox}[wd = \paperwidth, ht=0.8\footerheight, colsep=0pt]{section in head/foot}
           
-          \vspace*{4pt}
+          \vspace*{2.5pt}
           \hspace*{\hmargin}
-          \small{\beamer@shortdate}
+          \footnotesize{\beamer@shortdate}
                     \hfill 
-          \vspace*{4pt}          
-          \raisebox{3pt}{\footnotesize\insertnavigation{0.7\paperwidth}}
+          \vspace*{2pt}          
+          \raisebox{2pt}{\footnotesize\insertnavigation{0.7\paperwidth}}
           \hfill
           \small\insertframenumber
           \hspace*{\hmargin}        
