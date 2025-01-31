@@ -1,5 +1,32 @@
-\begin{frame}{Search Space}
-    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Space %%%%%%%%%%%%%%%%%%
+\begin{frame}{Espace de Recherche}
+
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            \multirow{2}{*}{\textbf{ Hyperparamètres }} & \multicolumn{2}{|c|}{\textbf{Plage d'Optimisation}} &\multirow{2}{*}{\textbf{ Type }}& \multirow{2}{*}{\textbf{ Conversion }} \\
+            \cline{2-3}
+             & \textbf{ Borne Inf. } & \textbf{ Borne Sup. } & & \\
+            \hline
+            \textbf{Learning Rate} & $-10$ & $-1$ & log. & $f(x) = 10^{x}$ \\
+            \hline
+            \textbf{LoRA rank} & 1 & 64 &ent. &$f(x) = \text{round}(x)$ \\
+            \hline
+            \textbf{LoRA scale} &1 & 64 & ent. &$f(x) = \text{round}(x)$ \\
+            \hline
+            \textbf{Dropout} & 0 & 0.5 & cont.& $f(x) = x$ \\
+            \hline
+            \textbf{Weight Decay} & $-3$ & $-1$ &log.& $f(x) = 10^{x}$  \\
+            \hline
+        \end{tabular}
+        \caption{Résumé de l'espace de recherche}
+    \end{table}
+
+    \begin{itemize}
+        \item Variables mixes : étape de conversion nécessaire
+    \end{itemize}
+
 \end{frame}
 
 \begin{frame}{Search Strategy : BO}
