@@ -1,21 +1,21 @@
 \usepgfplotslibrary[fillbetween]
-\begin{tikzpicture}[domain = 0:5,scale = 0.6]
+\begin{tikzpicture}[domain = 0:5,scale = 0.7]
 
     \begin{axis}[
-        xlabel={$x$},
-        ylabel={$y=f(x)$},
         legend pos=outer north east,
         ymin = 2.5,ymax=5, 
-        xmin = 0, xmax = 5
+        xmin = 0, xmax = 5,
+        x=40,
+        y =55
     ]
     % plot function
     \addplot [no markers, blue, dashdotted, thick,visible on =<-3>] {sin(\x r)^2+sqrt(\x+8)};
-    \addlegendentry[visible on =<-3>]{Function : $f(x)$}
+    \addlegendentry[visible on =<-3>]{$f(x)$}
 
     % Add sampling
     % LHS
     \addplot [blue, only marks, mark = *,visible on =<2-3>] table {assets/tikz_picture/gaussian_process/lhs.dat};
-    \addlegendentry[visible on =<2-3>]{Sampled points (LHS)}
+    \addlegendentry[visible on =<2-3>]{$LHS(\Omega)$}
 
     
     \draw[color=teal!50, dashed,visible on =<2>](axis cs:1.25, -5) -- (axis cs:1.25, 27);
@@ -24,17 +24,17 @@
 
     % Surrogate
     \addplot [red,visible on =<3-3>] table {assets/tikz_picture/gaussian_process/mean.dat};
-    \addlegendentry[visible on =<3-3>]{Surrogate : $\hat{f}(x)$}
+    \addlegendentry[visible on =<3-3>]{$\hat{f}(x)$}
     % UCB
     \addplot [violet,dashed,visible on =<3>] table {assets/tikz_picture/gaussian_process/ucb.dat};
-    \addlegendentry[visible on =<3>]{Conf. Bnd:$\hat{f}(x) \pm \beta \hat{\sigma}(x)$ }
+    \addlegendentry[visible on =<3>]{$UCB$ }
     % LCB
     \addplot [violet,dashed,visible on =<3>] table {assets/tikz_picture/gaussian_process/lcb.dat};
-    \addlegendentry[visible on = <3>]{}
+    \addlegendentry[visible on = <3>]{$LCB$}
 
     % Optimize UCB
     \addplot [violet,visible on =<4>] table {assets/tikz_picture/gaussian_process/ucb.dat};
-    \addlegendentry[visible on =<4>]{Upper Conf. Bnd. }
+    \addlegendentry[visible on =<4>]{$UCB$ }
 
     % Local Search 1 : 
         \addplot [violet,visible on =<4>, mark = triangle*,mark size = 3, mark indices = {16,20,25},only marks, mark options = {rotate = 90, color = blue!50}] table {assets/tikz_picture/gaussian_process/ucb.dat}; 
@@ -52,10 +52,10 @@
 
     \end{axis} 
 
-    \onslide<2->\node[font = \small] at (8,2){Etape :};
+    %\onslide<2->\node[font = \small] at (9,2){Etape :};
 
-    \onslide<2>{\node[anchor = west,font = \small] at (8.6,2){Echantillonage};}
-    \onslide<3>{\node[anchor = west,font = \small] at (8.6,2){Fit GP};}
-    \onslide<4>{\node[anchor = west,font = \small] at (8.6,2){Opt. UCB};}
+    %\onslide<2>{\node[anchor = west,font = \small] at (9.6,2){Echantillonage};}
+    %\onslide<3>{\node[anchor = west,font = \small] at (9.6,2){Fit GP};}
+    %\onslide<4>{\node[anchor = west,font = \small] at (9.6,2){Opt. UCB};}
 
 \end{tikzpicture}

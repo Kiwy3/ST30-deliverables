@@ -33,16 +33,19 @@
 \begin{frame}{Strategie de Recherche : Optimisation Bayésienne par Process Gaussien }
     \begin{columns}
     %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
-    \begin{column}[t]{0.4\textwidth} 
-        \begin{block}{Algorithm}
+    \begin{column}[t]{0.45\textwidth} 
+
+        \begin{block}{Principe}
+            Utiliser un substitut moins cher à optimiser pour explorer l'espace de recherche
+        \end{block}
+        \hfill
+        \begin{block}{Algorithme}
                 \begin{itemize}
-                    \item Echantillon de $n$ Points (LHS)
-                    \item Evaluer ces $n$ points
-                    \item Jusqu'à fin du budget
+                    \item<2-> Echantillon de $n$ Points (LHS)
                     \begin{itemize}
-                        \item Entrainer le Process Gaussien (GP)
-                        \item Optimiser ce GP pour obtenir un nouveau Point
-                        \item Evaluer ce nouveaux point
+                        \item<3-> Entrainer le Process Gaussien (GP)
+                        \item<4-> Optimiser la fonction d'acquisition
+                        \item<4-> Evaluer ce nouveaux point
                     \end{itemize}
                 \end{itemize}
         \end{block}
@@ -50,11 +53,11 @@
         \end{column}
              
      %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
-        \begin{column}[t]{0.6\textwidth}
+        \begin{column}[t]{0.55\textwidth}
             \begin{figure}
                 \centering
                 \input{assets/tikz_picture/gaussian_process/gp.tex}
-                \caption{Example d'un surrogate sur une fonction en 1D}
+                \hspace*{-5pt}\caption{Example d'un surrogate sur une fonction en 1D}
             \end{figure} 
         \end{column}
              
