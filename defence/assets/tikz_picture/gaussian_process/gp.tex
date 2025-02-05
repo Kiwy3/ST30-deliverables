@@ -1,0 +1,35 @@
+\usepgfplotslibrary[fillbetween]
+\begin{tikzpicture}[domain = 0:5,scale = 0.6]
+
+    \begin{axis}[
+        xlabel={$x$},
+        ylabel={$y=f(x)$},
+        legend pos=outer north east,
+        ymin = 2.5,ymax=5, 
+        xmin = 0, xmax = 5
+    ]
+    % plot function
+    \addplot [no markers, blue, dashdotted, thick] {sin(\x r)^2+sqrt(\x+8)};
+    \addlegendentry{Function : $f(x)$}
+
+    % Add sampling
+    % LHS
+    \addplot [blue, only marks, mark = *,visible on =<2->] table {assets/tikz_picture/gaussian_process/lhs.dat};
+    \addlegendentry[visible on =<2->]{Sampled points (LHS)}
+
+    
+    \draw[color=teal!50, dashed,visible on =<2>](axis cs:1.25, -5) -- (axis cs:1.25, 27);
+    \draw[color=teal!50, dashed,visible on =<2>](axis cs:2.5, -5) -- (axis cs:2.5, 27);
+    \draw[color=teal!50, dashed,visible on =<2>](axis cs:3.75, -5) -- (axis cs:3.75, 27);
+
+    % Surrogate
+    \addplot [red,visible on =<3->] table {assets/tikz_picture/gaussian_process/mean.dat};
+    \addlegendentry[visible on =<3->]{Surrogate : $\hat{f}(x)$}
+    % UCB
+    \addplot [violet,dashed,visible on =<3->] table {assets/tikz_picture/gaussian_process/ucb.dat};
+    \addlegendentry[visible on =<3->]{Conf. Bnd:$\hat{f}(x) \pm \beta \hat{\sigma}(x)$ }
+    % LCB
+    \addplot [violet,dashed,visible on =<3->] table {assets/tikz_picture/gaussian_process/lcb.dat};
+
+    \end{axis} 
+\end{tikzpicture}
