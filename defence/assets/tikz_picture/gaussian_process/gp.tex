@@ -9,13 +9,13 @@
         xmin = 0, xmax = 5
     ]
     % plot function
-    \addplot [no markers, blue, dashdotted, thick] {sin(\x r)^2+sqrt(\x+8)};
-    \addlegendentry{Function : $f(x)$}
+    \addplot [no markers, blue, dashdotted, thick,visible on =<-3>] {sin(\x r)^2+sqrt(\x+8)};
+    \addlegendentry[visible on =<-3>]{Function : $f(x)$}
 
     % Add sampling
     % LHS
-    \addplot [blue, only marks, mark = *,visible on =<2->] table {assets/tikz_picture/gaussian_process/lhs.dat};
-    \addlegendentry[visible on =<2->]{Sampled points (LHS)}
+    \addplot [blue, only marks, mark = *,visible on =<2-3>] table {assets/tikz_picture/gaussian_process/lhs.dat};
+    \addlegendentry[visible on =<2-3>]{Sampled points (LHS)}
 
     
     \draw[color=teal!50, dashed,visible on =<2>](axis cs:1.25, -5) -- (axis cs:1.25, 27);
@@ -23,13 +23,39 @@
     \draw[color=teal!50, dashed,visible on =<2>](axis cs:3.75, -5) -- (axis cs:3.75, 27);
 
     % Surrogate
-    \addplot [red,visible on =<3->] table {assets/tikz_picture/gaussian_process/mean.dat};
-    \addlegendentry[visible on =<3->]{Surrogate : $\hat{f}(x)$}
+    \addplot [red,visible on =<3-3>] table {assets/tikz_picture/gaussian_process/mean.dat};
+    \addlegendentry[visible on =<3-3>]{Surrogate : $\hat{f}(x)$}
     % UCB
-    \addplot [violet,dashed,visible on =<3->] table {assets/tikz_picture/gaussian_process/ucb.dat};
-    \addlegendentry[visible on =<3->]{Conf. Bnd:$\hat{f}(x) \pm \beta \hat{\sigma}(x)$ }
+    \addplot [violet,dashed,visible on =<3>] table {assets/tikz_picture/gaussian_process/ucb.dat};
+    \addlegendentry[visible on =<3>]{Conf. Bnd:$\hat{f}(x) \pm \beta \hat{\sigma}(x)$ }
     % LCB
-    \addplot [violet,dashed,visible on =<3->] table {assets/tikz_picture/gaussian_process/lcb.dat};
+    \addplot [violet,dashed,visible on =<3>] table {assets/tikz_picture/gaussian_process/lcb.dat};
+    \addlegendentry[visible on = <3>]{}
+
+    % Optimize UCB
+    \addplot [violet,visible on =<4>] table {assets/tikz_picture/gaussian_process/ucb.dat};
+    \addlegendentry[visible on =<4>]{Upper Conf. Bnd. }
+
+    % Local Search 1 : 
+        \addplot [violet,visible on =<4>, mark = triangle*,mark size = 3, mark indices = {16,20,25},only marks, mark options = {rotate = 90, color = blue!50}] table {assets/tikz_picture/gaussian_process/ucb.dat}; 
+        \addplot [violet,visible on =<4>, mark = triangle*,mark size = 4, mark indices = {27},only marks, mark options = { color = blue}] table {assets/tikz_picture/gaussian_process/ucb.dat};
+    % Local Search 2
+        \addplot [violet,visible on =<4>, mark = triangle*,mark size = 3, mark indices = {40,35,45},only marks, mark options  = {rotate = 180, color = teal!50}] table {assets/tikz_picture/gaussian_process/ucb.dat};
+        \addplot [violet,visible on =<4>, mark = triangle*,mark size = 4, mark indices = {33},only marks, mark options = {color = teal}] table {assets/tikz_picture/gaussian_process/ucb.dat};
+    % Local Search 3
+        \addplot [violet,visible on =<4>, mark = triangle*,mark size = 3, mark indices = {60,65,70,75},only marks, mark options = {rotate = 90, color = red!50}] table {assets/tikz_picture/gaussian_process/ucb.dat}; 
+        \addplot [violet,visible on =<4>, mark = triangle*,mark size = 4, mark indices = {79},only marks, mark options  = {color = red}] table {assets/tikz_picture/gaussian_process/ucb.dat};
+    % Best final
+    \draw[color=red!50, dashed,visible on =<4>](axis cs:0.79*5, -5) -- (axis cs:0.79*5, 27);
+
+
 
     \end{axis} 
+
+    \onslide<2->\node[font = \small] at (8,2){Etape :};
+
+    \onslide<2>{\node[anchor = west,font = \small] at (8.6,2){Echantillonage};}
+    \onslide<3>{\node[anchor = west,font = \small] at (8.6,2){Fit GP};}
+    \onslide<4>{\node[anchor = west,font = \small] at (8.6,2){Opt. UCB};}
+
 \end{tikzpicture}
