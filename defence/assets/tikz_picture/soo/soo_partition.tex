@@ -1,16 +1,8 @@
 \begin{tikzpicture}[scale=0.4]
 
     % Define backgroun
-     \draw[step=6,black,very thin] (0,0) grid (6,6);
+     \draw[step=6,black,very thin] (0,0) grid (6,6);    
 
-    
-    \onslide<1>{ %x_omega for first slide
-     \fill[purple!50, opacity = 0.5] (0.0,0) rectangle (6,6);
-      \fill[fill = purple!50] (3,3) circle (0.1) node[above]{$x_{\Omega}$};
-    }
-    
-    %%%%%%%%% First Iteration : A,B,C  %%%%%%
-    \onslide<2->{ 
       % First decomposition : section(space) -> A,B,C
       \draw (2,0) -- (2,6) ;
       \draw (4,0) -- (4,6);
@@ -22,17 +14,17 @@
           % define C
           \fill[teal!50, opacity = 0.3] (4,0) rectangle (6,6);
              
-    }
-    \onslide<2>{
+    
+    \onslide<1>{
       %define C
       \fill[fill = teal] (5,3) circle (0.1) node[above]{$x_{C}$};
     }
-    \onslide<2,3>{
+    \onslide<1,2>{
       %define A
       \fill[fill = red] (1,3) circle (0.1) node[above]{$x_A$};
     }
     %%%%%%%%% Second Iteration : D,E,F  %%%%%%
-    \onslide<3->{
+    \onslide<2->{
       % second decomposition : section(C) -> D,E,F
       \draw (4,2) -- (6,2);
       \draw (4,4) -- (6,4);
@@ -45,12 +37,12 @@
         \fill[olive!40, opacity = 0.3] (4,0) rectangle (6,2);
         \fill[fill = olive] (5,1) circle ( 0.1) node[above]{$x_F$} ;  
     } 
-    \onslide<3>{
+    \onslide<2>{
       \fill[fill = blue] (5,5) circle ( 0.1) node[above]{$x_{D}$} ;  
     }
 
     %%%%%%%%% Second Iteration : G,H,I and J,K,L  %%%%%%
-    \onslide<4->{
+    \onslide<3->{
       % Third decomposition : section(A) -> G,H,I
       \draw (0,2) -- (2,2);
       \draw (0,4) -- (2,4);

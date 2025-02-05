@@ -2,11 +2,10 @@
     \tikzstyle{space} = [circle, minimum width=0.6cm,text centered, draw=black]
     \tikzstyle{arrow} = [thick,->,>=stealth]
 
-    \onslide<1->{
       \node(space)[space, fill = purple!50]{$\Omega$};
-    }
 
-    \onslide<2->{ % First loop
+
+ 
         %depth 1
         \node(B)[space, fill = magenta!40, below of = space, yshift = -0cm]{B};
         \node(A)[space, fill = red!50, left of = B, xshift = -10pt]{A};
@@ -14,8 +13,8 @@
         \draw[arrow] (space) -- (A);
         \draw[arrow] (space) -- (B);
         \draw[arrow] (space) -- (C);
-    }
-    \onslide<3->{ % First loop
+    
+    \onslide<2->{ % First loop
     %depth 1
     \node(E)[space, fill = teal!40, below of = C, yshift = -0cm]{E};
     \node(D)[space, fill = blue!50, left of = E]{D};
@@ -25,7 +24,7 @@
     \draw[arrow] (C) -- (F);
     }
 
-    \onslide<4->{
+    \onslide<3->{
     %depth 2
     \node(H)[space, fill = red!20, below of = A]{H};
     \node(G)[space, fill = orange!50, left of = H]{G};
