@@ -69,14 +69,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : SOO %%%%%%%%%%%%%%%%%%
 \begin{frame}{Stratégie de Recherche : Simultaneous Optimistic Optimization}
 
-    \vspace*{2pt}
-    \begin{block}{Principe de SOO}
-        K-section successive de l'espace, en évaluant le centre de chaque sous-espace.
+    \vspace*{-8pt}
+    \begin{block}{}
+        Article présentant SOO :{\small \textit{Optimistic Optimization of a Deterministic Function without the Knowledge of its Smoothness}, Munos et al, 2011}
 
-        Maximum une expansion /itération/profondeur.
+        K-section successive de l'espace, en évaluant le centre de chaque sous-espace. Maximum une expansion /itération/profondeur.
     \end{block}
 
-    \vspace*{-10pt}
+    \vspace*{-14pt}
     \begin{columns}
         
         %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
@@ -84,6 +84,7 @@
             \begin{figure}
                 \centering
                 \input{assets/tikz_picture/soo/soo_partition.tex}
+                \vspace*{-1pt}
                 \caption{Partition de l'espace de recherche par SOO}
             \end{figure} 
      
@@ -94,6 +95,7 @@
                 \begin{figure}
                     \centering
                     \input{assets/tikz_picture/soo/soo_tree.tex}
+                    \vspace*{-3pt}
                     \caption{Arbre correspondant à SOO}
                 \end{figure} 
             \end{column}
@@ -103,15 +105,27 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : BaMSOO %%%%%%%%%%%%%%%%%%
-\begin{frame}{Search Strategy : BaMSOO (TO DO)}
+\begin{frame}{Stratégie de Recherche : Bayesian Multi-Scale Optimistic Optimization (BaMSOO)}
     \begin{columns}
         %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+        
         \begin{column}[t]{0.5\textwidth} 
-            \begin{figure}
-                \centering
-                \input{assets/tikz_picture/bamsoo_partition.tex}
-                \caption{Partition de l'espace de recherche par SOO}
-            \end{figure} 
+            \vspace*{10pt}
+            
+            Décomposition suivant SOO, mais utilisant des Process Gaussien pour éviter les évaluations non prometteuses. 
+            \begin{block}{Evaluation par BaMSOO}
+                \begin{itemize}
+                    \item If $UCB(x) > f^+$ :
+                    \begin{itemize}
+                        \item $g(x) = f(x)$ {\small \textit real evaluation}
+                    \end{itemize}
+                    \item Else : 
+                    \begin{itemize}
+                        \item $g(x) = LCB(x)$ {\small \textit use LCB to replace $f(x)$}
+                    \end{itemize}
+                \end{itemize}
+                
+            \end{block}
      
             \end{column}
                  
@@ -119,8 +133,8 @@
             \begin{column}[t]{0.5\textwidth}
                 \begin{figure}
                     \centering
-                    \input{assets/tikz_picture/bamsoo_tree.tex}
-                    \caption{Arbre correspondant à SOO}
+                    \input{assets/tikz_picture/BaMSOO/bamsoo.tex}
+                    \caption{Illustration de l'Algorithme BaMSOO}
                 \end{figure} 
             \end{column}
                  

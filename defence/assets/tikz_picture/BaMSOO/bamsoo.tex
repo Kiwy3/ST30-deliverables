@@ -1,0 +1,64 @@
+\usepgfplotslibrary[fillbetween]
+\begin{tikzpicture}[domain = 0:6,scale = 0.7]
+
+    \begin{axis}[
+        legend pos=outer north east,
+        %ymin = 0,ymax=5, 
+        xmin = 0, xmax = 6,
+        %x=40,
+        %y =55
+    ]
+    return {"obj":-np.sin(1.1*x)**3+np.sqrt(x+7)}
+
+    % plot function
+    \addplot [no markers, blue, dashdotted, thick,visible on =<1>] {-sin(1.1*\x r)^3+sqrt(\x+7)};
+    \addlegendentry[visible on =<1>]{$f(x)$}
+
+    \addplot [no markers, blue, dashdotted, thick,visible on =<3>] {-sin(1.1*\x r)^3+sqrt(\x+7)};
+    \addlegendentry[visible on =<3>]{$f(x)$}
+
+    \addplot [no markers, blue, dashdotted, thick,visible on =<5>] {-sin(1.1*\x r)^3+sqrt(\x+7)};
+    \addlegendentry[visible on =<5>]{$f(x)$}
+
+
+    % First slide
+        % Plot SOO points
+        \addplot [blue, only marks, mark = *,visible on =<1-2>] table {assets/tikz_picture/BaMSOO/soo_1.dat};
+        \addlegendentry[visible on =<1->]{$SOO$}
+        % Draw 3-section
+        \draw[color=teal, dashed,visible on =<1->](axis cs:2, -5) -- (axis cs:2, 27);
+        \draw[color=teal, dashed,visible on =<1->](axis cs:4, -5) -- (axis cs:4, 27);
+
+    % Second slide
+        % first UCB
+        \addplot [violet,visible on =<2>,mark = triangle*, mark indices = {72,94}, mark size = 3, mark options = {color = red}] table {assets/tikz_picture/BaMSOO/ucb_1.dat};
+        \addlegendentry[visible on =<2>]{$UCB$}
+        % Draw 3-section
+        \draw[color=teal!50, densely dashed,visible on =<2->](axis cs:4.6, -5) -- (axis cs:4.6, 27);
+        \draw[color=teal!50, densely dashed,visible on =<2->](axis cs:5.3, -5) -- (axis cs:5.3, 27);
+        % Draw f+
+        \draw[color=red, dashed,visible on =<2>]  (axis cs:0, 3.815)node [above right] {$f^+$} -- (axis cs:6, 3.815) ;
+
+    % Third slide
+        % Plot SOO points
+        \addplot [blue, only marks, mark = *,visible on =<3-5>] table {assets/tikz_picture/BaMSOO/soo_2.dat};
+
+    % Fourth slide
+        % second UCB
+        \addplot [violet,visible on =<4>,mark = triangle*, mark indices = {38,60}, mark size = 3, mark options = {color = red}] table {assets/tikz_picture/BaMSOO/ucb_2.dat};
+        \addlegendentry[visible on =<4>]{$UCB$}
+        % Draw 3-section
+        \draw[color=teal!50, dashed,visible on =<4->](axis cs:2.6, -5) -- (axis cs:2.6, 27);
+        \draw[color=teal!50, dashed,visible on =<4->](axis cs:3.3, -5) -- (axis cs:3.3, 27);
+        % Draw f+
+        \draw[color=red, dashed,visible on =<4>]  (axis cs:0, 4.36)node [above right] {$f^+$} -- (axis cs:6, 4.36) ;
+    
+    % Fifth Slide
+        \addplot [cyan, only marks,mark size = 3, mark = triangle*,mark options = {rotate = 180},visible on =<5>] table {assets/tikz_picture/BaMSOO/lcb_2.dat};
+        \addlegendentry[visible on =<5>]{$LCB$}
+
+
+
+    \end{axis} 
+
+\end{tikzpicture}
