@@ -50,18 +50,18 @@
                     \end{itemize}
                 \end{itemize}
         \end{block}
- 
         \end{column}
+        
              
      %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
         \begin{column}[t]{0.55\textwidth}
+            \hspace*{-10pt}
             \begin{figure}
                 \centering
                 \input{assets/tikz_picture/gaussian_process/gp.tex}
                 \hspace*{-5pt}\caption{Example d'un surrogate sur une fonction en 1D}
             \end{figure} 
         \end{column}
-             
     \end{columns}
 
 \end{frame}
@@ -109,9 +109,9 @@
     \begin{columns}
         %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
         
-        \begin{column}[t]{0.5\textwidth} 
+        \begin{column}[t]{0.45\textwidth} 
             \vspace*{10pt}
-            
+
             Décomposition suivant SOO, mais utilisant des Process Gaussien pour éviter les évaluations non prometteuses. 
             \begin{block}{Evaluation par BaMSOO}
                 \begin{itemize}
@@ -130,7 +130,7 @@
             \end{column}
                  
          %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
-            \begin{column}[t]{0.5\textwidth}
+            \begin{column}[t]{0.45\textwidth}
                 \begin{figure}
                     \centering
                     \input{assets/tikz_picture/BaMSOO/bamsoo.tex}
@@ -147,12 +147,13 @@
         \begin{itemize}
             \item Fine Tuning
             \begin{itemize}
-                \item modèle : LlaMa-3.2-1B
-                \item 
+                \item Modèle : LlaMa-3.2-1B
+                \item Jeu de données d'entrainement : Alpaca
+                \item LitGPT framework : basé sur Pytorch, facilite le Fine Tuning de LLM
             \end{itemize}
             \item Evaluation
             \begin{itemize}
-                \item librairie lm\_eval
+                \item librairie lm\_eval : standard pour l'évaluation de LLM
                 \item Evaluation par la précision sur des jeu de données Benchmark : Hellaswag et MMLU
             \end{itemize}
         \end{itemize}
