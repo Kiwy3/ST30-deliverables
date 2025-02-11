@@ -11,7 +11,7 @@ from botorch.acquisition.analytic import LogExpectedImprovement, UpperConfidence
 
 import torch
 import math
-
+saving = False
 def function(x): # Call function
     return {"obj":-np.sin(1.1*x)**3+np.sqrt(x+7)}
 
@@ -71,17 +71,18 @@ y_ei = np.exp(y_ei)
 x_max = x_list[np.argmax(y_ub)]
 
 """--------------------- Extract data for tikz -------------------"""
-# LHS points
-with open("BaMSOO/soo_1.dat","w") as f:
-    for i,x in enumerate(points):
-        y = train_Y.squeeze(-1)[i].item()
-        f.write(f"{x} {y}\n")
+if saving : 
+    # LHS points
+    with open("BaMSOO/soo_1.dat","w") as f:
+        for i,x in enumerate(points):
+            y = train_Y.squeeze(-1)[i].item()
+            f.write(f"{x} {y}\n")
 
-# UCB points
-with open("BaMSOO/ucb_1.dat","w") as f:
-    for i,y in enumerate(y_ub):
-        x = x_list[i].item()
-        f.write(f"{x} {y}\n")
+    # UCB points
+    with open("BaMSOO/ucb_1.dat","w") as f:
+        for i,y in enumerate(y_ub):
+            x = x_list[i].item()
+            f.write(f"{x} {y}\n")
 
 
 """--------------------- LHS Sampling and evaluation -------------------"""
@@ -116,16 +117,17 @@ y_ei = np.exp(y_ei)
 x_max = x_list[np.argmax(y_ub)]
 
 """--------------------- Extract data for tikz -------------------"""
-# LHS points
-with open("BaMSOO/soo_2.dat","w") as f:
-    for i,x in enumerate(points):
-        y = train_Y.squeeze(-1)[i].item()
-        f.write(f"{x} {y}\n")
+if saving : 
+    # LHS points
+    with open("BaMSOO/soo_2.dat","w") as f:
+        for i,x in enumerate(points):
+            y = train_Y.squeeze(-1)[i].item()
+            f.write(f"{x} {y}\n")
 
-# UCB points
-with open("BaMSOO/ucb_2.dat","w") as f:
-    for i,y in enumerate(y_ub):
-        x = x_list[i].item()
+    # UCB points
+    with open("BaMSOO/ucb_2.dat","w") as f:
+        for i,y in enumerate(y_ub):
+            x = x_list[i].item()
         f.write(f"{x} {y}\n")
 
 """--------------------- Plot Sampling and surrogate -------------------
