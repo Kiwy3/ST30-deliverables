@@ -35,27 +35,28 @@
     \begin{columns}
     %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
     \begin{column}[t]{0.45\textwidth} 
-
+        \vspace*{5pt}
         \begin{block}{Principe}
             Utiliser un substitut moins cher à optimiser pour explorer l'espace de recherche
         \end{block}
         \hfill
-        \begin{block}{\onslide<2->{Algorithme}}
+        \begin{block}{\onslide<1->{Algorithme}}
                 \begin{itemize}
-                    \item<2-> Echantillon de $n$ Points (LHS)
+                    \item<1-> Echantillon de $n$ Points (LHS)
                     \begin{itemize}
-                        \item<3-> Entrainer le Process Gaussien (GP)
-                        \item<4-> Optimiser la fonction d'acquisition
-                        \item<4-> Evaluer ce nouveaux point
+                        \item<2-> Entrainer le Process Gaussien (GP)
+                        \item<3-> Optimiser la fonction d'acquisition
+                        \item<3-> Evaluer ce nouveaux point
                     \end{itemize}
                 \end{itemize}
         \end{block}
         \end{column}
-        
+        %#TODO - ajouter une phrase explicative
              
      %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
         \begin{column}[t]{0.55\textwidth}
             \hspace*{-10pt}
+            \vspace*{-8pt}
             \begin{figure}
                 \centering
                 \input{assets/tikz_picture/gaussian_process/gp.tex}
