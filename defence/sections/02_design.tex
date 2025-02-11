@@ -140,28 +140,6 @@
     \end{columns}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : Performance Estimation Strategy %%%%%%%%%%%%%%%%%%
-\begin{frame}{Stratégie d'Evaluation de Solutions}
-    \begin{block}{Implémentation}
-        \begin{itemize}
-            \item Fine Tuning
-            \begin{itemize}
-                \item Modèle : LlaMa-3.2-1B
-                \item Jeu de données d'entrainement : Alpaca
-                \item LitGPT framework : basé sur Pytorch, facilite le Fine Tuning de LLM
-            \end{itemize}
-            \item Evaluation
-            \begin{itemize}
-                \item librairie lm\_eval : standard pour l'évaluation de LLM
-                \item Evaluation par la précision sur des jeu de données Benchmark : Hellaswag et MMLU
-            \end{itemize}
-        \end{itemize}
-
-        
-    \end{block}
-
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Implementation %%%%%%%%%%%%%%%%%%
 \begin{frame}{Implémentation}
     \begin{columns}
