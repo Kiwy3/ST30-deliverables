@@ -11,7 +11,8 @@ from botorch.acquisition.analytic import LogExpectedImprovement, UpperConfidence
 
 import torch
 import math
-saving = False
+saving = True
+folder = "../tikz_picture/BaMSOO/"
 def function(x): # Call function
     return {"obj":-np.sin(1.1*x)**3+np.sqrt(x+7)}
 
@@ -21,10 +22,50 @@ def plot_function(plot): # Plot function
     plot.plot(X,Y,c="blue",label="Real function (f(x))")
     return X, Y
 
+def plot(): # Plot function
+    # Plot function and surrogate
+
+    fig, ax1 = plt.subplots(figsize = (12,6))
+    X, Y = plot_function(ax1)
+    ax1.scatter(train_X,train_Y,label =  "initial sampling", c="blue")
+    #ax1.set_ylim(2.5,5)
+
+    # Plot Mean,UCB...
+    ax1.plot(x_list,y_mean,c="black",label="Kernel mean function", linestyle = "dashed")
+    ax1.fill_between(x_list,y_lb,y_ub,alpha=0.2, color = "red")
+    ax1.plot(x_list,y_lb, linestyle = "dashed",color = "red",alpha = 0.3)
+    ax1.plot(x_list,y_ub, linestyle = "dashed",color = "red",alpha = 0.3, label = "Confidence interval")
+
+    # Plot EI
+    ax2 = ax1.twinx()
+    ax2.plot(x_list, y_ei)
+    ax2.set_ylim(0,max(y_ei)*2)
+
+    # Plot x_max
+    ax1.scatter(x_max,max(y_ub), label="x_max of UCB", c="red", marker="x")
+    ax1.scatter(x_max,function(x_max.item())["obj"], c="blue", marker="x", label = "evaluation of best point f(x_max)")
+    ax1.vlines(x_max,min(Y),4.8,colors="red", alpha=0.5)
+
+
+
+    # Last command
+    ax1.legend(loc = "upper left")
+    ax1.set_xlim(domain[0],domain[1])
+    #ax1.set_xlim(2,4)
+
+    ax1.set_ylabel("f(x)")
+    ax2.set_ylabel("Expected Improvement")
+    fig.suptitle("Surrogate of f(x) using Gaussian Process")
+    fig.tight_layout()
+    plt.show()
+    #plt.savefig("GP/gaussian whole process")"""
+
 def fit_gp (train_X, train_Y): # fit a GP
+    Y_var = torch.zeros_like(train_Y)
     gp = SingleTaskGP(
         train_X=train_X,
         train_Y=train_Y,
+        train_Yvar=Y_var,
         input_transform=Normalize(d=1),
         outcome_transform=Standardize(m=1),
         )
@@ -49,7 +90,7 @@ train_Y = function(train_X)["obj"]
 """--------------------- Fit GP and extract acquisition function -------------------"""
 gp = fit_gp(train_X,train_Y)
 logEI = LogExpectedImprovement(model=gp, best_f=train_Y.max(),maximize=True)
-ucb = UpperConfidenceBound(gp, beta=0.5)
+ucb = UpperConfidenceBound(gp, beta=1.96)
 
 """--------------------- Define Acq fun for whole domain -------------------"""
 x_list = torch.linspace(domain[0],domain[1], 100)
@@ -70,16 +111,18 @@ for x in x_list:
 y_ei = np.exp(y_ei)
 x_max = x_list[np.argmax(y_ub)]
 
+plot()
+
 """--------------------- Extract data for tikz -------------------"""
 if saving : 
     # LHS points
-    with open("BaMSOO/soo_1.dat","w") as f:
+    with open(f"{folder}soo_1.dat","w") as f:
         for i,x in enumerate(points):
             y = train_Y.squeeze(-1)[i].item()
             f.write(f"{x} {y}\n")
 
     # UCB points
-    with open("BaMSOO/ucb_1.dat","w") as f:
+    with open(f"{folder}ucb_1.dat","w") as f:
         for i,y in enumerate(y_ub):
             x = x_list[i].item()
             f.write(f"{x} {y}\n")
@@ -95,7 +138,7 @@ train_Y = function(train_X)["obj"]
 """--------------------- Fit GP and extract acquisition function -------------------"""
 gp = fit_gp(train_X,train_Y)
 logEI = LogExpectedImprovement(model=gp, best_f=train_Y.max(),maximize=True)
-ucb = UpperConfidenceBound(gp, beta=0.5)
+ucb = UpperConfidenceBound(gp, beta=1)
 
 """--------------------- Define Acq fun for whole domain -------------------"""
 x_list = torch.linspace(domain[0],domain[1], 100)
@@ -115,55 +158,33 @@ for x in x_list:
     )
 y_ei = np.exp(y_ei)
 x_max = x_list[np.argmax(y_ub)]
-
+plot()
 """--------------------- Extract data for tikz -------------------"""
 if saving : 
     # LHS points
-    with open("BaMSOO/soo_2.dat","w") as f:
+    with open(f"{folder}soo_2.dat","w") as f:
         for i,x in enumerate(points):
             y = train_Y.squeeze(-1)[i].item()
             f.write(f"{x} {y}\n")
 
     # UCB points
-    with open("BaMSOO/ucb_2.dat","w") as f:
+    with open(f"{folder}ucb_2.dat","w") as f:
         for i,y in enumerate(y_ub):
             x = x_list[i].item()
-        f.write(f"{x} {y}\n")
+            f.write(f"{x} {y}\n")
 
-"""--------------------- Plot Sampling and surrogate -------------------
-# Plot function and surrogate
+if saving : 
+    """ Obtain LCB for useful points """
+    points = [2.3,3.6]
+    lb_list = []
+    for x in points:
+        mean, sigma = mean_sigma(torch.tensor([[x]],dtype=torch.double))
+        std = torch.sqrt(beta * sigma).detach().numpy()
+        lb = mean - std
+        lb_list.append(lb.item())
 
-fig, ax1 = plt.subplots(figsize = (12,6))
-X, Y = plot_function(ax1)
-ax1.scatter(train_X,train_Y,label =  "initial sampling", c="blue")
-#ax1.set_ylim(2.5,5)
-
-# Plot Mean,UCB...
-ax1.plot(x_list,y_mean,c="black",label="Kernel mean function", linestyle = "dashed")
-ax1.fill_between(x_list,y_lb,y_ub,alpha=0.2, color = "red")
-ax1.plot(x_list,y_lb, linestyle = "dashed",color = "red",alpha = 0.3)
-ax1.plot(x_list,y_ub, linestyle = "dashed",color = "red",alpha = 0.3, label = "Confidence interval")
-
-# Plot EI
-ax2 = ax1.twinx()
-ax2.plot(x_list, y_ei)
-ax2.set_ylim(0,max(y_ei)*2)
-
-# Plot x_max
-ax1.scatter(x_max,max(y_ub), label="x_max of UCB", c="red", marker="x")
-ax1.scatter(x_max,function(x_max.item())["obj"], c="blue", marker="x", label = "evaluation of best point f(x_max)")
-ax1.vlines(x_max,min(Y),4.8,colors="red", alpha=0.5)
-
-
-
-# Last command
-ax1.legend(loc = "upper left")
-ax1.set_xlim(domain[0],domain[1])
-#ax1.set_xlim(2,4)
-
-ax1.set_ylabel("f(x)")
-ax2.set_ylabel("Expected Improvement")
-fig.suptitle("Surrogate of f(x) using Gaussian Process")
-fig.tight_layout()
-#plt.savefig("GP/gaussian whole process")"""
-
+    with open(f"{folder}lcb_2.dat","w") as f:
+        for i in range(len(points)):
+            x = points[i]
+            y = lb_list[i]
+            f.write(f"{x} {y}\n")
