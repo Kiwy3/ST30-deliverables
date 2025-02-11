@@ -13,6 +13,10 @@
         \draw[arrow] (space) -- (A);
         \draw[arrow] (space) -- (B);
         \draw[arrow] (space) -- (C);
+
+    \onslide<1>{
+      \node (fit_A,B,C)[draw, thick, dashed, rounded corners, fit=(A)(B)(C), inner sep=0.1cm] {};
+    }
     
     \onslide<2->{ % First loop
     %depth 1
@@ -22,6 +26,10 @@
     \draw[arrow] (C) -- (E);
     \draw[arrow] (C) -- (D);
     \draw[arrow] (C) -- (F);
+
+    }
+    \onslide<2>{
+      \node (fit_E_D_F)[draw, thick, dashed, rounded corners, fit=(E)(D)(F), inner sep=0.1cm] {};
     }
 
     \onslide<3->{
@@ -39,6 +47,10 @@
     \draw[arrow] (D) -- (J);
     \draw[arrow] (D) -- (K);
     \draw[arrow] (D) -- (L);
+
+    \node (fit_G_H_I)[draw, thick, dashed, rounded corners, fit=(G)(H)(I), inner sep=0.1cm] {};
+    \node (fit_J_K_L)[draw, thick, dashed, rounded corners, fit=(J)(K)(L), inner sep=0.1cm] {};
+
     }
     
     
