@@ -23,7 +23,7 @@
 
     % First slide
         % Plot SOO points
-        \addplot [blue, only marks, mark = *,visible on =<1-2>] table {assets/tikz_picture/BaMSOO/soo_1.dat};
+        \addplot [blue, only marks, mark = *,visible on =<1-2>, mark size = 3] table {assets/tikz_picture/BaMSOO/soo_1.dat};
         \addlegendentry[visible on =<1->]{$SOO$}
         % Draw 3-section
         \draw[color=teal, dashed,visible on =<1->](axis cs:2, -5) -- (axis cs:2, 27);
@@ -31,7 +31,7 @@
 
     % Second slide
         % first UCB
-        \addplot [violet,visible on =<2>,mark = triangle*, mark indices = {72,94}, mark size = 3, mark options = {color = red}] table {assets/tikz_picture/BaMSOO/ucb_1.dat};
+        \addplot [violet,visible on =<2>,mark = triangle*, mark indices = {72,94}, mark size = 4, mark options = {color = red}] table {assets/tikz_picture/BaMSOO/ucb_1.dat};
         \addlegendentry[visible on =<2>]{$UCB$}
         % Draw 3-section
         \draw[color=teal!50, densely dashed,visible on =<2->](axis cs:4.6, -5) -- (axis cs:4.6, 27);
@@ -41,20 +41,20 @@
 
     % Third slide
         % Plot SOO points
-        \addplot [blue, only marks, mark = *,visible on =<3-5>] table {assets/tikz_picture/BaMSOO/soo_2.dat};
+        \addplot [blue, only marks, mark = *,visible on =<3-5>, mark size =3] table {assets/tikz_picture/BaMSOO/soo_2.dat};
 
     % Fourth slide
         % second UCB
-        \addplot [violet,visible on =<4>,mark = triangle*, mark indices = {38,60}, mark size = 3, mark options = {color = red}] table {assets/tikz_picture/BaMSOO/ucb_2.dat};
+        \addplot [violet,visible on =<4>,mark = triangle*, mark indices = {38,59}, mark size = 4, mark options = {color = red}] table {assets/tikz_picture/BaMSOO/ucb_2.dat};
         \addlegendentry[visible on =<4>]{$UCB$}
         % Draw 3-section
         \draw[color=teal!50, dashed,visible on =<4->](axis cs:2.6, -5) -- (axis cs:2.6, 27);
-        \draw[color=teal!50, dashed,visible on =<4->](axis cs:3.3, -5) -- (axis cs:3.3, 27);
+        \draw[color=teal!50, dashed,visible on =<4->](axis cs:3.25, -5) -- (axis cs:3.25, 27);
         % Draw f+
-        \draw[color=red, dashed,visible on =<4>]  (axis cs:0, 4.36)node [above right] {$f^+$} -- (axis cs:6, 4.36) ;
+        \draw[color=red, dashed,visible on =<4>]  (axis cs:0, 4.4)node [above right] {$f^+$} -- (axis cs:6, 4.4) ;
     
     % Fifth Slide
-        \addplot [cyan, only marks,mark size = 3, mark = triangle*,mark options = {rotate = 180},visible on =<5>] table {assets/tikz_picture/BaMSOO/lcb_2.dat};
+        \addplot [cyan, only marks,mark size = 4, mark = triangle*,mark options = {rotate = 180},visible on =<5>] table {assets/tikz_picture/BaMSOO/lcb_2.dat};
         \addlegendentry[visible on =<5>]{$LCB$}
 
 
