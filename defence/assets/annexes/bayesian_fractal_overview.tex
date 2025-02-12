@@ -1,0 +1,20 @@
+\begin{tikzpicture}
+    \tikzstyle{base}=[blue!50, draw, rounded corners, minimum width = 3cm]
+
+
+    \node(fractal)[base]{Fractals};
+    \node(tree_search)[base, below of = fractal]{Tree Search};
+    \node(exploration)[base, below of = tree_search]{Exploration};
+    \node(scoring)[base, below of = exploration]{Scoring};
+    \node(exploitation)[base, below of = scoring]{Exploitation};
+
+    \node (surrogate) [ right of = exploration,teal!50, draw, rounded corners, minimum width = 3cm, xshift = 3cm]{Surrogate};
+
+    \draw[->, dashed] (surrogate.north) to [out=90,in=0](fractal.east);
+    \draw[->, dashed] (surrogate.north) to [out=90,in=0](tree_search.east);
+    \draw[->, dashed] (surrogate.west) -- (exploration.east);
+    \draw[->, dashed] (surrogate.south) to [out=-90,in=0](scoring.east);
+    \draw[->, dashed] (surrogate.south) to [out=-90,in=0](exploitation.east);
+
+
+\end{tikzpicture}
