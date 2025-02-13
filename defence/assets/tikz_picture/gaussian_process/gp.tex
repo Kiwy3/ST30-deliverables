@@ -4,7 +4,7 @@
     \begin{axis}[
         legend pos=outer north east,
         xmin = 0, xmax = 10,
-        x=20,
+        x=18,
         y =30
     ]
     % plot function
@@ -14,7 +14,7 @@
     % Add sampling
     % LHS
     \addplot [blue, only marks, mark = *,visible on =<1-2>, mark size = 3] table {assets/tikz_picture/gaussian_process/lhs.dat};
-    \addlegendentry[visible on =<1-2>]{$LHS(\Omega)$}
+    \addlegendentry[visible on =<1-2>]{$LHS$}
 
     
     \draw[color=teal!50, dashed,visible on =<1>](axis cs:2, -5) -- (axis cs:2, 27);

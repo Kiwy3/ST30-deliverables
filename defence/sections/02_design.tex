@@ -31,7 +31,7 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : BO %%%%%%%%%%%%%%%%%%
-\begin{frame}{Strategie de Recherche : Optimisation Bayésienne par Process Gaussien }
+\begin{frame}{Stratégie de Recherche : Optimisation Bayésienne par Process Gaussien }
     \begin{columns}
     %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
     \begin{column}[t]{0.45\textwidth} 
@@ -42,8 +42,9 @@
         \hfill
         \begin{block}{\onslide<1->{Algorithme}}
                 \begin{itemize}
-                    \item<1-> Echantillon de $n$ Points (LHS)
+                    \item<1-> Echantillonnage et evaluation (LHS)
                     \begin{itemize}
+                        \setlength{\itemindent}{5pt}
                         \item<2-> Entrainer le Process Gaussien (GP)
                         \item<3-> Optimiser la fonction d'acquisition
                         \item<3-> Evaluer ce nouveaux point
@@ -60,7 +61,7 @@
             \begin{figure}
                 \centering
                 \input{assets/tikz_picture/gaussian_process/gp.tex}
-                \hspace*{-5pt}\caption{Example d'un surrogate sur une fonction en 1D}
+                \hspace*{-5pt}\caption{Exemple d'un surrogate sur une fonction en 1D}
             \end{figure} 
         \end{column}
     \end{columns}
@@ -72,7 +73,7 @@
 
     \vspace*{-8pt}
     \begin{block}{}
-        K-section successive de l'espace, en évaluant le centre de chaque sous-espace. Maximum une expansion /itération/profondeur.
+        K-section successive de l'espace, en évaluant le centre de chaque sous-espace. Maximum une décomposition par itération par profondeur.
     \end{block}
 
     \vspace*{-14pt}
@@ -108,19 +109,22 @@
     \begin{columns}
         %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
         
-        \begin{column}{0.45\textwidth} 
+        \begin{column}{0.5\textwidth} 
             \vspace*{10pt}
 
             Décomposition suivant SOO, mais utilisant des Process Gaussien pour éviter les évaluations non prometteuses. 
-            \begin{block}{Evaluation par BaMSOO}
+
+            \begin{block}{Evaluation par BaMSOO : $g(x)$}
                 \begin{itemize}
-                    \item If $UCB(x) > f^+$ :
+                    \item Si $UCB(x)$\footnote[2]{Upper Confidence Bound : Borne Sup. de l'intervalle de confiance}$ > f^+$ :
                     \begin{itemize}
-                        \item $g(x) = f(x)$ {\small \textit real evaluation}
+                        \setlength{\itemindent}{5pt}
+                        \item $g(x) = f(x)$ {\small \color{black!50} \textit  evaluation réel}
                     \end{itemize}
-                    \item Else : 
+                    \item Sinon : 
                     \begin{itemize}
-                        \item $g(x) = LCB(x)$ {\small \textit use LCB to replace $f(x)$}
+                        \setlength{\itemindent}{5pt}
+                        \item $g(x) = LCB(x)$\footnote[3]{Lower Confidence Bound : Borne Inf. de l'intervalle de confiance} {\small \color{black!50} \textit remplace $f(x)$ par $LCB(x)$}
                     \end{itemize}
                 \end{itemize}
                 
@@ -152,7 +156,7 @@
                     \item Travail de documentation : \textit{readme}, indication de type...
                     \item Objectif : permettre le réusage
                     \item Utilisable en ligne de commande pour Grid5000
-                    \item Intégralement open-source\footnote[2]{\url{https://github.com/Kiwy3/BO_PBO_HPO_LLM}}
+                    \item Intégralement open-source\footnote[4]{\url{https://github.com/Kiwy3/BO_PBO_HPO_LLM}}
                 \end{itemize}
             \end{block}
      

@@ -175,7 +175,9 @@
 \newcommand{\itemlevelone}{\tikz{%
    \draw[fill=deep_blue_eut,color=deep_blue_eut, line width=0pt] %
    (0,0.5ex) -- (0.7em,0) -- (0,-0.5ex); }}
-\newcommand{\itemleveltwo}{\tikz{%
+\newcommand{\itemleveltwo}{
+   \setlength{\itemindent}{2pt}
+   \tikz{%
    \draw[fill=blue_eut,color = blue_eut,  line width=0pt] %
    circle(0.5ex); }}
 \newcommand{\itemlevelthree}{\tikz{%
