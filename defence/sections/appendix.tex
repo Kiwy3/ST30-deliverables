@@ -1,0 +1,115 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Related works %%%%%%%%%%%%%%%%%%
+\begin{frame}{Annexe \ref{ap:related_work} : Travaux connexes}
+    \label{ap:related_work}
+    \begin{figure}
+        \centering
+        \input{assets/annexes/related_work.tex}
+        \caption{Classification des travaux similaires}
+   \end{figure} 
+   
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : Performance Estimation Strategy %%%%%%%%%%%%%%%%%%
+\begin{frame}{Annexe \ref{ap:performance_estimation} : Stratégie d'Evaluation de Solutions}
+    \label{ap:performance_estimation}
+    \begin{block}{Implémentation}
+        \begin{itemize}
+            \item Fine Tuning
+            \begin{itemize}
+                \item Modèle : LlaMa-3.2-1B
+                \item Jeu de données d'entrainement : Alpaca
+                \item LitGPT framework : basé sur Pytorch, facilite le Fine Tuning de LLM
+            \end{itemize}
+            \item Evaluation
+            \begin{itemize}
+                \item librairie lm\_eval : standard pour l'évaluation de LLM
+                \item Evaluation par la précision sur des jeu de données Benchmark : Hellaswag et MMLU
+            \end{itemize}
+        \end{itemize}
+
+        
+    \end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Transformer %%%%%%%%%%%%%%%%%%
+\begin{frame}{Annexe \ref{ap:llm_architecture} : Transformer architecture}
+    \label{ap:llm_architecture}
+    \centering
+    \resizebox{!}{0.6\paperheight}{
+        \input{assets/annexes/transformer.tex}
+    }
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Multi-Head Attention %%%%%%%%%%%%%%%%%%
+\begin{frame}{Annexe \ref{ap:mha} : Multi-Head Attention}
+    \label{ap:mha}
+    \begin{figure}
+        \centering
+        \input{assets/annexes/mha.tex}
+        \caption{Illustration du mécanisme d'auto-attention : A droite le mécanisme complet, a gauche le \textit{Scaled Dot-product Attention}}
+    \end{figure}
+    
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Low Rank Adaptation %%%%%%%%%%%%%%%%%%
+\begin{frame}{Annexe \ref{ap:lora} : Low Rank Adaptation (LoRA)}
+    \label{ap:lora}
+    \begin{figure}
+        \centering
+        \input{assets/annexes/lora.tex}
+        \caption{Illustration de l'application du Low Rank Adaptation (LoRA)}
+    \end{figure}
+    
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BO results %%%%%%%%%%%%%%%%%%
+\begin{frame}{Annexe \ref{ap:bo_results} : Résultats pour BO}
+    \label{ap:bo_results}
+    \begin{figure}
+        \centering
+        \includegraphics[height = 5cm]{assets/imgs/plots/bo/score_evolution.png}
+        \caption{Evolution des score lors de l'expérience BO}
+    \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SOO results %%%%%%%%%%%%%%%%%%
+\begin{frame}{Annexe \ref{ap:soo_results} : Résultats pour SOO}
+    \label{ap:soo_results}
+    \begin{figure}
+        \centering
+        \includegraphics[height = 5cm]{assets/imgs/plots/soo/score_evolution.png}
+        \caption{Evolution des score lors de l'expérience SOO}
+    \end{figure} 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BaMSOO results %%%%%%%%%%%%%%%%%%
+\begin{frame}{Annexe \ref{ap:bamsoo_results} : Résultats pour BaMSOO}
+    \label{ap:bamsoo_results}
+    \begin{figure}
+        \centering
+        \includegraphics[height = 5cm]{assets/imgs/plots/bamsoo/score_evolution.png}
+        \caption{Evolution des score lors de l'expérience BaMSOO}
+    \end{figure} 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Beamer Template %%%%%%%%%%%%%%%%%%
+\begin{frame}{Annexe \ref{ap:bayesian_fractal_overview} : Aperçu du Bayésien Fractal}
+    \label{ap:bayesian_fractal_overview}
+    \begin{figure}
+        \centering
+        \input{assets/annexes/bayesian_fractal_overview.tex}
+        \caption{Interaction du composant Surrogate avec les éléments de base de la décomposition fractale}
+    \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Beamer Template %%%%%%%%%%%%%%%%%%
+\begin{frame}{Annexe \ref{ap:beamer_template} : Modèle Beamer UTT}
+    \label{ap:beamer_template}
+    \begin{figure}
+        \centering
+        \includegraphics[width = 0.7\textwidth]{assets/annexes/beamer_gh_screenshot.png}
+        \caption{Presentation du template beamer sur github : \href{https://github.com/Kiwy3/beamer_utt_template}{lien} }
+    \end{figure} 
+\end{frame}

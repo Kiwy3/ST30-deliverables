@@ -1,0 +1,55 @@
+\usepgfplotslibrary[fillbetween]
+\begin{tikzpicture}[domain = 0:10,scale = 0.8]
+
+    \begin{axis}[
+        legend pos=outer north east,
+        xmin = 0, xmax = 10,
+        x=18,
+        y =30
+    ]
+    % plot function
+    \addplot [no markers, blue, dashdotted, thick,visible on =<-2>] {sin(\x r)};
+    \addlegendentry[visible on =<-2>]{$f(x)$}
+
+    % Add sampling
+    % LHS
+    \addplot [blue, only marks, mark = *,visible on =<1-2>, mark size = 3] table {assets/tikz_picture/gaussian_process/lhs.dat};
+    \addlegendentry[visible on =<1-2>]{$LHS$}
+
+    
+    \draw[color=teal!50, dashed,visible on =<1>](axis cs:2, -5) -- (axis cs:2, 27);
+    \draw[color=teal!50, dashed,visible on =<1>](axis cs:4, -5) -- (axis cs:4, 27);
+    \draw[color=teal!50, dashed,visible on =<1>](axis cs:6, -5) -- (axis cs:6, 27);
+    \draw[color=teal!50, dashed,visible on =<1>](axis cs:8, -5) -- (axis cs:8, 27);
+
+    % Surrogate
+    \addplot [red,visible on =<2>] table {assets/tikz_picture/gaussian_process/mean.dat};
+    \addlegendentry[visible on =<2>]{$\hat{f}(x)$}
+    % UCB
+    \addplot [violet,dashed,visible on =<2>] table {assets/tikz_picture/gaussian_process/ucb.dat};
+    \addlegendentry[visible on =<2>]{$UCB$ }
+    % LCB
+    \addplot [violet,dashed,visible on =<2>] table {assets/tikz_picture/gaussian_process/lcb.dat};
+    \addlegendentry[visible on = <2>]{$LCB$}
+
+    % Optimize UCB
+    \addplot [violet,visible on =<3>] table {assets/tikz_picture/gaussian_process/ucb.dat};
+    \addlegendentry[visible on =<3>]{$UCB$ }
+
+    % Local Search 1 : 
+        \addplot [violet,visible on =<3>, mark = triangle*,mark size = 3, mark indices = {11,12,13,14},only marks, mark options = {rotate = 90, color = blue!50}] table {assets/tikz_picture/gaussian_process/ucb.dat}; 
+        \addplot [violet,visible on =<3>, mark = triangle*,mark size = 4, mark indices = {10},only marks, mark options = { color = blue}] table {assets/tikz_picture/gaussian_process/ucb.dat};
+    % Local Search 2
+        \addplot [violet,visible on =<3>, mark = triangle*,mark size = 3, mark indices = {30,31,32,33,34,35},only marks, mark options  = {rotate = 180, color = teal!50}] table {assets/tikz_picture/gaussian_process/ucb.dat};
+        \addplot [violet,visible on =<3>, mark = triangle*,mark size = 4, mark indices = {36},only marks, mark options = {color = teal}] table {assets/tikz_picture/gaussian_process/ucb.dat};
+    % Local Search 3
+        \addplot [violet,visible on =<3>, mark = triangle*,mark size = 3, mark indices = {43,44,46},only marks, mark options = {rotate = 90, color = red!50}] table {assets/tikz_picture/gaussian_process/ucb.dat}; 
+        \addplot [violet,visible on =<3>, mark = triangle*,mark size = 4, mark indices = {47},only marks, mark options  = {color = red}] table {assets/tikz_picture/gaussian_process/ucb.dat};
+    % Best final
+    \draw[color=red!50, dashed,visible on =<3>](axis cs:0.2*47, -5) -- (axis cs:0.2*47, 27);
+
+
+
+    \end{axis}
+
+\end{tikzpicture}

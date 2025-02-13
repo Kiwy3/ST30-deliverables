@@ -1,0 +1,118 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LHS results %%%%%%%%%%%%%%%%%%
+\begin{frame}{Echantillonnage par Latin Hypercube Sampling (LHS)}
+    \vspace*{-15pt}
+    \begin{columns}
+        %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+        \begin{column}[t]{0.35\textwidth} 
+            \begin{block}{}
+                Objectif : Explorer l'espace et proposer une borne inférieure
+                
+            \end{block}
+
+            \begin{figure}
+                \centering
+                \input{assets/tikz_picture/lhs.tex}
+                \caption{Illustration du Latin Hypercube Sampling avec $g=5$}
+            \end{figure} 
+     
+            \end{column}
+                 
+         %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+            \begin{column}[t]{0.55\textwidth}
+                \begin{figure}
+                    \centering
+                    \includegraphics[width = \textwidth]{assets/imgs/plots/sampling/lhs.png}
+                    \vspace*{-20pt}\caption{Résumé des résultats par échantillonnage\footnote[5] { \textit A droite : corrélation entre les variables et les métriques / A gauche : distribution des métriques}}
+                \end{figure} 
+            \end{column}
+                 
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Résultats %%%%%%%%%%%%%%%%%%
+\begin{frame}{Résultats des 3 algorithmes : BO, SOO et BaMSOO}
+    \begin{columns}
+
+        \begin{column}{0.45\textwidth}
+            \begin{figure}
+                \centering
+                \input{assets/tikz_picture/global_results/hellaswag.tex}
+                \caption{Résultats sur Hellaswag (Validation)}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.45\textwidth}
+            \begin{figure}
+                \centering
+                \input{assets/tikz_picture/global_results/mmlu.tex}
+                \caption{Résultats sur MMLU (Test)}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Analyse %%%%%%%%%%%%%%%%%%
+\begin{frame}{Analyses}
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{|c||c|c||c|c|c|}
+        \hline
+           Jeu de données  & Borne Inf.$^1$& Borne Sup.$^2$ & BO-GP & SOO & BaMSOO \\
+        \hline
+           Hellaswag (validation)  & 47.90 & \textit{41.5} & \textbf{47.91} & 47.84 & 47.84\\
+           MMLU (testing) & 37.61 & 49.3 & \textbf{38.11} & 37.42 & 37.50 \\
+        \hline
+        \end{tabular}
+        \caption{Bornes et meilleurs résultats sur les 2 jeux de données}
+    \end{table}
+    \vspace*{-5pt}{\footnotesize 1 : expérience avec LHS; 2 : Fine tuning par Meta}
+
+    \begin{block}{Points clés}     
+    \end{block}
+    
+    \vspace*{-15pt}
+    \begin{columns}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+        \begin{column}{0.45\textwidth} 
+                \begin{itemize}
+                    \item Borne Sup. sur Hellaswag non pertinente
+                    \item Seul BO arrive au dessus de LHS
+                    \item BaMSOO n'améliore que peu SOO
+                \end{itemize}
+        \end{column}  
+         %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+            \begin{column}{0.45\textwidth}
+                \begin{itemize}
+                    \item principe de BaMSOO fonctionnel (visible annexe \ref{ap:bamsoo_results})
+                    \item Espace de solution n'évolue que peu, le retravailler pour mesurer pleinement la performance des algorithmes
+                \end{itemize}
+            \end{column}          
+    \end{columns}
+    
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Perspectives %%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Perspectives}
+
+    \begin{block}{Poursuite du travail}
+        \begin{itemize}
+            \item Retour sur l'article et présentation en conférence (si validation)
+            \item Elargissement de l'espace de recherche
+            \item Diversification sur les modèles/données
+        \end{itemize}                
+    \end{block}
+
+
+    \begin{block}{Optimisation fractale parallèle enrichie par approche bayésienne\footnote[6]{\textit Parallel Bayesian-enhanced Fractals Optimization}}
+
+        \begin{itemize}
+            \item Généralisation de l'hybridation décomposition/bayésien dans un cadre parallèle
+            \begin{itemize}
+                \setlength{\itemindent}{5pt}
+                \item 5 moyens d'exploiter le \textit{surrogate} pour améliorer l'optimisation fractale
+            \end{itemize}
+        \end{itemize}
+    \end{block}
+
+\end{frame}

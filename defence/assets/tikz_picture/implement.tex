@@ -1,0 +1,60 @@
+\begin{tikzpicture}
+    \tikzstyle{class} = [rectangle, draw, text centered, fill = blue!20]
+    \tikzstyle{inherit} = [thick,dotted,->,>=stealth]
+    \tikzstyle{association} = [thick,->,>=stealth]
+    
+
+    % Optimisation package
+    \node(algo)[class]{OptAlgo};
+    \node(soo)[class, below left of = algo]{SOO};
+    \node(bo)[class, below right of = algo]{BO};
+    \node(bamsoo)[class, below of = algo, yshift = -1cm]{BaMSOO};
+
+    \draw[inherit] (soo) -- (algo);
+    \draw[inherit] (bo) -- (algo);
+    \draw[inherit] (bamsoo) -- (soo);
+    \draw[inherit] (bamsoo) -- (bo);
+
+    \begin{scope}[on background layer]
+        \node(optimization)[draw, thick,fill=black!10,opacity=0.5,on background layer, draw=black!70, dashed, rounded corners, fit=(algo)(bamsoo)(bo)(soo), inner sep=0.15cm, label=above:{Optimisation}] {};
+    \end{scope}
+
+    % Search Space
+    \node (space)[class, right of = algo, xshift = 2cm]{Search Space};
+    \node (solution)[class, below left of = space]{Solution};
+    \node (var)[class, below right of = space]{Var};
+
+    \draw[inherit] (solution) -- (space);
+    \draw[inherit] (var) -- (space);
+
+    \begin{scope}[on background layer]
+        \node(search_space)[draw, thick,fill=black!10,opacity=0.5,on background layer, draw=black!70, dashed, rounded corners, fit=(space)(solution)(var), inner sep=0.15cm, label=above:{Search Space}] {};
+    \end{scope}
+
+    % Evaluation
+    \node (evaluation)[class, below of = space, yshift = -0.8cm]{Evaluation};
+
+    \begin{scope}[on background layer]
+        \node(search_space)[draw, thick,fill=black!10,opacity=0.5,on background layer, draw=black!70, dashed, rounded corners, fit=(evaluation), inner sep=0.15cm, label=below:{Evaluation}] {};
+    \end{scope}
+
+    % Association arrow
+    \draw[association] (evaluation.west) -- ([xshift=-0.85cm]evaluation.west) -- ([xshift=-0.85cm, yshift = 1.8cm]evaluation.west) --(algo.east);
+    \draw[association] (space.west) -- (algo.east);
+    \draw[association] (space.south) -- (evaluation.north);
+
+    % legend
+    \node (legend)[below of = soo, yshift = -1cm, xshift = -0.15cm]{Légende : };
+
+    \draw[inherit] ([xshift = -0.55cm, yshift = -0.1cm]legend.south) -- ([xshift = -0.25cm, yshift = -0.1cm]legend.south);
+    \node [ anchor= west] at ([xshift = -0.25cm, yshift = -0.1cm]legend.south){\small héritage};
+
+    \draw[association] ([xshift = 0.9cm, yshift = -0.1cm]legend.south) -- ([xshift = 1.2cm, yshift = -0.1cm]legend.south);
+    \node(asso_lgd) [ anchor= west] at ([xshift = 1.2cm, yshift = -0.1cm]legend.south){\small association};
+
+    \begin{scope}[on background layer]
+        \node(legende)[draw, thick,opacity=0.5,on background layer, draw=black!70, dashed, rounded corners, fit=(legend) (asso_lgd), inner sep=0.02cm] {};
+    \end{scope}
+
+
+\end{tikzpicture}

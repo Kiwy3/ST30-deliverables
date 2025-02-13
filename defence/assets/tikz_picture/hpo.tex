@@ -1,0 +1,56 @@
+\newcommand{\Dtrain}{\mathcal{D}_{train}}
+\newcommand{\Dval}{\mathcal{D}_{val}}
+\newcommand{\model}{\mathcal{M}}
+
+\begin{tikzpicture}
+    \tikzstyle{data}=[rectangle split, rectangle split parts = 2,draw,text centered, fill=yellow!20]
+    \tikzstyle{data2}=[draw,text centered, fill=yellow!20]
+    \tikzstyle{model} = [rectangle, draw, text centered, fill = blue!20]
+    \tikzstyle{function} = [rectangle, draw, text centered, fill = red!20, font = \bfseries]
+    \tikzstyle{metrics} = [rectangle, text centered, draw, fill=teal!20]
+    
+\tikzstyle{dot_arrow} = [thick,dotted,->,>=stealth]
+
+\node (train_data) [data2, align = center]{Données \\ d'entrainement};  
+
+\node (PT_model)[model, below of = train_data,align = center, xshift = 0.1cm]{Modèle \\ Pré-entrainé };
+
+\node (training) [function, right of = PT_model, anchor = west, xshift = 0.35cm]{Fine-Tuning};
+
+\node (hp) [metrics, above of = training]{Hyperparamètres};
+
+\node (FT_model) [model, right of = training, anchor = west, xshift = 0.55cm, align = center]{Modèle \\fine tuné};
+
+\node (val_data) [data2,above of = FT_model, align = center]{Données \\ de validation}; 
+        
+\node (evaluate) [function, right of = FT_model, anchor = west, xshift = 0.1cm]{Evaluation};
+
+\node (metrics) [metrics, right of = evaluate, anchor = west, xshift = 0.1cm]{résultats};
+
+
+\begin{scope}[on background layer]
+    \node(bbfunction)[draw, thick,fill=black!10,opacity=0.5,draw=black!70, dashed, rounded corners, fit=(train_data) (PT_model) (training) (FT_model)(val_data)(evaluate)(metrics), inner sep=0.1cm, label=155:{Fonction boite noire}] {};
+\end{scope}
+
+\draw [dot_arrow] (train_data) -- (training);
+\draw [dot_arrow] (PT_model) -- (training);
+\draw [dot_arrow] (hp) -- (training);
+\draw [dot_arrow] ([xshift = -1.57cm]bbfunction.north) -- (hp.north);
+\draw [dot_arrow] (training) -- (FT_model);
+\draw [dot_arrow] (val_data) -- (evaluate);
+\draw [dot_arrow] (FT_model) -- (evaluate);
+\draw [dot_arrow] (evaluate) -- (metrics);
+\draw [dot_arrow] (metrics) -- ([xshift = 4.45cm]bbfunction.north);
+
+\node (hpo) [circle, above of = bbfunction, yshift = 0.8cm,xshift=1.415cm,align=center, draw, fill = teal!40]{Opt. \\ Algo.};
+\node [left of = hpo, yshift = 0.cm, anchor = south east]{Solution};
+\node [right of = hpo, yshift = 0cm,anchor = south west, align = center]{Résultat sur le jeu\\ de validation};
+
+%\draw [thick,->,>=stealth]    ([xshift = 6.25cm]bbfunction.north) to[out=90,in=-5] (hpo.east);
+\draw [thick,<-,>=stealth]     (hpo.east)to[out=0,in=90] ([xshift = 4.45cm]bbfunction.north);
+\draw [thick,->,>=stealth]     (hpo.west) to[out=180,in=90] ([xshift = -1.57cm]bbfunction.north);
+
+
+
+
+\end{tikzpicture}

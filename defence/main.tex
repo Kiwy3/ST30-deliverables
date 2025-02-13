@@ -10,194 +10,83 @@
 
 %% \usepackage[english,french]{babel}
 
-\hypersetup{
-   allcolors=rouge_inria,
-   pdfauthor   = {firstname lastname},
+\hypersetup{ 
+   allcolors=blue_eut,
+   pdfauthor   = {Nathan Davouse},
    pdftitle    = {\@title},
-   pdfsubject  = {Resum\'{e} of everything},
-   pdfkeywords = {firstname~lastname, curriculum vit\ae{}}
+   pdfsubject  = {Optimisation, LLM},
+   pdfkeywords = {Internship, Defence}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{blindtext}
+\usepackage{appendixnumberbeamer}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{multirow}
+\usepackage{tikz}
 
-\title[titrecourt]{Soutenance de Stage}
-\subtitle{Sujet du stage\\ sous-sujet pour la soutenance}
-\date[00/00/202X]{date long}
-\author[A. et al.]{Auteur(s)}
+\newcommand*{\disableanim}[1]{{%
+  \RenewDocumentCommand{\onslide}{ R<>{} }{}%
+  #1%
+}}
+
+\title[titrecourt]{Optimization des Hyperparamètres appliquée au Fine Tuning de LLM}
+\subtitle{Basé sur l'article soumis pour \textit{OLA2025} : \textit{Bayesian and Partition-Based Optimization for Hyperparameter Optimization of LLM Fine-Tuning}}
+\date[19/02/2025]{date long}
+\author[A. et al.]{Nathan Davouse}
 \newcommand{\semester}{A24}
-\newcommand{\course}{UE name}
+\newcommand{\course}{Soutenance ST30}
 
-\usetheme{inria}
+
+\usetheme{utt}
+\usetikzlibrary{calc,shapes, arrows, positioning, fit, backgrounds,plotmarks,overlay-beamer-styles}
 
 \begin{document}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Appeler la page titre
 \frame{\titlepage}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Le titre des planches de sommaire est \contentsname, sa valeur
-% est fixée ici à "Sommaire" par défaut.
+% Roman numbering for footnote
+\renewcommand{\thempfootnote}{\arabic{mpfootnote}}
+% Renommer le titre du sommaire, pour une présentation en anglais par exemple
 \renewcommand{\contentsname}{Sommaire}
-
-% Si le package babel est utilisé la valeur
-% prend celle par défaut de la langue sélectionnée.
-% Pour imposer une valeur, y compris lors de l'utilisation de
-% babel, faire attention à redéfinir cette variable _après_
-% un \selectlanguage{}
-
-% \selectlanguage{french}
-% \selectlanguage{english}
-
-\frame{\tocpage}
+% Appeler la page de sommaire
+%\frame{\tocpage}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
-\section{Titre du chapitre 1}
-\frame{\sectionpage}
-
+\section{Introduction}
+\input{sections/01_intro.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Titre de la slide}
-    \begin{block}{Premier niveau de liste (Titre)}
-       Deuxième niveau de liste (Texte courant). Ut wisi enim ad minim veniam, quis nostrud exerci tation
-       ullamcorper suscipit loborti. Mauris tempor adipiscing ligula bibendum. Vestibulum sapien lectus,
-       porttitor vel euismod a, lobortis at mauris.
-      \begin{itemize}
-         \item Troisième niveau de liste (Puce 1). Vestibulum sapien lectus, porttitor vel euismod a.
-         \item Troisième niveau de liste (Puce 1). Vestibulum sapien lectus, porttitor vel euismod a.
-         \begin{itemize}
-            \item Quatrième niveau de liste (Puce 2). Netus et malesuada fames ac turpis egestas.
-            \item Quatrième niveau de liste (Puce 2). Netus et malesuada fames ac turpis egestas.
-            \begin{itemize}
-               \item Cinquième niveau de liste (Puce 2). Mauris tempor turpis eu libero sollicitudin.
-               \item Cinquième niveau de liste (Puce 2). Mauris tempor turpis eu libero sollicitudin.
-            \end{itemize}
-          \end{itemize}
-        \end{itemize}
-   \end{block}
-\end{frame}
-
-\subsection{Section x.x}
-
-\begin{frame}{Titre de la slide \newline sur 2 lignes}
-    \begin{block}{Premier niveau de liste (Titre)}
-       Deuxième niveau de liste (Texte courant). Ut wisi enim ad minim veniam, quis nostrud exerci tation
-       ullamcorper suscipit loborti. Mauris tempor adipiscing ligula bibendum. Vestibulum sapien lectus,
-       porttitor vel euismod a, lobortis at mauris.
-      \begin{enumerate}
-         \item Premier niveau \texttt{enumerate} (Puce 1). 
-         \item Premier niveau \texttt{enumerate} (Puce 1). 
-         \begin{enumerate}
-            \item Deuxième niveau \texttt{enumerate} (Puce 2).
-            \item Deuxième niveau \texttt{enumerate} (Puce 2).
-            \begin{enumerate}
-               \item Troisième niveau \texttt{enumerate} (Puce 3).
-               \item Troisième niveau \texttt{enumerate} (Puce 3).
-            \end{enumerate}
-          \end{enumerate}
-        \end{enumerate}
-   \end{block}
-\end{frame}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Design et Implémentation}
+%\disableanim{
+\input{sections/02_design}
+%}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Titre du chapitre 2}
-\frame{\sectionpage}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Résultats et Analyses}
+\input{sections/03_results.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Mise en page sur 2 colonnes}
-  \begin{columns}
-      
-      \begin{column}[t]{0.45\textwidth}
-          \begin{center}
-          \includegraphics[width=0.95\textwidth]{imgs/photo.png}      
-          \end{center}
-      \end{column}
-        
-    \begin{column}[t]{0.45\textwidth}
-
-           \begin{block}{Premier niveau de liste (Titre)}
-           Deuxième niveau de liste (Texte courant).
-             \begin{itemize}
-               \item Troisième niveau de liste (Puce 1).
-                   \begin{itemize}
-                     \item Quatrième niveau de liste (Puce 2).
-                        \begin{itemize}
-                           \item Cinquième niveau de liste (Puce 3).
-                        \end{itemize}
-                   \end{itemize}
-             \end{itemize}
-           \end{block}
-
-           \begin{block}{Premier niveau de liste (Titre)}
-           Deuxième niveau de liste (Texte courant).
-             \begin{itemize}
-               \item Troisième niveau de liste (Puce 1).
-                   \begin{itemize}
-                     \item Quatrième niveau de liste (Puce 2).
-                   \end{itemize}
-             \end{itemize}
-           \end{block}
-
-         \end{column}
-         
-  \end{columns}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Titre du chapitre 3}
-\frame{\sectionpage}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Deux autres exemples de blocs}
-    \begin{exampleblock}{}
-      \begin{itemize}
-        \item{Item 1 }
-        \item {Item 2}
-        \item {Item 3}
-      \end{itemize}
-    \end{exampleblock}
-    \begin{exampleblock}{Avec titre}
-      \begin{itemize}
-        \item{Item 1 }
-        \item {Item 2}
-        \item {Item 3}
-      \end{itemize}
-    \end{exampleblock}
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-
 \section{Conclusion}
-\begin{frame}{Conclusion}
+\input{sections/04_conclusion.tex}
 
-    {\tiny         The quick brown fox jumps over the lazy dog}\\
-    {\scriptsize   The quick brown fox jumps over the lazy dog}\\
-    {\footnotesize The quick brown fox jumps over the lazy dog}\\
-    {\small        The quick brown fox jumps over the lazy dog}\\
-    {\normalsize   The quick brown fox jumps over the lazy dog}\\
-    {\large        The quick brown fox jumps over the lazy dog}\\
-    {\Large        The quick brown fox jumps over the lazy dog}\\
-    {\LARGE        The quick brown fox jumps over the lazy dog}\\
-    {\huge         The quick brown fox jumps over the lazy dog}\\
-    {\Huge         The quick brown fox jumps over the lazy dog}
-
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Le texte est modifiable en changeant \thankyou
 %% \renewcommand{\thankyou}{Thank You.}
 \frame{\merci}
+
+\appendix
+\input{sections/appendix.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 

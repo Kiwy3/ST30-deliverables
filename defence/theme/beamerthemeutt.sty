@@ -18,11 +18,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \RequirePackage{tikz}
 \RequirePackage{fmtcount}
 \RequirePackage{calc}
 \RequirePackage{ifdraft}
+\RequirePackage{pgfplots} % pour les graphiques compliqués
+
 
 \IfFileExists{inriafontes.sty}{%
 \RequirePackage[InriaSans]{inriafontes}%
@@ -58,29 +59,21 @@
 %% - logo Inria
 %% - angle supérieur gauche
 %% - barre dégradée
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%\newcommand{\logopremiere}{theme/imgs/RF-INria_Bloc-marque.png}
+%%%%%%%%%%%%%%%%%%%%%%% Banniere UTT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\logopremiere}{theme/imgs/banniere_utt.png}
-\newcommand{\logobaspage}{theme/imgs/utt_logo.png}
-
-\newcommand{\pngangle}{theme/imgs/angle.png}
-\newcommand{\pngbarre}{theme/imgs/Filet-7pt.png}
-
 \newlength\titlelogowidth
 \setlength\titlelogowidth{\paperwidth}
-\pgfdeclareimage[width=\titlelogowidth]{InriaTitle}{\logopremiere}
-\newcommand{\titlelogo}{\pgfuseimage{InriaTitle}}
+\pgfdeclareimage[width=\titlelogowidth]{utt_banniere}{\logopremiere}
+\newcommand{\titlelogo}{\pgfuseimage{utt_banniere}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Slide title & decoration
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\newcommand{\banniere}{\pgfuseimage{InriaTitle}}
-
+\newcommand{\banniere}{\pgfuseimage{utt_banniere}}
 \newlength{\banniereheight}
-\settoheight{\banniereheight}{\pgfuseimage{InriaTitle}}
+\settoheight{\banniereheight}{\pgfuseimage{utt_banniere}}
+
+%%%%%%%%%%%%%%%%%% DEPREC LINES %%%%%%%%%%%%%%%%%%%
+\newcommand{\logobaspage}{theme/imgs/utt_logo.png}
+\newcommand{\pngangle}{theme/imgs/angle.png}
+\newcommand{\pngbarre}{theme/imgs/Filet-7pt.png}
 
 
 \pgfdeclareimage[height=2ex]{Angle}{\pngangle}
@@ -99,6 +92,19 @@
 
 \pgfdeclareimage[width=5em]{BarreC}{\pngbarre}
 \newcommand{\barrecouleurC}{\pgfuseimage{BarreC}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Slide title & decoration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\blueshade}[1]{
+   \begin{tikzpicture}
+      \draw[left color=deep_blue_eut,right color=blue_eut, draw=white ](0,0) rectangle (#1,0.14);
+    \end{tikzpicture}
+}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Fullpage & Canvas
@@ -130,9 +136,6 @@
 \newlength\footerheight
 \setlength\footerheight{\fullpageinnervmargin}
 
-\pgfdeclareimage[height=0.4\footerheight]{InriaFooter}{\logobaspage}
-\newcommand{\footerlogo}{\pgfuseimage{InriaFooter}}
-
 \newlength\posfooterline
 \setlength\posfooterline{\fullpageinnervmargin}
 
@@ -150,23 +153,35 @@
 %% Blocks
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\setbeamercolor{block title}{fg=inria-noir}
+\setbeamercolor{block title}{fg=blue_eut}
 \setbeamerfont{block title}{series=\bfseries}
 
-\setbeamercolor{block title example}{fg=inria-noir}
 
+\setbeamercolor{block title example}{fg=white, bg = blue_eut}
+\setbeamercolor{block body example}{fg=black, bg = blue_eut!20}
+
+\setbeamercolor{frametitle}{fg=deep_blue_eut}
+
+\setbeamercolor{alerted text}{fg=red}
+
+\AtBeginEnvironment{theorem}{%
+  \setbeamercolor{block title}{fg=black,bg=yellow_eut}
+  \setbeamercolor{block body}{bg = yellow_eut!10}
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Listes: item / enumerate 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\itemlevelone}{\tikz{%
-   \draw[fill=bleu_utt_fonce, color=bleu_utt_fonce, line width=0pt] %
+   \draw[fill=deep_blue_eut,color=deep_blue_eut, line width=0pt] %
    (0,0.5ex) -- (0.7em,0) -- (0,-0.5ex); }}
-\newcommand{\itemleveltwo}{\tikz{%
-   \draw[fill=inria-noir,  color=inria-noir,  line width=0pt] %
+\newcommand{\itemleveltwo}{
+   \setlength{\itemindent}{2pt}
+   \tikz{%
+   \draw[fill=blue_eut,color = blue_eut,  line width=0pt] %
    circle(0.5ex); }}
 \newcommand{\itemlevelthree}{\tikz{%
-   \draw[fill=bleu_utt_fonce, color=bleu_utt_fonce, line width=0pt] %
+   \draw[fill=yellow_eut, color = yellow_eut, line width=0pt] %
    (0,-0.5ex) rectangle (0.5em,0.5ex); }}
 
 \setlength{\leftmargini}{1.5em}
@@ -178,8 +193,10 @@
 \setbeamertemplate{itemize subitem}{\itemleveltwo}
 \setbeamertemplate{itemize subsubitem}{\itemlevelthree}
 
-% \setbeamertemplate{enumerate items}{\itemleveltwo}
-% \setbeamertemplate{enumerate subitems}[default]
+
+\setbeamercolor*{enumerate item}{fg=deep_blue_eut}
+\setbeamercolor*{enumerate subitem}{fg=blue_eut}
+\setbeamercolor*{enumerate subsubitem}{fg=black}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Fontes
@@ -200,9 +217,9 @@
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usecolortheme{inria}
-\useoutertheme{inria}
-\useinnertheme{inria}
+\usecolortheme{utt}
+\useoutertheme{utt}
+\useinnertheme{utt}
 
 \mode<all>
 

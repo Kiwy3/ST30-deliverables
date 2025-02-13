@@ -1,0 +1,28 @@
+\begin{tikzpicture}[domain = 0:50,scale = 0.7]
+    \tikzstyle{point} = [only marks, mark = triangle*, mark size = 3, opacity = 0.5]
+    \begin{axis}[
+        legend pos=south east,
+        ymin = 0.2,
+        x=3.2,
+        y =450
+    ]
+    \addplot [blue,point, visible on = <1>] table {assets/tikz_picture/global_results/bo_hellaswag.dat};
+    \addlegendentry{BO}
+
+    \addplot [red, point, visible on = <2>] table {assets/tikz_picture/global_results/soo_hellaswag.dat};
+    \addlegendentry{SOO}
+
+    \addplot [violet, point, visible on = <3>] table {assets/tikz_picture/global_results/bamsoo_hellaswag.dat};
+    \addlegendentry{BaMSOO}
+
+
+
+    \addplot [blue,point, visible on = <4>] table {assets/tikz_picture/global_results/bo_hellaswag.dat};
+    \addplot [red, point, visible on = <4>] table {assets/tikz_picture/global_results/soo_hellaswag.dat};
+    \addplot [violet, point, visible on = <4>] table {assets/tikz_picture/global_results/bamsoo_hellaswag.dat};
+
+
+
+
+    \end{axis}
+\end{tikzpicture}

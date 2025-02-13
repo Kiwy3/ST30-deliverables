@@ -1,0 +1,177 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Space %%%%%%%%%%%%%%%%%%
+\begin{frame}{Espace de Recherche}
+
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            \multirow{2}{*}{\textbf{ Hyperparamètres }} & \multicolumn{2}{|c|}{\textbf{Plage d'Optimisation}} &\multirow{2}{*}{\textbf{ Type }}& \multirow{2}{*}{\textbf{ Conversion }} \\
+            \cline{2-3}
+             & \textbf{ Borne Inf. } & \textbf{ Borne Sup. } & & \\
+            \hline
+            \textbf{Learning Rate} & $-10$ & $-1$ & log. & $f(x) = 10^{x}$ \\
+            \hline
+            \textbf{LoRA rank} & 1 & 64 &ent. &$f(x) = \text{round}(x)$ \\
+            \hline
+            \textbf{LoRA scale} &1 & 64 & ent. &$f(x) = \text{round}(x)$ \\
+            \hline
+            \textbf{Dropout} & 0 & 0.5 & cont.& $f(x) = x$ \\
+            \hline
+            \textbf{Weight Decay} & $-3$ & $-1$ &log.& $f(x) = 10^{x}$  \\
+            \hline
+        \end{tabular}
+        \caption{Résumé de l'espace de recherche}
+    \end{table}
+
+    \begin{itemize}
+        \item Variables mixes : étape de conversion nécessaire
+        \item Aucun \textit{a priori} sur l'importance de chaque variable
+    \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : BO %%%%%%%%%%%%%%%%%%
+\begin{frame}{Stratégie de Recherche : Optimisation Bayésienne par Process Gaussien }
+    \begin{columns}
+    %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+    \begin{column}[t]{0.45\textwidth} 
+        \vspace*{5pt}
+        \begin{block}{Principe}
+            Utiliser un substitut moins cher à optimiser pour explorer l'espace de recherche
+        \end{block}
+        \hfill
+        \begin{block}{\onslide<1->{Algorithme}}
+                \begin{itemize}
+                    \item<1-> Echantillonnage et evaluation (LHS)
+                    \begin{itemize}
+                        \setlength{\itemindent}{5pt}
+                        \item<2-> Entrainer le Process Gaussien (GP)
+                        \item<3-> Optimiser la fonction d'acquisition
+                        \item<3-> Evaluer ce nouveaux point
+                    \end{itemize}
+                \end{itemize}
+        \end{block}
+        \end{column}
+        
+             
+     %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+        \begin{column}[t]{0.55\textwidth}
+            \hspace*{-10pt}
+            \vspace*{-8pt}
+            \begin{figure}
+                \centering
+                \input{assets/tikz_picture/gaussian_process/gp.tex}
+                \hspace*{-5pt}\caption{Exemple d'un surrogate sur une fonction en 1D}
+            \end{figure} 
+        \end{column}
+    \end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : SOO %%%%%%%%%%%%%%%%%%
+\begin{frame}{Stratégie de Recherche : Simultaneous Optimistic Optimization}
+
+    \vspace*{-8pt}
+    \begin{block}{}
+        K-section successive de l'espace, en évaluant le centre de chaque sous-espace. Maximum une décomposition par itération par profondeur.
+    \end{block}
+
+    \vspace*{-14pt}
+    \begin{columns}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+        \begin{column}[t]{0.5\textwidth} 
+            \begin{figure}
+                \centering
+                \input{assets/tikz_picture/soo/soo_partition.tex}
+                \vspace*{-1pt}
+                \caption{Partition de l'espace de recherche par SOO}
+            \end{figure} 
+     
+            \end{column}
+                 
+         %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+            \begin{column}[t]{0.5\textwidth}
+                \begin{figure}
+                    \centering
+                    \input{assets/tikz_picture/soo/soo_tree.tex}
+                    \vspace*{-3pt}
+                    \caption{Arbre correspondant à SOO}
+                \end{figure} 
+            \end{column}
+                 
+    \end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Search Strategy : BaMSOO %%%%%%%%%%%%%%%%%%
+\begin{frame}{Stratégie de Recherche : Bayesian Multi-Scale Optimistic Optimization (BaMSOO)}
+    \begin{columns}
+        %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+        
+        \begin{column}{0.5\textwidth} 
+            \vspace*{10pt}
+
+            Décomposition suivant SOO, mais utilisant des Process Gaussien pour éviter les évaluations non prometteuses. 
+
+            \begin{block}{Evaluation par BaMSOO : $g(x)$}
+                \begin{itemize}
+                    \item Si $UCB(x)$\footnote[2]{Upper Confidence Bound : Borne Sup. de l'intervalle de confiance}$ > f^+$ :
+                    \begin{itemize}
+                        \setlength{\itemindent}{5pt}
+                        \item $g(x) = f(x)$ {\small \color{black!50} \textit  evaluation réel}
+                    \end{itemize}
+                    \item Sinon : 
+                    \begin{itemize}
+                        \setlength{\itemindent}{5pt}
+                        \item $g(x) = LCB(x)$\footnote[3]{Lower Confidence Bound : Borne Inf. de l'intervalle de confiance} {\small \color{black!50} \textit remplace $f(x)$ par $LCB(x)$}
+                    \end{itemize}
+                \end{itemize}
+                
+            \end{block}
+     
+            \end{column}
+                 
+         %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+            \begin{column}{0.45\textwidth}
+                \begin{figure}
+                    \centering
+                    \input{assets/tikz_picture/BaMSOO/bamsoo.tex}
+                    \vspace*{-10pt}\caption{Illustration de l'Algorithme BaMSOO}
+                \end{figure} 
+            \end{column}
+                 
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Implementation %%%%%%%%%%%%%%%%%%
+\begin{frame}{Implémentation}
+    \begin{columns}
+        %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+        \begin{column}[t]{0.45\textwidth} 
+            \begin{block}{}
+                
+                \begin{itemize}
+                    \item Programmation Orienté Object en Python
+                    \item Travail de documentation : \textit{readme}, indication de type...
+                    \item Objectif : permettre le réusage
+                    \item Utilisable en ligne de commande pour Grid5000
+                    \item Intégralement open-source\footnote[4]{\url{https://github.com/Kiwy3/BO_PBO_HPO_LLM}}
+                \end{itemize}
+            \end{block}
+     
+            \end{column}
+                 
+         %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+            \begin{column}[t]{0.45\textwidth}
+                \begin{figure}
+                    \centering
+                    \input{assets/tikz_picture/implement.tex}
+                    \caption{Diagramme de l'implémentation}
+                \end{figure}
+            \end{column}
+                 
+    \end{columns}
+
+
+\end{frame}

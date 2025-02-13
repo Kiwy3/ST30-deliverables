@@ -1,0 +1,68 @@
+\begin{tikzpicture}[]
+
+    \tikzstyle{field} = [rectangle,rounded corners, minimum width=2cm, minimum height=0.8cm, text centered, draw=black]
+    \tikzstyle{art} = [ minimum width=2cm, minimum height=0.8cm, text centered, draw=black, fill=blue!30]
+    \tikzstyle{arrow} = [thick, ->, >=stealth]
+    
+    
+    % base
+    \node (base)[field, fill = violet!30]{LLM et Optimisation};
+    
+    % lvl 1
+    \node (opt_llm)[field, right of = base, yshift = -1cm, fill = blue!30]{Opt. vers LLM};
+    
+    \node (llm_opt)[field, right of = base, yshift = 1cm, fill = purple!30]{LLM vers Opt};
+    
+    % lvl 2
+    \node (autodnn)[field, right of = opt_llm, xshift = 1.5cm, yshift = 1cm, fill=teal!30]{Auto-DNN};
+    \node(prompt)[art,right of = opt_llm, yshift = -1cm,xshift = 1.5cm, fill = blue!20]{
+        \textbf{Prompt Ing.}};
+    \node (gen_ea)[art, right of = llm_opt,xshift = 1.5cm, fill = purple!20]{
+        \textbf{Gen. EA}};
+    
+    % lvl 3
+    \node (hpo)[field, right of = autodnn, xshift = 1.3cm,yshift = -1cm, fill = cyan!50]{HPO};
+    \node (nas)[field, right of = autodnn, xshift = 1.3cm,yshift = 1cm, fill = green!30]{NAS};
+    
+    % lvl4 hpo
+    \node (hpo_ft)[art, right of = hpo, xshift = 1.5cm, fill = cyan!35]{
+        \textbf{Fine-Tuning}
+    };
+    \node (hpo_pt)[art, right of = hpo, yshift = -1cm, fill = cyan!20]{
+        \textbf{Pre-training}
+    };
+    \node (hpo_gen)[art, right of = hpo,yshift = 1cm, fill = cyan!20]{
+        \textbf{Generation}
+    };
+    % lvl4 nas
+    \node (nas_scratch)[art, right of = nas, xshift = 1.5cm,yshift = -0.1cm, fill = green!20]{
+        \textbf{From Scratch}
+    };
+    \node (nas_pruning)[art,above right  of = nas, yshift = 0.1cm,xshift = 1.7cm, fill = green!20]{
+        \textbf{Pruning}
+    };
+    
+    % arrows
+    \draw[arrow] (base) -- (opt_llm);
+    \draw[arrow] (base) -- (llm_opt);
+    
+    \draw[arrow] (opt_llm) -- (autodnn);
+    \draw[arrow] (opt_llm) -- (prompt);
+    \draw[arrow] (llm_opt) -- (gen_ea);
+    
+    \draw[arrow] (autodnn) -- (hpo);
+    \draw[arrow] (autodnn) -- (nas);
+    
+    \draw[arrow] (hpo) -- (hpo_pt);
+    \draw[arrow] (hpo) -- (hpo_ft);
+    \draw[arrow] (hpo) -- (hpo_gen);
+    
+    \draw[arrow] (nas) -- (nas_scratch);
+    \draw[arrow] (nas) -- (nas_pruning);
+    
+    % fitting box
+    \node (current)[draw,thick, dashed, rounded corners, 
+        fit = (hpo)(hpo_ft), inner sep = 0.1cm,
+        label = 35 :{Travail actuel}]{};
+    
+    \end{tikzpicture}

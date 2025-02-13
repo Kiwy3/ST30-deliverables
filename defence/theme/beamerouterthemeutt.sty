@@ -1,0 +1,88 @@
+%
+% LaTeX beamer theme, Inria 2024
+%
+\mode<presentation>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\defbeamertemplate*{headline}{inria}
+{%
+  \titlelogo
+      % empty
+}
+
+
+
+\defbeamertemplate*{footline}{inria}
+  {%
+  \ifnum\thepage>1
+      \leavevmode % classical page
+      \hbox{%
+        \begin{beamercolorbox}[wd = \paperwidth, ht=0.8\footerheight, colsep=0pt]{section in head/foot}
+          
+          \vspace*{2.5pt}
+          \hspace*{\hmargin}
+          \footnotesize{\beamer@shortdate}
+                    \hfill 
+          \vspace*{2pt}          
+          \raisebox{2pt}{\footnotesize\insertnavigation{0.7\paperwidth}}
+          \hfill
+          \small\insertframenumber
+          \hspace*{\hmargin}        
+        \end{beamercolorbox}%
+      }
+  \else
+      \ifnum \thepage <2 % title page
+
+      \begin{beamercolorbox}[wd = \paperwidth, ht=\footerheight, colsep=0pt]{section in head/foot}
+        \vspace*{5pt}
+        \hspace*{\hmargin} 
+        \large
+        { \text{Semestre}  \semester}
+        \hfill
+        \course
+        \hspace*{\hmargin}
+
+        
+        
+        
+      \end{beamercolorbox}%
+      \else % Summary
+
+      \fi
+  \fi
+  }
+
+
+\defbeamertemplate*{test}{inria}
+{%
+      \leavevmode
+      \hspace*{\hmargin}%
+      \raisebox{0.4\footerheight}{%
+          \parbox{\dimexpr\paperwidth-2\hmargin}{%
+               {%
+                 \textcolor{inria-noir}{%
+                   % \insertdate
+                   \beamer@shortdate
+                   \hfill
+                   \relax
+                      %\smash{\raisebox{-0.1\footerheight}{}}
+                   %\fi
+                   \kern2em\parbox{1em}{\raggedleft\insertframenumber}
+                 }
+               }
+          }
+       }
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mode<all>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
