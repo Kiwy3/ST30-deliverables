@@ -23,17 +23,17 @@
 \usepackage[doi=false,isbn=false,url=false,natbib=true,style=numeric,backend=bibtex,useprefix=true]{biblatex}
 \addbibresource{frames/biblio.bib}
 \usepackage{tikz}
-\usetikzlibrary{shapes, arrows, positioning, fit}
+\usepackage{multirow}
+\usetikzlibrary{shapes, arrows, positioning, fit,backgrounds}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title[titrecourt]{Scalable Hyperparameter Optimization\\ for LLM
-Fine-Tuning}
-\subtitle{Bayesian and Partition-based optimization}
+\title[titrecourt]{Hyperparameter Optimization of \\ LLM Fine-Tuning}
+\subtitle{Bayesian and Partition-based approaches}
 \date[20/01/2025]{date long}
-\author[A. et al.]{N. Davouse}
+\author[A. et al.]{N. Davouse, E-G. Talbi,\\ \textit{Univ. Lille, CNRS, Inria, Centrale Lille, UMR 9189 CRIStAL, F-59000 Lille, France} }
 
 \usetheme{inria}
 \usepackage{multirow}
@@ -75,9 +75,9 @@ Fine-Tuning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Review of Related Works}
-\frame{\sectionpage}
-\include{frames/review}
+% \section{Review of Related Works}
+% \frame{\sectionpage}
+% \include{frames/review}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -87,22 +87,23 @@ Fine-Tuning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Methodology}
+\section{Design and Implementation}
 \frame{\sectionpage}
 \include{frames/methodo}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Experiments}
+\section{Computation Experiments}
 \frame{\sectionpage}
 \include{frames/experiment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{Conclusion}
+\section{Conclusions and Perspectives}
+\frame{\sectionpage}
 \include{frames/conclusion}
 
-\
+
 \begin{frame}[allowframebreaks]{Bibliography}
 \printbibliography[]
 \nocite{*}

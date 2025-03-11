@@ -7,7 +7,7 @@
     
         \begin{itemize}
             \item State-of-the-art of Natural Language Processing (NLP) problems
-            \item Architecture : Transformers\cite{NIPS2017_3f5ee243} block, mixed with classical layers (MLP, Conv)
+            \item Architecture : Transformers block, mixed with classical layers (MLP, Conv)
             \item Huge size : Billions of parameters (1B to 405B for Llama 3)
             \item 2 phases of training : pre-training and \textbf{fine-tuning}
         \end{itemize}
@@ -35,12 +35,15 @@
 %---------------------------------- Fine-tuning Workflow -------------------------------
 
 \begin{frame}{Fine-Tuning}
-    Fine-tuning is used to correct behavior or add in-domain data to a model, with limited ressources. 
+
+    Following a first phase of pre-training, Fine-tuning is used to correct behavior or add in-domain data to a model, with limited ressources. 
 
 
     \begin{figure}
         \centering
-        \input{imgs/pre_training}
+        \resizebox{\textwidth}{!}{
+            \input{imgs/pre_training}
+        }
         \caption{Pre-training and Fine-tuning generic workflow}
     \end{figure}  
         
@@ -50,16 +53,13 @@
 
 %---------------------------------- Fine Tuning Frame -------------------------------
 \begin{frame}{Parameters Efficient Fine-Tuning (PEFT)}
-    Set of methods aims to reduce the computation cost of fine-tuning. 2 approachs : \textit{Additive} and \textbf{reparametrization}.
-    
-
-
+    Set of methods aims to reduce the computation cost of fine-tuning. 2 main approachs : \textit{Additive} and \textbf{reparametrization}.
     
     \begin{columns}  
   
         \begin{column}[t]{0.45\textwidth}
         \begin{block}{Reparametrization}
-            Use lower-cost proxy as trainable weights, and merge at the end. Most famous method : LoRA \cite{hu2021loralowrankadaptationlarge}. These methods are hyperparameter-dependent.
+            Use lower-cost proxy as trainable weights, and merge at the end.
         \end{block}
         \end{column}
     
@@ -72,6 +72,11 @@
       
     \end{columns}
 
+    \begin{block}{Quantization}
+        To reduce further the cost of computing during the training, quantization can also be used. This can be combined with either of precedent approaches. 
+        
+    \end{block}
+
 \end{frame}
 
 
@@ -79,15 +84,16 @@
 %---------------------------------- LoRA -------------------------------
 \begin{frame}{Low Rank Adaptation (LoRA)}
     \begin{block}{Principle}
-        Merging Fine-tuning layers with pre-trained ones can be written as $W = W_0 + \Delta W$, with $W_0$ the pre-trained weights and $\Delta W$ the fine-tuned ones.         
+        Merging Fine-tuning layers with pre-trained ones can be written as $W = W_0 + \Delta W$, with $W_0$ the pre-trained weights and $\Delta W$ the fine-tuned ones. With LoRA, $W=W_0 + \frac{\alpha}{r} B.A$        
     \end{block}
 
     \begin{columns}
         \begin{column}[t]{0.45\textwidth}
         \begin{figure}
             \centering
-            %\includegraphics[width=0.5\linewidth]{imgs/lora.png}
-            \input{imgs/lora}
+            \resizebox{\textwidth}{!}{
+                \input{imgs/lora}
+            }
             \caption{LoRA Decomposition}
         \end{figure}
             
@@ -96,13 +102,57 @@
         \begin{column}[t]{0.3\textwidth}
             \begin{block}{LoRA hyperparameters}
             \begin{itemize}
-                \item rank : the common dimension between $A$ and $B$.
-                \item alpha : apply a weighting between fine-tuning and pre-trained weights
+                \item rank $r$ : the common dimension between $A$ and $B$.
+                \item alpha $\alpha$ : apply a weighting between fine-tuning and pre-trained weights
             \end{itemize}
                 
             \end{block}
             
         \end{column}
     \end{columns}
+    
+\end{frame}
+
+%---------------------------------- HPO -------------------------------
+\begin{frame}{Hyperparameter Optimization (HPO)}
+
+    \begin{columns}
+         
+        %%%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE GAUCHE %%%%%%%%%%%%%%
+           \begin{column}{0.3\textwidth} 
+           \begin{block}{Objectives}
+            \begin{itemize}
+                \item Better performance than manual tuning
+                \item Ease popularization of the Fine Tuning
+            \end{itemize}
+            
+           \end{block}
+    
+           \end{column}
+               
+        %%%%%%%%%%%%%%%%%%%%%%%%% COLONNE DE DROITE %%%%%%%%%%%%%%
+           \begin{column}{0.7\textwidth}
+            \begin{figure}
+                \centering
+                \resizebox{\textwidth}{!}{
+                    \input{imgs/hpo_workflow.tex}
+                }
+                \caption{HPO workflow}
+           \end{figure}  
+           \end{column}
+                
+       \end{columns}
+
+\end{frame}
+
+%---------------------------------- Review Summary -------------------------------
+\begin{frame}{Related Works}
+    \begin{figure}
+        \resizebox{0.9\textwidth}{!}{
+            \input{imgs/summary_review.tex}
+        }
+        \caption{Summary of links between LLM and Optimization}
+    \end{figure}
+    
     
 \end{frame}
