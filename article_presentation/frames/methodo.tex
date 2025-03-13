@@ -27,10 +27,12 @@
         \begin{column}{0.4\textwidth}
 
             \begin{block}{Principe :}
-                \begin{itemize}
+                Iterate these two steps over the budget : 
+                \begin{enumerate}
                     \item Build a surrogate of the objective function
                     \item Optimize the surrogate to find the most promising point to evaluate
-                \end{itemize}
+                \end{enumerate}
+                
                 
             \end{block}
             
@@ -47,18 +49,35 @@
 
 %---------------------------------- SOO -------------------------------
 \begin{frame}{PBO : Simultaneous Optimistic Optimization(SOO)}
-    \begin{columns}
-        \begin{column}[b]{0.4\textwidth}
-            \textbf{Partition Based Algorithm : Simultaneous Optimistic Optimization (SOO)}
-
-            Perform a K-inary partition of the space, evaluating every center of partition during the expansion of a node.
+    \begin{columns}[b]
+        \begin{column}{0.4\textwidth}
+            \begin{block}{Principe :}
+                \begin{itemize}
+                    \item K-inary partition of the space
+                    \item Evaluate the center of each partition
+                    \item Expand a maximum of one node by iteration / by depth
+                \end{itemize}
+            \end{block}\vspace*{35pt}
             
-        \end{column}        
-        \begin{column}{0.6\textwidth}
+        \end{column}    
+
+        \begin{column}[b]{0.27\textwidth}
             \begin{figure}[h]
                 \centering
-                \includegraphics[trim={0 0 7cm 0},clip,height = 6.5cm]{imgs/algo/soo.png}
-                \caption{SOO Algorithm}
+                \resizebox{\textwidth}{!}{
+                    \input{imgs/algo/soo/soo_partition.tex}
+                }
+                \caption{SOO Partition}
+            \end{figure}
+        \end{column}
+
+        \begin{column}[b]{0.33\textwidth}
+            \begin{figure}[h]
+                \centering
+                \resizebox{\textwidth}{!}{
+                    \input{imgs/algo/soo/soo_tree.tex}
+                }
+                \caption{SOO Tree}
             \end{figure}
         \end{column}
     \end{columns}
@@ -67,23 +86,37 @@
 %---------------------------------- BaMSOO -------------------------------
 \begin{frame}{Hybridization : Bayesian Multi-Scale Optimistic Optimization (BaMSOO)}
     \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \textbf{Hybridation : Bayesian Multi-Scale Optimistic Optimization(BaMSOO)}
+        \begin{column}{0.55\textwidth}
+            \begin{block}{Principe :}
+                \begin{itemize}
+                    \item SOO partitionning
+                    \item Use a Gaussian process to enhance the scoring
+                \end{itemize}
+                Objective : prevent unpromising evaluations
+                
+            \end{block}
+            
+            \begin{block}{BaMSOO Scoring $g(x)$ :}
+                \begin{itemize}
+                    \item \textbf{If} $UCB(x) > f^+$ : {\color{gray} // \small x has potential to beat $f^+$}
+                        \begin{itemize}
+                            \item $g(x) = f(x)$ {\color{gray} // \small score $x$ using $f(x)$}
+                        \end{itemize}
+                    \item \textbf{Else } :
+                        \begin{itemize}
+                            \item $g(x) = LCB(x)$ {\color{gray} // \small score $x$ using $LCB(x)$}
+                        \end{itemize}
 
-            Replace the scoring of SOO with a BO-GP based approximation to determine if it's relevant to evaluate the point.
-            \begin{equation}
-                \begin{split}
-                \mathcal{UCB}(x| \mathcal D_t) = \mu(x|\mathcal D_t) +  B_N * \sigma(x|\mathcal D_t) 
-                \\ \text{with } B_N = \sqrt{2 \log (\pi^2 N^2/6 \eta)} , \eta \in (0,1)      
-                \end{split}  
-                \label{eq:ucb}
-            \end{equation}
+
+                \end{itemize}
+                
+            \end{block}
             
         \end{column}        
-        \begin{column}{0.5\textwidth}
+        \begin{column}{0.45\textwidth}
             \begin{figure}[h]
                 \centering
-                \includegraphics[trim={0 0 12cm 0},clip,height = 5cm]{imgs/algo/bamsoo_score.png}
+                \input{imgs/algo/BaMSOO/bamsoo.tex}
             \end{figure}
         \end{column}
     \end{columns}
