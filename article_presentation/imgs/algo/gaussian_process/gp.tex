@@ -1,0 +1,50 @@
+\usepgfplotslibrary[fillbetween]
+\begin{tikzpicture}[domain = 0:10,scale = 0.8]
+
+    \begin{axis}[
+        legend pos=outer north east,
+        xmin = 0, xmax = 10,
+        x=18,
+        y =30
+    ]
+    % plot function
+    \addplot [no markers, blue, dashdotted, thick,visible on =<1>] {sin(\x r)};
+    \addlegendentry[visible on =<1>]{$f(x)$}
+
+    % Add sampling
+    % LHS
+    \addplot [blue, only marks, mark = *,visible on =<1>, mark size = 3] table {imgs/algo/gaussian_process/lhs.dat};
+    \addlegendentry[visible on =<1>]{$LHS$}
+
+    % Surrogate
+    \addplot [red,visible on =<1>] table {imgs/algo/gaussian_process/mean.dat};
+    \addlegendentry[visible on =<1>]{$\hat{f}(x)$}
+    % UCB
+    \addplot [violet,dashed,visible on =<1>] table {imgs/algo/gaussian_process/ucb.dat};
+    \addlegendentry[visible on =<1>]{$UCB$ }
+    % LCB
+    \addplot [violet,dashed,visible on =<1>] table {imgs/algo/gaussian_process/lcb.dat};
+    \addlegendentry[visible on = <1>]{$LCB$}
+
+    % Optimize UCB
+    \addplot [violet,visible on =<2>] table {imgs/algo/gaussian_process/ucb.dat};
+    \addlegendentry[visible on =<2>]{$UCB$}
+
+    % Local Search 1 : 
+        \addplot [violet,visible on =<2>, mark = triangle*,mark size = 3, mark indices = {11,12,13,14},only marks, mark options = {rotate = 90, color = blue!50}] table {imgs/algo/gaussian_process/ucb.dat};
+
+        \addplot [violet,visible on =<2>, mark = triangle*,mark size = 4, mark indices = {10},only marks, mark options = { color = blue}] table {imgs/algo/gaussian_process/ucb.dat};
+    % Local Search 2
+        \addplot [violet,visible on =<2>, mark = triangle*,mark size = 3, mark indices = {30,31,32,33,34,35},only marks, mark options  = {rotate = 180, color = teal!50}] table {imgs/algo/gaussian_process/ucb.dat};
+        \addplot [violet,visible on =<2>, mark = triangle*,mark size = 4, mark indices = {36},only marks, mark options = {color = teal}] table {imgs/algo/gaussian_process/ucb.dat};
+    % Local Search 3
+        \addplot [violet,visible on =<2>, mark = triangle*,mark size = 3, mark indices = {43,44,46},only marks, mark options = {rotate = 90, color = red!50}] table {imgs/algo/gaussian_process/ucb.dat}; 
+        \addplot [violet,visible on =<2>, mark = triangle*,mark size = 4, mark indices = {47},only marks, mark options  = {color = red}] table {imgs/algo/gaussian_process/ucb.dat};
+    % Best final
+    \draw[color=red!50, dashed,visible on =<2>](axis cs:0.2*47, -5) -- (axis cs:0.2*47, 27);
+
+
+
+    \end{axis}
+
+\end{tikzpicture}

@@ -21,9 +21,32 @@
     
 \end{frame}
 
-%---------------------------------- Optimization -------------------------------
-\begin{frame}[allowframebreaks]{Optimization algorithms}
+%---------------------------------- BO-GP -------------------------------
+\begin{frame}{SMBO : Bayesian-Optimization based on Gaussian-Process (BO-GP)}
+    \begin{columns}
+        \begin{column}{0.4\textwidth}
 
+            \begin{block}{Principe :}
+                \begin{itemize}
+                    \item Build a surrogate of the objective function
+                    \item Optimize the surrogate to find the most promising point to evaluate
+                \end{itemize}
+                
+            \end{block}
+            
+        \end{column}        
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \input{imgs/algo/gaussian_process/gp.tex}
+            \end{figure}
+        \end{column}
+    \end{columns}
+    
+\end{frame}
+
+%---------------------------------- SOO -------------------------------
+\begin{frame}{PBO : Simultaneous Optimistic Optimization(SOO)}
     \begin{columns}
         \begin{column}[b]{0.4\textwidth}
             \textbf{Partition Based Algorithm : Simultaneous Optimistic Optimization (SOO)}
@@ -39,26 +62,10 @@
             \end{figure}
         \end{column}
     \end{columns}
+\end{frame}
 
-    \framebreak
-
-    \begin{columns}
-        \begin{column}{0.3\textwidth}
-            \textbf{Surrogate Model Based Optimization : Bayesian Optimization with Gaussian Process (BO-GP)}
-
-            Use Gaussian Process as a surrogate for the objective function, and optimize it to found the most promising point to evaluate
-            
-        \end{column}        
-        \begin{column}{0.7\textwidth}
-            \begin{figure}[h]
-                \centering
-                \includegraphics[height = 6cm]{imgs/algo/bo.png}
-            \end{figure}
-        \end{column}
-    \end{columns}
-
-    \framebreak
-
+%---------------------------------- BaMSOO -------------------------------
+\begin{frame}{Hybridization : Bayesian Multi-Scale Optimistic Optimization (BaMSOO)}
     \begin{columns}
         \begin{column}{0.5\textwidth}
             \textbf{Hybridation : Bayesian Multi-Scale Optimistic Optimization(BaMSOO)}
@@ -80,6 +87,4 @@
             \end{figure}
         \end{column}
     \end{columns}
-
-        
 \end{frame}
