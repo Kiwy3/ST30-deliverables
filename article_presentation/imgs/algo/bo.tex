@@ -1,0 +1,19 @@
+\begin{algorithm}[h]
+    \caption{\acrshort{bogp}}
+    \label{algo:bo}
+    \begin{algorithmic}[1]
+    \Require 
+        $\Omega$,$f$,$K_D$,$\mathcal{O}$,$f_{\text{acq}}$,$n_{init} $,$n_{opt}$
+            
+    \For{$i = 1$ \textbf{to} $n_{init}$} \Comment{Initiate with Latin Hypercube Sampling}
+        \State $\lambda' \gets LHS(\Omega,\mathcal{D},n_{init})$ \Comment{Sample one point}
+        \State $\mathcal{D} \gets \mathcal{D} \cup \{(\lambda', f(\lambda'))\}$ \Comment{Add solution and evaluation to set of data}
+    \EndFor 
+    \For{$i = 1$ \textbf{to} $n_{opt}$} \Comment{Optimization loop}
+        \State $K_D,\mu_D \gets \text{Fit}(\text{GP}(K_D,\mu_D), \mathcal{D})$ 
+        \State $\lambda' \gets \text{Optimize}(f_{\text{acq}}(K_D), \mathcal{O})$ \Comment{Generate new point}
+        \State $\mathcal{D} \gets \mathcal{D} \cup \{(\lambda', f(\lambda'))\}$ \Comment{Evaluate new point}
+    \EndFor
+    \State \Return best of $\{(\lambda^*, f(\lambda^*)) \in \mathcal{D}\}$
+    \end{algorithmic}
+\end{algorithm}
