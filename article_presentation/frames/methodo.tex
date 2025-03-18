@@ -1,32 +1,11 @@
-%---------------------------------- Evaluation Function -------------------------------
-\begin{frame}{Evaluate the solution}
-    Use LitGPT framework with it's CLI to perform an evaluation of a solution. All models and datasets are taken from HuggingFace Hub.
-    \begin{block}{Training}
-        \begin{itemize}
-            \item Model : Llama-3.2-1B
-            \item dataset : Alpaca
-            \item 1 epochs of training
-            \item Fully Sharded Data Parallelism (FSDP) as distributed strategy
-        \end{itemize}
-    \end{block}
 
-    \begin{block}{Evaluating}
-        Based on lm\_eval library
-        \begin{itemize}
-            \item validation dataset : Hellaswag
-            \item testing dataset : MMLU
-        \end{itemize}
-    \end{block}
-
-    
-\end{frame}
 
 %---------------------------------- BO-GP -------------------------------
 \begin{frame}{SMBO : Bayesian-Optimization based on Gaussian-Process (BO-GP)}
     \begin{columns}
         \begin{column}{0.4\textwidth}
 
-            \begin{block}{Principe :}
+            \begin{block}{Principle :}
                 Iterate these two steps over budget : 
                 \begin{enumerate}
                     \item Build a surrogate of the objective function
@@ -41,6 +20,7 @@
             \begin{figure}
                 \centering
                 \input{imgs/algo/gaussian_process/gp.tex}
+                \caption{Illustration of BO-GP Algorithm}
             \end{figure}
         \end{column}
     \end{columns}
@@ -51,14 +31,15 @@
 \begin{frame}{PBO : Simultaneous Optimistic Optimization(SOO)}
     \begin{columns}[b]
         \begin{column}{0.4\textwidth}
-            \begin{block}{Principe :}
+            \begin{block}{Principle\footnote[6]{Munos, Rémi. « Optimistic Optimization of a Deterministic Function without the Knowledge of its Smoothness ». 2011} : }
                 \begin{itemize}
                     \item K-inary partition of the space
                     \item Evaluate the center of each partition
                     \item Expand a maximum of one node by iteration / by depth
                 \end{itemize}
-            \end{block}\vspace*{35pt}
+            \end{block}
             
+        % \vspace*{35pt}
         \end{column}    
 
         \begin{column}[b]{0.27\textwidth}
@@ -87,7 +68,7 @@
 \begin{frame}{Hybridization : Bayesian Multi-Scale Optimistic Optimization (BaMSOO)}
     \begin{columns}
         \begin{column}{0.55\textwidth}
-            \begin{block}{Principe :}
+            \begin{block}{Principle\footnote[7]{Wang et al. « Bayesian Multi-Scale Optimistic Optimization ». 2014} : }
                 \begin{itemize}
                     \item SOO partitionning
                     \item Use a Gaussian process to enhance the scoring
@@ -117,7 +98,40 @@
             \begin{figure}[h]
                 \centering
                 \input{imgs/algo/BaMSOO/bamsoo.tex}
+                \caption{Illustration of BaMSOO Algorithm}
             \end{figure}
         \end{column}
     \end{columns}
+\end{frame}
+
+%---------------------------------- Evaluation Function -------------------------------
+\begin{frame}{Evaluate the solution}
+    Use LitGPT framework with it's CLI to perform an evaluation of a solution. All models and datasets are taken from HuggingFace Hub.
+
+
+    \begin{columns}
+        \begin{column}[t]{0.45\textwidth}
+            \begin{block}{Training}
+                \begin{itemize}
+                    \item Model : Llama-3.2-1B\footnote[2]{Touvron et al. « LLaMA: Open and Efficient Foundation Language Models »,2023}
+                    \item dataset : Alpaca\footnote[3]{Hashimoto et al. « Stanford Alpaca: An Instruction-following LLaMA model ». 2024}
+                    \item 1 epochs of training
+                    \item Fully Sharded Data Parallelism (FSDP) as distributed strategy
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \begin{column}[t]{0.45\textwidth}
+            \begin{block}{Evaluating}
+                Based on lm\_eval library
+                \begin{itemize}
+                    \item validation dataset : Hellaswag\footnote[4]{Zellers et al. « HellaSwag: Can a Machine Really Finish Your Sentence? » 2019.
+                    }
+                    \item testing dataset : MMLU\footnote[5]{Hendrycks et al. « Measuring Massive Multitask Language Understanding ». 2021
+                    }
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+
+    
 \end{frame}

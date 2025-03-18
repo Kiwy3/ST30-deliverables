@@ -13,6 +13,8 @@
       % empty
 }
 
+\setbeamercolor{section in head/foot}{fg=inria-noir,bg=white}
+
 \defbeamertemplate*{footline}{inria}
 {%
       \leavevmode
@@ -23,7 +25,11 @@
                  \textcolor{inria-noir}{%
                    % \insertdate
                    \beamer@shortdate
-                   \hfill
+                    \ifnum\thepage>1
+                    \hspace*{10pt}
+                    \raisebox{2pt}{\tiny\insertnavigation{0.7\paperwidth}}
+                    \fi                   
+                    \hfill
                    \ifnum\thepage>1\relax
                       \smash{\raisebox{-0.1\footerheight}{\footerlogo}}
                    \fi
