@@ -13,69 +13,47 @@
     
 \end{frame}
 %---------------------------------- Sampling experiment -------------------------------
-\begin{frame}[allowframebreaks]{Sampling experiment : Latin Hypercube Sampling}
+\begin{frame}{Sampling experiment : Latin Hypercube Sampling}
     
     \begin{columns}
-        \begin{column}{0.45\textwidth}
-        Objective : explore the search space and make a reference for other algorithms.
-        \begin{block}{Analysis}
-            \begin{itemize}
-                \item Top scores : \\ \quad Hellaswag : 47.9\% \\ \quad MMLU : 37.6\%
-                \item High range for Hellaswag, allowing to discriminate efficiently between solutions.
-            \end{itemize}
+        \begin{column}{0.4\textwidth}
             
-        Running time : arround 36 hours
-        
-        \end{block}   
-    \end{column}
+            Objective : Explore the space and define a lower bound for next experiments
 
-    \begin{column}{0.45\textwidth}
-        \begin{figure}
-            \centering
-            \includegraphics[width = \textwidth]{imgs/experiments/lhs_box_plot.png}     
-            \caption{Distribution of score for sampling experiment}         
-        \end{figure}
-         
-    \end{column}
-\end{columns}  
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BREAK %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \framebreak
+            \begin{figure}
+                \centering
 
-    \begin{columns}
-        \begin{column}{0.3\textwidth}
-        \begin{figure}
-            \centering
-            \includegraphics[width = \textwidth]{imgs/experiments/lhs_correlation.png}     
-            \caption{Correlation between variables and metrics}         
-        \end{figure}
-         
+                \input{imgs/experiments/lhs/lhs.tex}
+                \caption{LHS illustration with $g=5$ samples}
+            \end{figure}
+            
         \end{column}
+
         \begin{column}{0.6\textwidth}
-            \begin{block}{Correlation between metrics}
-                With 79\% of correlation, Hellaswag and MMLU accuracy are relevant as validation/testing metrics.
-            \end{block}
-            \begin{block}{Correlation between variables and metrics}
-                High factor variables : LoRA alpha the Lora rank / weight decay.\\
-                TO DO : verify with other experiment the relevance of using dropout and learning rate.
-            \end{block}
+            \begin{figure}
+                \centering
+                \includegraphics[width = \textwidth]{imgs/experiments/lhs/lhs.png}     
+                \caption{Results of LHS Experiment\footnote[5]{ \textit At left : correlation between metrics and hyperparameters // At right : metrics distribution}}         
+            \end{figure}
+            
         \end{column}
-    \end{columns}
+\end{columns}  
 
 \end{frame}
 
 
 
 %---------------------------------- Bayesian Optimization -------------------------------
-\begin{frame}[allowframebreaks]{BO (waiting for results)}
+\begin{frame}{Results : Bayesian Optimization} 
     
     \begin{columns}
     
         \begin{column}{0.6\textwidth}
-            \begin{block}{Score evolution}
+            \begin{block}{Score over time}
                 \begin{figure}
                     \centering
-                    \includegraphics[width = 7.5cm]{imgs/plots/exp12_score_over_time.png}
-                    \caption{Score over time}
+                    \input{imgs/experiments/bo/bo_res.tex}
+                    \caption{Results on validation dataset for BO-GP Algorithm}
                 \end{figure}
             
             \end{block}   
@@ -83,154 +61,130 @@
 
         \begin{column}{0.4\textwidth}
             \begin{block}{Results}
-                Best score : 62.3\%, achieved after X iterations. \\   
-                Wait for MMLU to look at overfitting            
+                Hellaswag($D_{val}$) Best score : 47,91\%        
             \end{block}
 
             \begin{block}{Behavior}
+
                 \begin{itemize}
-                    \item 0 -> 10 : sampling (LHS)
-                    \item 10 -> 25 : converge to high score
-                    \item 25 -> 40 : high score
-                    \item 40 -> 50 : search unexplored space
+                    \item Fast convergence after sampling phase
+                    \item Few shots emphasing exploration with lower score
                 \end{itemize}
+                
                 
             \end{block}
              
         \end{column}
     \end{columns}    
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BREAK %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \framebreak
-
-    \begin{columns}
-    
-        \begin{column}{0.65\textwidth}
-            \begin{block}{Exploitation of the search space}
-                rank, alpha and learning rate seem to converge fast\\
-                weight decay converge slowly to the top during high score phase\\
-                
-                dropout does not converge, linked with weak correlation to metrics => relevant Hyperparameter ?? 
-            \end{block}
-        \end{column}
-
-        \begin{column}{0.35\textwidth}
-            \begin{figure}
-                \centering
-                \includegraphics[width = \textwidth]{imgs/plots/exp12_variables_over_time.png}
-                \caption{Variables over time}
-            \end{figure}
-            
-            
-        \end{column}
-    \end{columns}  
 \end{frame}
 
-%---------------------------------- Optimization -------------------------------
-\begin{frame}[allowframebreaks]{SOO(waiting for results)}
+%---------------------------------- SOO -------------------------------
+\begin{frame}{Results : SOO} 
     
     \begin{columns}
     
-        \begin{column}[t]{0.6\textwidth}
-            \begin{block}{Score evolution}
-                
-                \includegraphics[width = 7.5cm]{imgs/plots/exp10_score_over_time.png}
+        \begin{column}{0.6\textwidth}
+            \begin{block}{Score over time}
+                \begin{figure}
+                    \centering
+                    \input{imgs/experiments/soo/soo_res.tex}
+                    \caption{Results on validation dataset for SOO Algorithm}
+                \end{figure}
             
             \end{block}   
         \end{column}
 
-        \begin{column}[t]{0.4\textwidth}
+        \begin{column}{0.4\textwidth}
             \begin{block}{Results}
-                Best score : 58.4\%\\              
+                Hellaswag($D_{val}$) Best score : 47.84\%        
             \end{block}
 
             \begin{block}{Behavior}
-                Slow convergence, need more than 50 iterations to converge to more depth. 
-                Max depth : 6
-                A lot of unpromising point to explore
-                
+
+                \begin{itemize}
+                    \item A lot of low score evaluation, due to one hyperparameter
+                    \item maximum depth of 8 (only 2 points with depth = 8)
+                \end{itemize}
+
             \end{block}
-            
-            
+             
         \end{column}
-    \end{columns}   
-    
-    \framebreak
-
-    \begin{columns}
-    
-        \begin{column}{0.65\textwidth}
-            \textbf{Score by variables and Varibles over iterations}
-                \begin{figure}[h]
-                    \includegraphics[width = \textwidth]{imgs/plots/exp10_score_by_hp.png}
-                \end{figure}     
-        \end{column}
-
-        \begin{column}{0.4\textwidth}
-            \includegraphics[height = 7cm]{imgs/plots/exp10_variables_over_time.png}
-            
-            
-        \end{column}
-    \end{columns}  
+    \end{columns}    
 \end{frame}
 
-%---------------------------------- Optimization -------------------------------
-\begin{frame}[allowframebreaks]{BaMSOO}
+
+%---------------------------------- BaMSOO -------------------------------
+\begin{frame}{Results : BaMSOO} 
     
     \begin{columns}
     
-        \begin{column}[t]{0.6\textwidth}
-            \begin{block}{Score evolution}
-                
-                \includegraphics[width = 7.5cm]{imgs/plots/exp11_score_over_time.png}
+        \begin{column}{0.6\textwidth}
+            \begin{block}{Score over time}
+                \begin{figure}
+                    \centering
+                    \input{imgs/experiments/bamsoo/bamsoo_res.tex}
+                    \caption{Results on validation dataset for BaMSOO Algorithm}
+                \end{figure}
             
             \end{block}   
         \end{column}
 
-        \begin{column}[t]{0.4\textwidth}
+        \begin{column}{0.4\textwidth}
             \begin{block}{Results}
-                Best score : 58.5\%\\
-                Not so much approximations, need to increase $\eta $ in equation \ref{eq:ucb} to speed the convergence              
+                Hellaswag($D_{val}$) Best score : 47.84\% \\
+                Do not achieve to overperform SOO best score   
             \end{block}
-            
-            
+
+            \begin{block}{Behavior}
+
+                \begin{itemize}
+                    \item Prevent SOO unpromising evaluation (16 approximated evaluations)
+                    \item maximum depth of 8 (8 points with depth = 8)
+                \end{itemize}
+
+            \end{block}
+             
         \end{column}
     \end{columns}    
+\end{frame}
 
-    \framebreak
+
+
+%%%%%%%%%%%%%%% COMPARISON %%%%%%%%%%%%%%
+\begin{frame}{Comparison and analysis}
 
     \begin{columns}
     
-        \begin{column}{0.65\textwidth}
-            \textbf{Score by variables and Varibles over iterations}
-                \begin{figure}[h]
-                    \includegraphics[width = \textwidth]{imgs/plots/exp11_score_by_hp.png}
-                \end{figure}     
-        \end{column}
+        \begin{column}{0.45\textwidth}
 
-        \begin{column}{0.4\textwidth}
-            \includegraphics[height = 7cm]{imgs/plots/exp11_variables_over_time.png}
+            \begin{block}{Analysis}
+                \begin{itemize}
+                    \item Upper Bound on Hellaswag is irrelevant
+                    \item Only BO-GP beat LHS 
+                    \item with more high-performing solution, BaMSOO overperform SOO on MMLU
+                \end{itemize}
+                
+            \end{block}\vspace*{-10pt}
+            
+            \begin{block}{Results}
+                \input{imgs/experiments/comparison/comp_table.tex}
+            \end{block}
             
             
+            
         \end{column}
-    \end{columns}  
-\end{frame}
 
-%%%%%%%%%%%%%%% COMPARISON %%%%%%%%%%%%%%
-\begin{frame}{Comparison (waiting results)}
-
-    \begin{table}[ht!]
-        \centering
-        \begin{tabular}{|c||c|c||c|c|c|}
-        \hline
-           Datasets  & Lower (LHS) & Upper & BO & SOO & BaMSOO \\
-        \hline
-           Hellaswag  & 47.9 & 69.8* & X & X & X \\
-           MMLU & 37.6 & 49.3 & X & X & X  \\
-        \hline
-        \end{tabular}
-        \caption{Bounds on accuracy for validation and testing dataset}
-        \label{tab:bounds}
-    \end{table}
+        \begin{column}{0.45\textwidth}
+            \begin{block}{Score over time on testing dataset}
+                \begin{figure}
+                    \centering
+                    \input{imgs/experiments/comparison/mmlu.tex}
+                    \caption{Results on testing dataset for the three algorithms}
+                \end{figure}
+            
+            \end{block}  
+             
+        \end{column}
+    \end{columns}    
 
 \end{frame}

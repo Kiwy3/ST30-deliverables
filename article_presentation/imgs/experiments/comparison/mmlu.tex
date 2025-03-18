@@ -1,0 +1,25 @@
+\begin{tikzpicture}[domain = 0:50,scale = 0.7]
+    \tikzstyle{point} = [only marks, mark = triangle*, mark size = 3, opacity = 0.5]
+    \begin{axis}[
+        legend pos=south east,
+        ymin = 0.2,
+        x=3.2,
+        y =700
+    ]
+    \addplot [blue,point ] table {imgs/experiments/comparison/bo_mmlu.dat};
+    \addlegendentry{BO}
+
+    \addplot [red, point] table {imgs/experiments/comparison/soo_mmlu.dat};
+    \addlegendentry{SOO}
+
+    \addplot [violet, point] table {imgs/experiments/comparison/bamsoo_mmlu.dat};
+    \addlegendentry{BaMSOO}
+
+
+
+
+
+
+
+    \end{axis}
+\end{tikzpicture}
