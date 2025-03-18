@@ -1,22 +1,38 @@
-\begin{frame}{Conclusion}
+\begin{frame}{Conclusions}
 
-\begin{block}{review}
-    On a sequential comparaison, BO-GP algorithms is the most efficient between theses 3 algorithms, even considering the exploitation made by BamSOO algorithms. But this kind of performance needs to efficiently scale to be able to be usable with very expensive function, especially if the evaluation can't be distributed. 
+\begin{itemize}
+    \item With limited budget, BO-GP demonstrated exceptional efficiency, quickly converging to high-performing solutions. 
+    \item BaMSOO succed to fasten SOO convergence by preventing unpromising evaluations.
+    \item Lay groundwork for using PBO algorithms, enhance with BO-GP to deal with LLM Fine-Tuning
+\end{itemize}
 
-    With it's acceleration using GP, BaMSOO keep most of the SOO abilities, in particular it's parallelism inate abilities, but achieve to be efficient with a smaller number of evaluation. 
 
-    To be able to effectively compare theses approaches, it's necessary to look at higher dimensionnal problem. 
+\end{frame}
+
+\begin{frame}{Perspectives}
+
+    \begin{columns}
+        \begin{column}{0.45\textwidth}
+
+            \begin{block}{Extend experiments on the application}
+                \begin{itemize}
+                    \item Extend search space (add hyperparameters, bigger range...)
+                    \item Use more models/datasets
+                    \item Make a distributed implementation
+                \end{itemize}
+            \end{block}
+        \end{column}
+
+        \begin{column}{0.45\textwidth}
+            \begin{block}{Generalization of BaMSOO Hybridization}
+
+                \begin{itemize}
+                    \item explore parallelism of BO-GP based algorithms
+                    \item Global Framework of \textit{Parallel Bayesian-enhanced Fractals Optimization} 
+                \end{itemize}
+            \end{block}
+        \end{column}
+
+    \end{columns}
     
-\end{block}
-
-\begin{block}{Perspective}
-    \begin{itemize}
-        \item Expand search space : add dimensions (Adam momentum, precision, matrices to apply LoRA)
-        \item use more training datasets
-        \item make a distributed implementation
-    \end{itemize}
-    
-\end{block}
-
-
 \end{frame}
