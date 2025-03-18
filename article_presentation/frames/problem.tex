@@ -4,7 +4,7 @@
 
     \begin{columns}
     
-        \begin{column}[t]{0.45\textwidth}
+        \begin{column}[t]{0.4\textwidth}
             
 
             \begin{block}{Problem Formulation}
@@ -17,7 +17,7 @@
             This function can be characterized as an \large\textbf{expensive, mixed-variable, noisy, blackbox} function.
             \end{column}
         
-        \begin{column}[t]{0.45\textwidth}
+        \begin{column}[t]{0.5\textwidth}
             \begin{block}{3 phases of an optimization problem}
                 \begin{itemize}
                     \item \textbf{Search Space $\mathcal{H}$} : all variables and how to handle them
@@ -66,7 +66,7 @@
     
     \begin{itemize}
         \item Conversion and naming convention is taken from LitGPT framework.
-        \item Variable conversion for handling mixed-variables with continuous algorithms
+        \item Variable conversion for handling mixed-variables with continuous optimization algorithms
         \item No \textit{A-priori} knowledge on hyperparameters importance
     \end{itemize}
 \end{frame}
@@ -78,7 +78,7 @@
 
     \begin{itemize}
         \item \textbf{Exploratory}(GS, Random Search, LHS) : sample the search space\\ \quad no exploitation, give a lower bound
-        \item \textbf{Metaheuristics} (Genetic Algorithm, ILS, PSO) : bio-inspired heuristics \\ \quad evaluation greedy, cannot be used for expensive function
+        \item \textbf{Metaheuristics} (Genetic Algorithm, ILS, PSO) : bio-inspired heuristics \\ \quad evaluation greedy, difficult to use for expensive function
         \item \textbf{Surrogate-Model based Optimization} (Bayesian Optimization with Gaussian Process, TS) : \\ \quad Use a surrogate to enhance exploitation - innate sequential nature, strong exploitation
         \item \textbf{Partition-Based Optimization}(FDA, SOO, DiRect) : partition the search space \\ \quad massively parallel, slow convergence
     \end{itemize}

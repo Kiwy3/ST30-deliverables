@@ -7,7 +7,7 @@
     
         \begin{itemize}
             \item State-of-the-art of Natural Language Processing (NLP) problems
-            \item Architecture : Transformers block, mixed with classical layers (MLP, Conv)
+            \item Architecture : Transformers\footnote{Vaswani et al., « Attention is All you Need ».} block, mixed with classical layers (MLP, Conv)
             \item Huge size : Billions of parameters (1B to 405B for Llama 3)
             \item 2 phases of training : pre-training and \textbf{fine-tuning}
         \end{itemize}
@@ -36,7 +36,7 @@
 
 \begin{frame}{Fine-Tuning}
 
-    Following a first phase of pre-training, Fine-tuning is used to correct behavior or add in-domain data to a model, with limited ressources. 
+    Following a first phase of pre-training, Fine-tuning is used to correct behavior or add in-domain data to a model, with limited resources. 
 
 
     \begin{figure}
@@ -53,18 +53,18 @@
 
 %---------------------------------- Fine Tuning Frame -------------------------------
 \begin{frame}{Parameters Efficient Fine-Tuning (PEFT)}
-    Set of methods aims to reduce the computation cost of fine-tuning. 2 main approachs : \textit{Additive} and \textbf{reparametrization}.
+    Set of methods aims to reduce the computation cost of fine-tuning. 2 main approaches : \textit{Additive} and \textbf{reparametrization}.
     
     \begin{columns}  
   
         \begin{column}[t]{0.45\textwidth}
         \begin{block}{Reparametrization}
-            Use lower-cost proxy as trainable weights, and merge at the end.
+            Use lower-cost proxy as trainable weights, and merge at the end. e.g. : LoRA and derived methods
         \end{block}
         \end{column}
     
         \begin{column}[t]{0.45\textwidth}
-        \begin{block}{Addivitive}
+        \begin{block}{Additive}
             Add part of the model, often linear layer, to train these.  One con is to add inference to generation.
             
         \end{block}
