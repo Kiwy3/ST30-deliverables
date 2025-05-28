@@ -61,6 +61,8 @@ bibstyle=ieee,
 \begin{document}
 
 \title{\rev{Bayesian and Partition-Based Optimization for Hyperparameter Optimization of LLM Fine-Tuning}}
+\titlerunning{BO and PBO for HPO of LLM Fine-Tuning}
+
 
 \author{Nathan Davouse\inst{1}\orcidID{0009-0001-0313-2485} \and
 El-Ghazali Talbi\inst{1}\orcidID{0000-0003-4549-1010} 
@@ -143,7 +145,7 @@ The search space is composed of 5 hyperparameters, from classical training hyper
     \item LoRA scale ($\alpha$) : $\alpha$ is used to scale the values of $B*A$ when added to $W_0$. On this work, due to LitGPT framework, it's an integer, from 1 to 64.
     \item Learning rate : the learning rate is a classical hyperparameter used in HPO, weighting the gradient of each weight when doing back-propagation. It is often tuned in a logarithmic scale, to manage effectively the exploration. Hyperparameters value is between $10^{-10}$ and $10^{-1}$.
     \item Dropout probability : based on article \cite{srivastava_dropout_2014}, dropout is a method used to prevent over-fitting, by randomly fixing cells/layers to zeroes during one iteration. Being a probability, it's bounds by 0 and 1.
-    \item Weight decay : weight decay is used to improve generalization capacity, as proved in article \cite{krogh_simple_1991}, by reducing the weights at each iterations by a small value, to force the model to use new inputs. Typically, the parameter for weight decay is set on a logarithmic scale between $10^{-3}$ and $10^{-1}$.
+    \item Weight decay : weight decay is used to improve generalization capacity, as proved in article \cite{krogh_simple_1991}, by reducing the weights at each iteration by a small value, to force the model to use new inputs. Typically, the parameter for weight decay is set on a logarithmic scale between $10^{-3}$ and $10^{-1}$.
 \end{itemize}
 
 \vspace*{-\baselineskip}
